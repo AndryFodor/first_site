@@ -29,7 +29,17 @@
 .nav{
   grid-area: n;
   background-color: rgb(99, 160, 225);
+  padding: 1vw;
 }
+
+.nav div{
+  padding-top: .5vw;
+}
+
+.nav div:last-child{
+  padding-top: 2vw;
+}
+
 
 .content{
   grid-area: c;
