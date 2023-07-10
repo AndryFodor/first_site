@@ -1,0 +1,9 @@
+.main {
+    background-color: rgb(224, 199, 33, .4);
+}
+
+.main button {
+    font-size: 1vw;
+    width: 5.5vw;
+    margin: 0 2.1vw;
+}
