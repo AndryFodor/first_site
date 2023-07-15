@@ -9,11 +9,11 @@ import classes from'./Navbar.module.css'
 const Navbar = () =>{
     return (
         <nav className= {classes.nav}>
-        <div className = {`${classes.item} ${classes["ac-tive"]}`}><a href='https://www.google.com.ua'>Profile</a></div>
-        <div className = {classes.item} ><a href='https://www.google.com.ua'>Messages</a></div>
-        <div className = {classes.item}><a href='https://www.google.com.ua'>News</a></div>
-        <div className = {classes.item}><a href='https://www.google.com.ua'>Music</a></div>
-        <div className = {classes.item}><a href='https://www.google.com.ua'>Settings</a></div>
+        <div className = {`${classes.item} ${classes["ac-tive"]}`}><a href='/profile'>Profile</a></div>
+        <div className = {classes.item} ><a href='/dialogs'>Messages</a></div>
+        <div className = {classes.item}><a href='/news'>News</a></div>
+        <div className = {classes.item}><a href='/music'>Music</a></div>
+        <div className = {classes.item}><a href='/settings'>Settings</a></div>
       </nav>
     )
 }
