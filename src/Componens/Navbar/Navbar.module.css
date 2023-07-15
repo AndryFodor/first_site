@@ -11,16 +11,25 @@
 .nav div:last-child{
   padding-top: 2vw;
 }
+.nav div:first-child{
+  padding-bottom: 2vh;
+}
 
-.item a{
+.item{
   text-decoration: none;
   color: rgb(139, 242, 134);
 }
 
-.item.ac-tive{
+.ac-tive{
   font-size: 1.8em;
   background-color: rgb(99, 160, 225);
   border-radius: 10em;
   text-align: center;
   padding: 0;
+}
+
+.activeLink{
+  color: rgb(139, 242, 134);
+  text-shadow: #FC0 1px 0 10px;
+  text-decoration: none;
 }
