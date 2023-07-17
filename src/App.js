@@ -19,9 +19,10 @@ function App() {
             <Navbar />
             <div className='app-wrapper-content'>
               {/* <MyRoute href = '/dialogs' element = {<Dialogs/>}/>
-              <MyRoute href = '/profile' element = {<Profile/>}/> */}
+              <MyRoute href = '/profile' element = {<Profile/>}/> 
+              Зірочка в path використовується для того, щоб роут працював для будь якого шляху*/}
               <Routes>
-              <Route path='/dialogs' element={<Dialogs />}/>
+              <Route path='/dialogs/*' element={<Dialogs />}/>
               <Route path='/profile' element ={<Profile />}/>
               <Route path='/news' element={<News />} />
               <Route path='/music' element={<Music />}/>

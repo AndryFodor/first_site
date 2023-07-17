@@ -1,0 +1,18 @@
+.wrapper{
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+}
+
+
+.names div{
+    padding: 2vh 2vw;
+}
+.names div:first-child{
+    padding: 0 2vw 2vh 2vw;
+}
+
+
+.chat div{
+    padding: 0 1vw 3vh 1vw;
+}
+
