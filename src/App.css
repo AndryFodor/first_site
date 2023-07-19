@@ -1,20 +1,22 @@
 .app-wrapper{
   display: grid;
   width: 90vw;
-  margin: auto;
+  margin: 1vw auto;
+  box-shadow: .3vw .5vw .5vw .1vw rgba(139, 242, 0, 0.5);
   background-color: rgba(139, 242, 134);
 
-  grid-template-rows: 60px 1fr;
+  grid-template-rows: 5vw 1fr;
   grid-template-columns: 2fr 10fr;
 
   grid-template-areas:
   "h h"
   "n c";
 
-  grid-gap: 10px;
+  grid-gap: 1vw;
   
 }
 
 .app-wrapper-content{
   grid-area: c;
+  color: rgb(99, 160, 225);;
 }

@@ -1,5 +1,22 @@
 .main button {
     font-size: 1vw;
-    width: 5.5vw;
+    width: 5.7vw;
+    padding: 1vh .5vw;
     margin: 0 2.1vw;
+    border-radius: 10em;
+    background-color: rgba(99, 160, 225, 0.646);
+    color: rgb(108, 244, 101);
+    font-weight: 600;
+}
+
+.main textarea{
+    width: 19vw;
+    height: 5vh;
+    background-color: rgba(99, 160, 225, 0.646);
+    color: rgb(108, 244, 101);
+    font-weight: 600;
+}
+
+.main textarea:hover{
+    border: rgb(14, 244, 1) dashed .1vw;
 }

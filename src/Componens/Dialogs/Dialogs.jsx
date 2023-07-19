@@ -2,25 +2,28 @@ import DialogsItem from './Dialog_Item/Dialog_Item';
 import s from './Dialogs.module.css'
 import Message from './Message/Message';
 
-const Dialogs = () => {
+const Dialogs = props => {
 
     // Масиви даних, які умовно прийшли із сервера
-    let dialogsData = [
-        {id:1, name:"Name1"},
-        {id:2, name:"Name2"},
-        {id:3, name:"Name3"},
-        {id:4, name:"Name4"}
-    ],
-    messageData = [
-        {id: 1, message: ' Lorem, ipsum dolor sit amet consectetur'},
-        {id: 2, message: 'Dadipisicing elit. Ut, aperiam voluptate quae eius itaque consequatur, nostrum necessitatibus maiores dignissimos perferendis id aliquid nam ipsum possimus sed aliquam nulla cumque cupiditate.'},
-        {id: 3, message: 'MessLasdsfosmflds'}
-    ],
+    // let dialogsData = [
+    //     {id:1, name:"Name1"},
+    //     {id:2, name:"Name2"},
+    //     {id:3, name:"Name3"},
+    //     {id:4, name:"Name4"}
+    // ],
+    // messageData = [
+    //     {id: 1, message: ' Lorem, ipsum dolor sit amet consectetur'},
+    //     {id: 2, message: 'Dadipisicing elit. Ut, aperiam voluptate quae eius itaque consequatur, nostrum necessitatibus maiores dignissimos perferendis id aliquid nam ipsum possimus sed aliquam nulla cumque cupiditate.'},
+    //     {id: 3, message: 'MessLasdsfosmflds'}
+    // ]
     // Методом map ми можемо створювати новий масив таким, який нам треба (з тою смаою кількістю елементів). Тут el = {id:1, name:"Name1"}, тобто елементу масива, в якого ми його викликаємо. Повертається новий елемент нового масива. І таким чином ми легко отримаємо масив з тою кількістю компонент, яку нам треба (на які приходять дані із сервера)
-    resultDialogs = dialogsData.map(el => /*return і фігурні дужки якщо є тільки ретурн не потрібно*/
+
+    // №2 Тепер ці дані приходять у props як два масиви в одному. Я беру спочатку перший масив і розкладаю його методом map, потім беру другий масив і так само розкладаю. Далі ці масиви будуть виведені в цій компоненті
+
+    let resultDialogs = props.Data[0].map(el => /*return і фігурні дужки якщо є тільки ретурн не потрібно*/
      <DialogsItem id = {el.id} name = {el.name} />
     ),
-    resultMessages = messageData.map(el => <Message id = {el.id} message = {el.message}/>);
+    resultMessages = props.Data[1].map(el => <Message id = {el.id} message = {el.message}/>);
 
     return(
         <div className={s.wrapper}>

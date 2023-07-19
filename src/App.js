@@ -12,7 +12,15 @@ import Settings from './Componens/Settings/Settings';
 // Установлюємо пакет react-router-dom командою npm install react-router-dom -save. -save заносить в package.json про це інформацію, щоб при скачуванні інші користувачі не розбиралися в тому, якого пакета їм не вистачає
 // Компонента Route працює подібно конструкції if-else. if(path='/path1'<Component1/>else if(path = 'path2')<Component2/>else if...)
 // Але є один нюанс. Ця компонента повинна буде обернена в дві компоненти, аби працювати: <Routes><Routes/> та <BrowserRouter><BrowserRouter/>.Інакше Компонента Route не буде працювати
-function App() {
+
+// №2 Тепер розподіляю дані у ті компоненти, в яких необхідно їх відобразити
+
+function App(props) {
+
+  // №2 Але як видно, в компоненту Dialogs треба передати два масиви даних. Щоб не робити цього, складу їх в один масив і передам дані одним масивом для зручності
+  // №2 В компоненту Profile необхідні дані прийдуть під іменем PostsData, а в Dialogs - під іменем Data
+  let DialogsData = [props.Data[1], props.Data[2]];
+
   return (
           <div className="app-wrapper">
             <Header />
@@ -22,9 +30,9 @@ function App() {
               <MyRoute href = '/profile' element = {<Profile/>}/> 
               Зірочка в path використовується для того, щоб роут працював для будь якого шляху, в якому є частина ...../dialogs.......*/}
               <Routes>
-              <Route path='/dialogs/*' element={<Dialogs />}/>
-              <Route path='/profile' element ={<Profile />}/>
-              <Route path='/news' element={<News />} />
+              <Route path='/dialogs/*' element={<Dialogs Data = {DialogsData} />}/>
+              <Route path='/profile' element ={<Profile PostsData = {props.Data[0]} />}/>
+              <Route path='/news'  element = {<News />} />
               <Route path='/music' element={<Music />}/>
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>
               </Routes>
