@@ -20,7 +20,7 @@ function App() {
             <div className='app-wrapper-content'>
               {/* <MyRoute href = '/dialogs' element = {<Dialogs/>}/>
               <MyRoute href = '/profile' element = {<Profile/>}/> 
-              Зірочка в path використовується для того, щоб роут працював для будь якого шляху*/}
+              Зірочка в path використовується для того, щоб роут працював для будь якого шляху, в якому є частина ...../dialogs.......*/}
               <Routes>
               <Route path='/dialogs/*' element={<Dialogs />}/>
               <Route path='/profile' element ={<Profile />}/>
