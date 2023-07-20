@@ -15,6 +15,7 @@
     background-color: rgba(99, 160, 225, 0.646);
     color: rgb(108, 244, 101);
     font-weight: 600;
+    font-size: calc(var(--index)*1);
 }
 
 .main textarea:hover{

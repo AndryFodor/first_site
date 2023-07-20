@@ -7,8 +7,9 @@
 .names div{
     padding: 2vh 2vw;
 }
-.names div:first-child{
-    padding: 0 2vw 2vh 2vw;
+
+.names {
+    margin-top: 1.5vh;
 }
 
 

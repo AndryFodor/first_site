@@ -5,7 +5,7 @@ const Post = (props) =>{
         <div className={styles.item}>   
             <img src={props.img} alt={props.alt}/>
             <span>{props.message}</span>
-            <p>like <span className={styles.countsOfLikes}>{props["likes"]}</span></p>
+            <p>likes <span className={styles.countsOfLikes}>{props["likes"]}</span></p>
            </div>
     );
 }

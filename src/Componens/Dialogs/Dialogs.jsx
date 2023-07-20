@@ -20,10 +20,10 @@ const Dialogs = props => {
 
     // №2 Тепер ці дані приходять у props як два масиви в одному. Я беру спочатку перший масив і розкладаю його методом map, потім беру другий масив і так само розкладаю. Далі ці масиви будуть виведені в цій компоненті
 
-    let resultDialogs = props.Data[0].map(el => /*return і фігурні дужки якщо є тільки ретурн не потрібно*/
+    let resultDialogs = props.Data.dialogsData.map(el => /*return і фігурні дужки якщо є тільки ретурн не потрібно*/
      <DialogsItem id = {el.id} name = {el.name} />
     ),
-    resultMessages = props.Data[1].map(el => <Message id = {el.id} message = {el.message}/>);
+    resultMessages = props.Data.messageData.map(el => <Message id = {el.id} message = {el.message}/>);
 
     return(
         <div className={s.wrapper}>
@@ -43,6 +43,8 @@ const Dialogs = props => {
                 } */}
 
                 {/* №2 Або ж можна взагалі дати вже готовий масив, і він виведе все так само */}
+
+
                 {resultDialogs}
 
 

@@ -2,6 +2,7 @@
   grid-area: n;
   background-color: rgb(99, 160, 225, .7);
   padding: 1vw;
+  font-size: calc(var(--index)*.8);
 }
 
 .nav div{

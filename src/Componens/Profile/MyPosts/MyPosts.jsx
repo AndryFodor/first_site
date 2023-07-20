@@ -7,7 +7,7 @@ import Post from "./Post/Post"
 const MyPosts = (props) =>{
 
   // №2 Сюди дані приходять під іменем data. Я беру і на основі цього масиву даних будую новий масив resultPosts, елементами якого є компоненти Post з потрібними данимим. Далі цей масив буде передано через компоненту Реакту, і він відобразить всі компоненти на сторінці 
-  let resultPosts = props.data.map(el => <Post likes = {el.likes} message = {el.message} img = {el.img} alt = {el.alt}/>)
+  let resultPosts = props.data.postsData.map(el => <Post likes = {el.likes} message = {el.message} img = {el.img} alt = {el.alt}/>)
 
     return(
         <div className= {styles.main}>
@@ -21,6 +21,8 @@ const MyPosts = (props) =>{
             {/* <Post likes = {postsData[0].likes} message = {postsData[0].message} img = {postsData[0].img} alt = {postsData[0].alt} />
             <Post likes = {postsData[1].likes} message = {postsData[1].message} img = {postsData[1].img} alt = {postsData[1].alt} /> */}
             {/* №2 Але насправді правильно відображати компоненти таким чином*/}
+            
+            
             {resultPosts}
           </div>
         </div>

@@ -1,0 +1,17 @@
+.mainWrepper a{
+    background-color: rgb(99, 160, 225);
+    text-decoration: none;
+    color: rgb(139, 242, 134);
+    font-weight: 500;
+    padding: 1vh 1vw;
+    border-radius: 10em;
+    border: rgba(139, 242, 134) solid .3vw;
+}
+
+.outerWraper{
+    text-align: center;
+    background-color: rgba(99, 160, 225, 0.5);
+    border-radius: 10em;
+    width: max-content;
+    border: rgba(99, 160, 225, 0.9) solid .3vw;
+}

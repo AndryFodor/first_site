@@ -1,3 +1,7 @@
+:root{
+  --index: calc(1vw + 1vh);
+}
+
 .app-wrapper{
   display: grid;
   width: 90vw;
@@ -18,5 +22,6 @@
 
 .app-wrapper-content{
   grid-area: c;
-  color: rgb(99, 160, 225);;
+  color: rgb(99, 160, 225);
+  font-size: calc(var(--index)*1.2);
 }

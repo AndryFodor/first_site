@@ -17,10 +17,11 @@ import Settings from './Componens/Settings/Settings';
 
 function App(props) {
 
-  // №2 Але як видно, в компоненту Dialogs треба передати два масиви даних. Щоб не робити цього, складу їх в один масив і передам дані одним масивом для зручності
-  // №2 В компоненту Profile необхідні дані прийдуть під іменем PostsData, а в Dialogs - під іменем Data
-  let DialogsData = [props.Data[1], props.Data[2]];
-
+  // // №2 Але як видно, в компоненту Dialogs треба передати два масиви даних. Щоб не робити цього, складу їх в один масив і передам дані одним масивом для зручності
+  // // №2 В компоненту Profile необхідні дані прийдуть під іменем PostsData, а в Dialogs - під іменем Data
+  // let DialogsData = [props.Data[1], props.Data[2]];
+  // №2 Насправді всі дані передаються у форматі json. Тобто у нас є об'єкт (його властивостями можуть бути ще об'єкти і так далі), а в кінцевих властивостях знаходяться масиви даних. Такий стандарт, і треба вміти розкопати такі дані і правильно передати їх у відповідні компоненти
+  
   return (
           <div className="app-wrapper">
             <Header />
@@ -29,13 +30,16 @@ function App(props) {
               {/* <MyRoute href = '/dialogs' element = {<Dialogs/>}/>
               <MyRoute href = '/profile' element = {<Profile/>}/> 
               Зірочка в path використовується для того, щоб роут працював для будь якого шляху, в якому є частина ...../dialogs.......*/}
+              
               <Routes>
-              <Route path='/dialogs/*' element={<Dialogs Data = {DialogsData} />}/>
-              <Route path='/profile' element ={<Profile PostsData = {props.Data[0]} />}/>
+              <Route path='/dialogs/*' element={<Dialogs Data = {props.Data.dialogsPage} />}/>
+              <Route path='/profile' element ={<Profile Data = {props.Data.profilePage} />}/>
               <Route path='/news'  element = {<News />} />
               <Route path='/music' element={<Music />}/>
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>
               </Routes>
+
+
               {/* <Profile /> */}
               {/* <Dialogs /> */}
             </div>
