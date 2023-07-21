@@ -17,3 +17,26 @@
     padding: 0 1vw 3vh 1vw;
 }
 
+.chat textarea{
+    margin-left: 1.1vw;
+    margin-top: 2vh;
+    width: 40vw;
+    height: 4vh;
+    background-color: rgba(99, 160, 225, 0.646);
+    color: rgb(108, 244, 101);
+    font-weight: 600;
+    font-size: calc(var(--index)*1);
+    text-shadow: #FC0 1px 0 10px;
+}
+
+.button{
+    font-size: 1vw;
+    width: min-content;
+    padding: 1vh 1vw;
+    margin-left: 1.1vw;
+    border-radius: 10em;
+    background-color: rgba(99, 160, 225, 0.646);
+    color: rgb(108, 244, 101);
+    font-weight: 600;
+    cursor: pointer;
+}

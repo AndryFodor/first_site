@@ -8,30 +8,13 @@ import Music from './Componens/Music/Music';
 import News from './Componens/News/News';
 import Settings from './Componens/Settings/Settings';
 import Friends from './Componens/Friends/Friends';
-// import MyRoute from './Componens/MyRoute/MyRoute';
-
-// Установлюємо пакет react-router-dom командою npm install react-router-dom -save. -save заносить в package.json про це інформацію, щоб при скачуванні інші користувачі не розбиралися в тому, якого пакета їм не вистачає
-// Компонента Route працює подібно конструкції if-else. if(path='/path1'<Component1/>else if(path = 'path2')<Component2/>else if...)
-// Але є один нюанс. Ця компонента повинна буде обернена в дві компоненти, аби працювати: <Routes><Routes/> та <BrowserRouter><BrowserRouter/>.Інакше Компонента Route не буде працювати
-
-// №2 Тепер розподіляю дані у ті компоненти, в яких необхідно їх відобразити
 
 function App(props) {
-
-  // // №2 Але як видно, в компоненту Dialogs треба передати два масиви даних. Щоб не робити цього, складу їх в один масив і передам дані одним масивом для зручності
-  // // №2 В компоненту Profile необхідні дані прийдуть під іменем PostsData, а в Dialogs - під іменем Data
-  // let DialogsData = [props.Data[1], props.Data[2]];
-  // №2 Насправді всі дані передаються у форматі json. Тобто у нас є об'єкт (його властивостями можуть бути ще об'єкти і так далі), а в кінцевих властивостях знаходяться масиви даних. Такий стандарт, і треба вміти розкопати такі дані і правильно передати їх у відповідні компоненти
-  
   return (
           <div className="app-wrapper">
             <Header />
             <Navbar Data = {props.Data.friendsPage}/>
             <div className='app-wrapper-content'>
-              {/* <MyRoute href = '/dialogs' element = {<Dialogs/>}/>
-              <MyRoute href = '/profile' element = {<Profile/>}/> 
-              Зірочка в path використовується для того, щоб роут працював для будь якого шляху, в якому є частина ...../dialogs.......*/}
-              
               <Routes>
               <Route path='/dialogs/*' element={<Dialogs Data = {props.Data.dialogsPage} />}/>
               <Route path='/profile' element ={<Profile Data = {props.Data.profilePage} />}/>
@@ -40,10 +23,6 @@ function App(props) {
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>
               <Route path='/friends/*' element = {<Friends Data = {props.Data.friendsPage} />} />
               </Routes>
-
-
-              {/* <Profile /> */}
-              {/* <Dialogs /> */}
             </div>
           </div>
   );

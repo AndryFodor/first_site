@@ -9,3 +9,11 @@
     border-radius: 10em;
     padding: calc(var(--index)*.5);
   }
+
+  @media (max-width: 300px) {
+    .header img{
+      width: 7%;
+      border-radius: 1vw;
+      padding-bottom: 5vh;
+    }
+  }
