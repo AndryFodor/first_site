@@ -9,11 +9,8 @@
   padding-top: .5vw;
 }
 
-.nav div:last-child{
-  padding-top: 2vw;
-}
-.nav div:first-child{
-  padding-bottom: 2vh;
+.settings{
+  margin: 3vh auto 5vh auto;
 }
 
 .item{
@@ -22,15 +19,35 @@
 }
 
 .ac-tive{
-  font-size: 1.8em;
+  font-size: calc(var(--index)*1.4);
   background-color: rgb(99, 160, 225);
   border-radius: 10em;
   text-align: center;
-  padding: 0;
+  padding: 1vh 0vw;
 }
 
 .activeLink{
   color: rgb(139, 242, 134);
   text-shadow: rgb(249, 249, 2) 1px 0 10px;
   text-decoration: none;
+}
+
+.activeLink .friendsTitle{
+  text-shadow: rgb(2, 191, 249) 1px 0 10px;
+}
+
+.friends{
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
+  column-gap: 2vw;
+}
+
+.friendsTitle {
+  font-size: calc(var(--index)*1.4);
+  background-color: rgba(139, 242, 134);
+  color: rgb(99, 160, 225, 0.7);
+  border-radius: 10em;
+  text-align: center;
+  padding: 1vh 0vw;
+  cursor: default;
 }

@@ -1,0 +1,18 @@
+.mainWrapper a{
+    text-decoration: none;
+    font-size: calc(var(--index)*1);   
+}
+
+.mainWrapper img{
+    width: 7vw;
+    border-radius: 10em;
+}
+
+.mainWrapper p{
+    margin-top: 0;
+    background-color: rgba(99, 160, 225, 0.477);
+    color: rgb(99, 160, 225);
+    width: min-content;
+    padding: 1vh 1vw;
+    border-radius: 2vw;
+}

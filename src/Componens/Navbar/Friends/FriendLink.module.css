@@ -1,0 +1,23 @@
+.mainWrapper a{
+    text-decoration: none;
+    font-size: calc(var(--index)*.6);   
+}
+
+.mainWrapper img{
+    width: 3vw;
+    border-radius: 10em;
+}
+
+.mainWrapper p{
+    margin-top: 0;
+    background-color: rgba(139, 242, 134);
+    color: rgb(99, 160, 225, 0.7);
+    padding: 5%;
+    border-radius: 1vw;
+    width: min-content;
+    margin-left: -.2vw;
+}
+
+.activeLink p{
+    text-shadow: rgb(2, 191, 249) 1px 0 10px;
+}

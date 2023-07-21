@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import Music from './Componens/Music/Music';
 import News from './Componens/News/News';
 import Settings from './Componens/Settings/Settings';
+import Friends from './Componens/Friends/Friends';
 // import MyRoute from './Componens/MyRoute/MyRoute';
 
 // Установлюємо пакет react-router-dom командою npm install react-router-dom -save. -save заносить в package.json про це інформацію, щоб при скачуванні інші користувачі не розбиралися в тому, якого пакета їм не вистачає
@@ -25,7 +26,7 @@ function App(props) {
   return (
           <div className="app-wrapper">
             <Header />
-            <Navbar />
+            <Navbar Data = {props.Data.friendsPage}/>
             <div className='app-wrapper-content'>
               {/* <MyRoute href = '/dialogs' element = {<Dialogs/>}/>
               <MyRoute href = '/profile' element = {<Profile/>}/> 
@@ -37,6 +38,7 @@ function App(props) {
               <Route path='/news'  element = {<News />} />
               <Route path='/music' element={<Music />}/>
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>
+              <Route path='/friends/*' element = {<Friends Data = {props.Data.friendsPage} />} />
               </Routes>
 
 

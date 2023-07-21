@@ -16,6 +16,7 @@
     color: rgb(108, 244, 101);
     font-weight: 600;
     font-size: calc(var(--index)*1);
+    text-shadow: #FC0 1px 0 10px;
 }
 
 .main textarea:hover{
