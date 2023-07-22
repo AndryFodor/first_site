@@ -40,3 +40,11 @@
     font-weight: 600;
     cursor: pointer;
 }
+
+.button:hover{
+    background-color: rgba(99, 160, 225);
+}
+
+.button:active{
+    border: rgba(89, 232, 17, 0.877) solid .2vw;
+}

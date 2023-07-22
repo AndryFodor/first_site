@@ -17,7 +17,7 @@ function App(props) {
             <div className='app-wrapper-content'>
               <Routes>
               <Route path='/dialogs/*' element={<Dialogs Data = {props.Data.dialogsPage} />}/>
-              <Route path='/profile' element ={<Profile Data = {props.Data.profilePage} />}/>
+              <Route path='/profile' element ={<Profile Data = {props.Data.profilePage} funcForPost = {props.addPostFunc}/>}/>
               <Route path='/news'  element = {<News />} />
               <Route path='/music' element={<Music />}/>
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>

@@ -5,3 +5,9 @@
 img {
     width: 69.5vw;
 }
+
+@media (max-width: 530px){
+    img {
+        width: 60vw;
+    }
+}

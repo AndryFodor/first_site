@@ -1,3 +1,5 @@
+import { rerenderEntireTree } from "../render";
+
 const state = {
   profilePage: {
     postsData: [
@@ -44,5 +46,19 @@ const state = {
   }
   
 };
+
+// таким чином ця функція буде імпортуватися трохи інакшим чином, не по дефолту
+export let addPost = postMessage => {
+  let newPost = {
+    id: state.profilePage.postsData[state.profilePage.postsData.length - 1].id + 1,
+    likes: 0,
+    message: postMessage,
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
+    alt: 'My post'
+  }
+
+  state.profilePage.postsData.push(newPost);
+  rerenderEntireTree(state);
+}
 
 export default state;

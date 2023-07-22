@@ -6,11 +6,14 @@ const MyPosts = (props) =>{
   let resultPosts = props.data.postsData.map(el => <Post likes = {el.likes} message = {el.message} img = {el.img} alt = {el.alt}/>)
 
   // Така робота порушує принцип. Але. Тут ми через реакт звертаємося до елемента на сторінці. Реакт поверне нам об'єкт textarea, в якої будуть різні атриубти. Через них можна звернутися до вмістимого textarea
+  // Пропсами ми передаємо по суті посилання на функцію в state.js, яка обробляє клік по кнопці(формує пост і додає його на стіну)
+
   let newPostEl = React.createRef();
 
   let addPostClick = () => {
     let text = newPostEl.current.value;
-    alert(text);
+    props.funcForNewPosts(text);
+    newPostEl.current.value = '';
   }
 
     return(
