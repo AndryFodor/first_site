@@ -11,14 +11,19 @@ const MyPosts = (props) =>{
   let newPostEl = React.createRef();
 
   let addPostClick = () => {
+    // Оскільки повідомлення зберігається в об'єкті state, то ми можемо взяти його звідти, не передаючи в цю функцію жодних параметрів. Таким чином код буде трошки оптимізований, хоча й порушується правило функціонального програмування (чистих функцій)
+    props.funcForNewPosts();
+  },
+  // ця функція виловлює введену в textarea букву і передає її в state.profileData.textBufferForNewPosts
+  onChangefunc = () =>{
+    
     let text = newPostEl.current.value;
-    props.funcForNewPosts(text);
-    newPostEl.current.value = '';
+    props.changedPost(text);
   }
 
     return(
         <div className= {styles.main}>
-          <textarea name="Post" ref={newPostEl}></textarea> <br></br>
+          <textarea onChange={ onChangefunc } ref={newPostEl} value={props.data.textBufferForNewPosts} placeholder="No more then 40 char."/> <br></br>
           <button onClick={ addPostClick }>Add post</button> 
           <button onClick={ () => newPostEl.current.value = '' }>Clear all</button>
           <div>My posts</div>

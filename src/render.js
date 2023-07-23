@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import { addPost } from './redux/state'
+import { addMessage, addPost, changedPost } from './redux/state'
 
 // Цей файл необхідний для того, аби між index.js i state.js не виникало циклічної залежності, тобто щоб вони не залежали одна від одної. Адже index.js вже залежить від state.js, коли імпортує звідти дані.
 // Якщо state.js буде імпортувати від index.js функцію rerenderEntireTree - то вони будуть взаємозалежними. А це суворо заборонено, адже це призведе до великих помилок в подальшому. Тому створюємо окремий файл render.js.
@@ -15,7 +15,7 @@ export let rerenderEntireTree = (state) => {
     root.render(
       <BrowserRouter>
         <React.StrictMode>
-          <App Data = {state} addPostFunc = {addPost}/>
+          <App Data = {state} addPostFunc = {addPost} addMessage = {addMessage} changedPost = {changedPost}/>
         </React.StrictMode>
       </BrowserRouter>
     );

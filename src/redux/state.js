@@ -5,7 +5,8 @@ const state = {
     postsData: [
       {id:1, likes: 13, message: 'Hi, dear, how are you?', img: 'https://w7.pngwing.com/pngs/862/646/png-transparent-beard-hipster-male-man-avatars-xmas-giveaway-icon-thumbnail.png', alt: 'User1'},
       {id:2, likes: 32, message: "It`s my first post", img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkfaknv6JbkcRppV4gFFlgeGFG3BX77i7uQH_RbGS1qghS__bN9CkixepsC9a69zCmyBI&usqp=CAU', alt: 'User2'}
-    ]
+    ],
+    textBufferForNewPosts: ''
   },
   dialogsPage: {
     dialogsData: [
@@ -48,17 +49,43 @@ const state = {
 };
 
 // таким чином ця функція буде імпортуватися трохи інакшим чином, не по дефолту
-export let addPost = postMessage => {
-  let newPost = {
-    id: state.profilePage.postsData[state.profilePage.postsData.length - 1].id + 1,
-    likes: 0,
-    message: postMessage,
-    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
-    alt: 'My post'
+export let addPost = () => {
+  if(state.profilePage.textBufferForNewPosts.length > 40){
+    alert(`Your message is too long ${state.profilePage.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
+    state.profilePage.textBufferForNewPosts = '';
+  } else{
+
+    let newPost = {
+      id: state.profilePage.postsData[state.profilePage.postsData.length - 1].id + 1,
+      likes: 0,
+      message: state.profilePage.textBufferForNewPosts,
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
+      alt: 'My post'
+    }
+  
+    state.profilePage.postsData.push(newPost);
+    state.profilePage.textBufferForNewPosts = '';
   }
 
-  state.profilePage.postsData.push(newPost);
   rerenderEntireTree(state);
 }
 
+export let addMessage = message => {
+  let newMessage = {
+    id: state.dialogsPage.messageData[state.dialogsPage.messageData.length - 1] + 1,
+    message: message
+  };
+  state.dialogsPage.messageData.push(newMessage);
+  
+  rerenderEntireTree(state);
+}
+
+// Ця функція створена для того, аби дотриматися концепції FLUX (до змін в UI можуть призвести тільки зміни в BLL). Тобто коли ми вводимо в textarea текст - ми змінюємо UI, при чому BLL нее змінює свого стану. А це суперечить концепції FLUX. 
+// Щоб уникнути цього, ми створюємо в обєкті state нову змінну textBufferForNewPosts, яка буде відповідати за введений текст. Тобто ми наживаємо на літеру в textarea - і спочатку ця буква летить в об'єкт state через функцію changedPost, а потім запускається функція rerenderEntireTree, яка швидко все перемальовує. І тільки таким чином через пропси введена буква потрапляє в UI, тобто в textarea
+// Здавалося б, що це якийсь нонсенс. Але так треба робити. Тим більше через велике здивування я легко зможу зрозуміти і усвоїти принцип FLUX
+
+export let changedPost = changes => {
+  state.profilePage.textBufferForNewPosts = changes;
+  rerenderEntireTree(state);
+}
 export default state;

@@ -10,7 +10,8 @@ const Dialogs = props => {
 
     newMessageEl = React.createRef(),
     SendBottonClick = () =>{
-        alert(newMessageEl.current.value);
+        props.funcaddMessage(newMessageEl.current.value);
+        newMessageEl.current.value = '';
     }
 
     return(
