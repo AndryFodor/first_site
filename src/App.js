@@ -13,15 +13,15 @@ function App(props) {
   return (
           <div className="app-wrapper">
             <Header />
-            <Navbar Data = {props.Data.friendsPage}/>
+            <Navbar Data = {props.state}/>
             <div className='app-wrapper-content'>
               <Routes>
-              <Route path='/dialogs/*' element={<Dialogs Data = {props.Data.dialogsPage} funcaddMessage = {props.addMessage} changedMessage = {props.changedMessage}/>}/>
-              <Route path='/profile' element ={<Profile Data = {props.Data.profilePage} funcForPost = {props.addPostFunc} changedPost = {props.changedPost}/>}/>
+              <Route path='/dialogs/*' element={<Dialogs state = {props.state} addMessage = {props.addMessage} changedMessage = {props.changedMessage}/>}/>
+              <Route path='/profile' element ={<Profile state = {props.state} addPost = {props.addPost} changedPost = {props.changedPost}/>}/>
               <Route path='/news'  element = {<News />} />
               <Route path='/music' element={<Music />}/>
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>
-              <Route path='/friends/*' element = {<Friends Data = {props.Data.friendsPage} />} />
+              <Route path='/friends/*' element = {<Friends Data = {props.state} />} />
               </Routes>
             </div>
           </div>

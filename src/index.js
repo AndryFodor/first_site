@@ -1,12 +1,10 @@
 import reportWebVitals from './reportWebVitals';
-import state, { subscribe } from './redux/state';
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import { addMessage, addPost, changedMessage, changedPost } from './redux/state'
+import store from './redux/store';
 
 // Цей файл необхідний для того, аби між index.js i state.js не виникало циклічної залежності, тобто щоб вони не залежали одна від одної. Адже index.js вже залежить від state.js, коли імпортує звідти дані.
 // Якщо state.js буде імпортувати від index.js функцію rerenderEntireTree - то вони будуть взаємозалежними. А це суворо заборонено, адже це призведе до великих помилок в подальшому. Тому створюємо окремий файл render.js.
@@ -16,17 +14,21 @@ import { addMessage, addPost, changedMessage, changedPost } from './redux/state'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-let rerenderEntireTree = (state) => {
+// Важливо функції, які передаються з об'єкту store, забайндити. Тобто зробити для них потсійний контекст, адже в них використовується this. Таким чином вони завжди будуть викликатися в контексті storeЮ а не якомусь іншому (з цьою помилкою я достатньо таки стикнувся)
+
+let rerenderEntireTree = store => {
     root.render(
-      <BrowserRouter>
+      <BrowserRouter> 
         <React.StrictMode>
-          <App Data = {state} addPostFunc = {addPost} addMessage = {addMessage} changedPost = {changedPost} changedMessage = {changedMessage}/>
+          <App state = {store._state}
+          addPost = {store.addPost.bind(store)} changedPost = {store.changedPost.bind(store)}
+          addMessage = {store.addMessage.bind(store)} changedMessage = {store.changedMessage.bind(store)} />
         </React.StrictMode>
       </BrowserRouter>
     );
 }
-subscribe(rerenderEntireTree);
-rerenderEntireTree(state);
+store.subscribe(rerenderEntireTree);
+rerenderEntireTree(store);
 
 
 // If you want to start measuring performance in your app, pass a function

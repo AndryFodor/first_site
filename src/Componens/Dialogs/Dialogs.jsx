@@ -5,12 +5,12 @@ import Message from './Message/Message';
 
 const Dialogs = props => {
 
-    let resultDialogs = props.Data.dialogsData.map(el => <DialogsItem id = {el.id} name = {el.name} />),
-    resultMessages = props.Data.messageData.map(el => <Message id = {el.id} message = {el.message}/>),
+    let resultDialogs = props.state.dialogsPage.dialogsData.map(el => <DialogsItem id = {el.id} name = {el.name} />),
+    resultMessages = props.state.dialogsPage.messageData.map(el => <Message id = {el.id} message = {el.message}/>),
 
     newMessageEl = React.createRef(),
     SendBottonClick = () =>{
-        props.funcaddMessage();
+        props.addMessage();
     },
     onChangesfunc = () => {
         let text = newMessageEl.current.value;
@@ -26,7 +26,7 @@ const Dialogs = props => {
 
             <div className={s.chat}>
                 {resultMessages}
-                <textarea ref={newMessageEl} onChange = {onChangesfunc} value = {props.Data.newMessageBuffer} placeholder='enter message'></textarea>
+                <textarea ref={newMessageEl} onChange = {onChangesfunc} value = {props.state.newMessageBuffer} placeholder='enter message'></textarea>
                 <span onClick={SendBottonClick} className={s.button}>Send</span>
             </div>
 
