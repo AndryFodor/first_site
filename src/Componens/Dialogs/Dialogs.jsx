@@ -10,8 +10,11 @@ const Dialogs = props => {
 
     newMessageEl = React.createRef(),
     SendBottonClick = () =>{
-        props.funcaddMessage(newMessageEl.current.value);
-        newMessageEl.current.value = '';
+        props.funcaddMessage();
+    },
+    onChangesfunc = () => {
+        let text = newMessageEl.current.value;
+        props.changedMessage(text);
     }
 
     return(
@@ -23,7 +26,7 @@ const Dialogs = props => {
 
             <div className={s.chat}>
                 {resultMessages}
-                <textarea ref={newMessageEl} placeholder='enter message'></textarea>
+                <textarea ref={newMessageEl} onChange = {onChangesfunc} value = {props.Data.newMessageBuffer} placeholder='enter message'></textarea>
                 <span onClick={SendBottonClick} className={s.button}>Send</span>
             </div>
 

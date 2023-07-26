@@ -1,4 +1,11 @@
-import { rerenderEntireTree } from "../render";
+let rerenderEntireTree;
+
+// таким чином ми можемо імпортувати цю функцію в index.js, в якому міститься rerenderEntireTree. А потім викликати її там і передати параметром якраз цю функцію. Таким чином ми уникнемо циклічної залежності
+export const subscribe = observer => {
+  rerenderEntireTree = observer; //тут використано патерн observe
+}
+
+
 
 const state = {
   profilePage: {
@@ -21,7 +28,8 @@ const state = {
       {id: 1, message: ' Lorem, ipsum dolor sit amet consectetur'},
       {id: 2, message: 'Dadipisicing elit. Ut, aperiam voluptate quae eius itaque consequatur, nostrum necessitatibus maiores dignissimos perferendis id aliquid nam ipsum possimus sed aliquam nulla cumque cupiditate.'},
       {id: 3, message: 'Message of 5 lorems: Lorem Lorem Lorem Lorem Lorem'}
-    ]
+    ],
+  newMessageBuffer: ''
   },
   friendsPage: {
     friendsData: [
@@ -70,13 +78,13 @@ export let addPost = () => {
   rerenderEntireTree(state);
 }
 
-export let addMessage = message => {
+export let addMessage = () => {
   let newMessage = {
-    id: state.dialogsPage.messageData[state.dialogsPage.messageData.length - 1] + 1,
-    message: message
+    id: state.dialogsPage.messageData[state.dialogsPage.messageData.length - 1].id + 1,
+    message: state.dialogsPage.newMessageBuffer
   };
   state.dialogsPage.messageData.push(newMessage);
-  
+  state.dialogsPage.newMessageBuffer = '';
   rerenderEntireTree(state);
 }
 
@@ -88,4 +96,10 @@ export let changedPost = changes => {
   state.profilePage.textBufferForNewPosts = changes;
   rerenderEntireTree(state);
 }
+
+export let changedMessage = changes => {
+  state.dialogsPage.newMessageBuffer = changes;
+  rerenderEntireTree(state);
+}
+
 export default state;

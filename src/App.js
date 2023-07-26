@@ -16,7 +16,7 @@ function App(props) {
             <Navbar Data = {props.Data.friendsPage}/>
             <div className='app-wrapper-content'>
               <Routes>
-              <Route path='/dialogs/*' element={<Dialogs Data = {props.Data.dialogsPage} funcaddMessage = {props.addMessage} />}/>
+              <Route path='/dialogs/*' element={<Dialogs Data = {props.Data.dialogsPage} funcaddMessage = {props.addMessage} changedMessage = {props.changedMessage}/>}/>
               <Route path='/profile' element ={<Profile Data = {props.Data.profilePage} funcForPost = {props.addPostFunc} changedPost = {props.changedPost}/>}/>
               <Route path='/news'  element = {<News />} />
               <Route path='/music' element={<Music />}/>

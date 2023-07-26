@@ -1,7 +1,31 @@
 import reportWebVitals from './reportWebVitals';
-import { rerenderEntireTree } from './render';
-import state from './redux/state';
+import state, { subscribe } from './redux/state';
 
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import { addMessage, addPost, changedMessage, changedPost } from './redux/state'
+
+// Цей файл необхідний для того, аби між index.js i state.js не виникало циклічної залежності, тобто щоб вони не залежали одна від одної. Адже index.js вже залежить від state.js, коли імпортує звідти дані.
+// Якщо state.js буде імпортувати від index.js функцію rerenderEntireTree - то вони будуть взаємозалежними. А це суворо заборонено, адже це призведе до великих помилок в подальшому. Тому створюємо окремий файл render.js.
+// І обидва, state.js i index.js будуть залежати саме від нього. rerenderEntireTree буде звідси імпортуватися в обидва файли. І далі програма працюватиме згідно з методом FLUX. При зміні UI дані передаються в BLL і тут опрацьовуються. Потім, коли вже дані оновлені, знову викликається функція rerenderEntireTree і перемальовує сайт з оновленими даними. Такий принцип FLUX. Його реалізація - Redux
+
+// Але насправді все це так не робиться. Це ми зробили для розуміння проблеми. Вирішуються вони за допомогою такого способу паттернів. Таким чином не виникає циклічних залежностей import (state.js нічого не імпортує з index.js, при чому index.js імпортує в себе дані з state.js)
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+let rerenderEntireTree = (state) => {
+    root.render(
+      <BrowserRouter>
+        <React.StrictMode>
+          <App Data = {state} addPostFunc = {addPost} addMessage = {addMessage} changedPost = {changedPost} changedMessage = {changedMessage}/>
+        </React.StrictMode>
+      </BrowserRouter>
+    );
+}
+subscribe(rerenderEntireTree);
 rerenderEntireTree(state);
 
 

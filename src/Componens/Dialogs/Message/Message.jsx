@@ -2,7 +2,7 @@
 
 const Message = (props) =>{
     return(
-        <div>{props.message}</div>
+        <div>{props.message} - {props.id}</div>
     );
 }
 
