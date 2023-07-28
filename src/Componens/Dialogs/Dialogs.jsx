@@ -10,11 +10,11 @@ const Dialogs = props => {
 
     newMessageEl = React.createRef(),
     SendBottonClick = () =>{
-        props.addMessage();
+        props.dispatch({type: 'ADD-MESSAGE'});
     },
     onChangesfunc = () => {
         let text = newMessageEl.current.value;
-        props.changedMessage(text);
+        props.dispatch({type: 'CHANGED-MESSAGE', changes: text})
     }
 
     return(

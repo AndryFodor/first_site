@@ -16,19 +16,19 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Важливо функції, які передаються з об'єкту store, забайндити. Тобто зробити для них потсійний контекст, адже в них використовується this. Таким чином вони завжди будуть викликатися в контексті storeЮ а не якомусь іншому (з цьою помилкою я достатньо таки стикнувся)
 
-let rerenderEntireTree = store => {
+let rerenderEntireTree = state => {
     root.render(
       <BrowserRouter> 
         <React.StrictMode>
-          <App state = {store._state}
-          addPost = {store.addPost.bind(store)} changedPost = {store.changedPost.bind(store)}
-          addMessage = {store.addMessage.bind(store)} changedMessage = {store.changedMessage.bind(store)} />
+          <App state = {state}
+          dispatch = {store.dispatchEvent.bind(store)}  />
         </React.StrictMode>
       </BrowserRouter>
     );
 }
+
 store.subscribe(rerenderEntireTree);
-rerenderEntireTree(store);
+rerenderEntireTree(store._state);
 
 
 // If you want to start measuring performance in your app, pass a function

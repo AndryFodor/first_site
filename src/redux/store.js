@@ -28,12 +28,12 @@ let store = {
         {id:5, name: "LongggggggNName5"},
         {id:6, name: "..."}
       ],
-    messageData: [
+      messageData: [
         {id: 1, message: ' Lorem, ipsum dolor sit amet consectetur'},
         {id: 2, message: 'Dadipisicing elit. Ut, aperiam voluptate quae eius itaque consequatur, nostrum necessitatibus maiores dignissimos perferendis id aliquid nam ipsum possimus sed aliquam nulla cumque cupiditate.'},
         {id: 3, message: 'Message of 5 lorems: Lorem Lorem Lorem Lorem Lorem'}
       ],
-    newMessageBuffer: ''
+        newMessageBuffer: ''
     },
     friendsPage: {
       friendsData: [
@@ -59,44 +59,94 @@ let store = {
     }    
   },
 
-  addPost() {
-    if(this._state.profilePage.textBufferForNewPosts.length > 40){
-      alert(`Your message is too long ${this._state.profilePage.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
-      this._state.profilePage.textBufferForNewPosts = '';
-    } else{
+  // addPost() {
+  //   if(this._state.profilePage.textBufferForNewPosts.length > 40){
+  //     alert(`Your message is too long ${this._state.profilePage.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
+  //     this._state.profilePage.textBufferForNewPosts = '';
+  //   } else{
   
-      let newPost = {
-        id: this._state.profilePage.postsData[this._state.profilePage.postsData.length - 1].id + 1,
-        likes: 0,
-        message: this._state.profilePage.textBufferForNewPosts,
-        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
-        alt: 'My post'
-      };
+  //     let newPost = {
+  //       id: this._state.profilePage.postsData[this._state.profilePage.postsData.length - 1].id + 1,
+  //       likes: 0,
+  //       message: this._state.profilePage.textBufferForNewPosts,
+  //       img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
+  //       alt: 'My post'
+  //     };
     
-      this._state.profilePage.postsData.push(newPost);
-      this._state.profilePage.textBufferForNewPosts = '';
+  //     this._state.profilePage.postsData.push(newPost);
+  //   }
+  //   this._state.profilePage.textBufferForNewPosts = '';
+  //   this.rerenderEntireTree(this);
+  // },
+
+  // addMessage() {
+  //   let newMessage = {
+  //     id: this._state.dialogsPage.messageData[this._state.dialogsPage.messageData.length - 1].id + 1,
+  //     message: this._state.dialogsPage.newMessageBuffer
+  //   };
+  //   this._state.dialogsPage.messageData.push(newMessage);
+  //   this._state.dialogsPage.newMessageBuffer = '';
+  //   this.rerenderEntireTree(this);
+  // },
+
+  // changedPost(changes) {
+  //   this._state.profilePage.textBufferForNewPosts = changes;
+  //   this.rerenderEntireTree(this);
+  // },
+
+  // changedMessage(changes)  {
+  //   this._state.dialogsPage.newMessageBuffer = changes;
+  //   this.rerenderEntireTree(this);
+  // },
+
+
+  // замість того, щоб кожний метод містився окремо, їх всіх можна скласти в один метод dispathValue. Це дуже спрощує подальшу роботу, адже в об'єкті action буде передаватися вся інформація, необхідна для реалізації потрібного фрагменту кода
+
+  dispatchEvent(action) { //action = {type: ADD-POST,... }
+    if(action.type === 'ADD-POST'){ 
+
+      if(this._state.profilePage.textBufferForNewPosts.length > 40){
+        alert(`Your message is too long ${this._state.profilePage.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
+        this._state.profilePage.textBufferForNewPosts = '';
+      } else{
+    
+        let newPost = {
+          id: this._state.profilePage.postsData[this._state.profilePage.postsData.length - 1].id + 1,
+          likes: 0,
+          message: this._state.profilePage.textBufferForNewPosts,
+          img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
+          alt: 'My post'
+        };
+        this._state.profilePage.postsData.push(newPost);
+        this._state.profilePage.textBufferForNewPosts = '';
+      }
+      this.rerenderEntireTree(this._state);
+
+
+    } else if(action.type === 'CHANGED-POST'){
+
+      this._state.profilePage.textBufferForNewPosts = action.changes;
+      this.rerenderEntireTree(this._state);
+
+      
+    } else if(action.type === 'ADD-MESSAGE'){
+
+        let newMessage = {
+        id: this._state.dialogsPage.messageData[this._state.dialogsPage.messageData.length - 1].id + 1,
+        message: this._state.dialogsPage.newMessageBuffer
+      };
+      this._state.dialogsPage.messageData.push(newMessage);
+      this._state.dialogsPage.newMessageBuffer = '';
+      this.rerenderEntireTree(this._state);
+
+
+    } else if(action.type === 'CHANGED-MESSAGE'){
+
+      this._state.dialogsPage.newMessageBuffer = action.changes;
+      this.rerenderEntireTree(this._state);
+
+
     }
-    this.rerenderEntireTree(this);
-  },
-
-  addMessage() {
-    let newMessage = {
-      id: this._state.dialogsPage.messageData[this._state.dialogsPage.messageData.length - 1].id + 1,
-      message: this._state.dialogsPage.newMessageBuffer
-    };
-    this._state.dialogsPage.messageData.push(newMessage);
-    this._state.dialogsPage.newMessageBuffer = '';
-    this.rerenderEntireTree(this);
-  },
-
-  changedPost(changes) {
-    this._state.profilePage.textBufferForNewPosts = changes;
-    this.rerenderEntireTree(this);
-  },
-
-  changedMessage(changes)  {
-    this._state.dialogsPage.newMessageBuffer = changes;
-    this.rerenderEntireTree(this);
   }
 }
 
