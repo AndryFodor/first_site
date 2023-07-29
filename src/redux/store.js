@@ -5,6 +5,11 @@
 
 // Тепер переходимо до кроку застовсування свого роду ООП. Складемо об'єкт,який міститиме властивості як дані і методи як функції, які використовувалися минулого разу. І тепер все це слід передати далі через пропси, але тепер це все зберігатиметься в одному об'єкті
 
+const ADD_POST = 'ADD-POST',
+  CHANGED_POST = 'CHANGED-POST',
+  ADD_MESSAGE = 'ADD-MESSAGE',
+  CHANGED_MESSAGE = 'CHANGED-MESSAGE';
+
 let store = {
   rerenderEntireTree() {},
   subscribe(observer) {
@@ -103,7 +108,7 @@ let store = {
   // замість того, щоб кожний метод містився окремо, їх всіх можна скласти в один метод dispathValue. Це дуже спрощує подальшу роботу, адже в об'єкті action буде передаватися вся інформація, необхідна для реалізації потрібного фрагменту кода
 
   dispatchEvent(action) { //action = {type: ADD-POST,... }
-    if(action.type === 'ADD-POST'){ 
+    if(action.type === ADD_POST){ 
 
       if(this._state.profilePage.textBufferForNewPosts.length > 40){
         alert(`Your message is too long ${this._state.profilePage.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
@@ -123,13 +128,13 @@ let store = {
       this.rerenderEntireTree(this._state);
 
 
-    } else if(action.type === 'CHANGED-POST'){
+    } else if(action.type === CHANGED_POST){
 
       this._state.profilePage.textBufferForNewPosts = action.changes;
       this.rerenderEntireTree(this._state);
 
       
-    } else if(action.type === 'ADD-MESSAGE'){
+    } else if(action.type === ADD_MESSAGE){
 
         let newMessage = {
         id: this._state.dialogsPage.messageData[this._state.dialogsPage.messageData.length - 1].id + 1,
@@ -140,7 +145,7 @@ let store = {
       this.rerenderEntireTree(this._state);
 
 
-    } else if(action.type === 'CHANGED-MESSAGE'){
+    } else if(action.type === CHANGED_MESSAGE){
 
       this._state.dialogsPage.newMessageBuffer = action.changes;
       this.rerenderEntireTree(this._state);
@@ -149,6 +154,11 @@ let store = {
     }
   }
 }
+
+export const ADD_POST_ActionCreator = () => ({type: ADD_POST}),
+CHANGED_POST_ActionCreator = text => ({type: CHANGED_POST, changes: text}),
+ADD_MESSAGE_ActionCreator = () => ({type: ADD_MESSAGE}),
+CHANGED_MESSAGE_ActionCreator = text => ({type: CHANGED_MESSAGE, changes: text});
 
 export default store;
 
