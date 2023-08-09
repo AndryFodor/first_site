@@ -16,9 +16,9 @@ function App(props) {
             <Navbar Data = {props.state}/>
             <div className='app-wrapper-content'>
               <Routes>
-              <Route path='/dialogs/*' element={<Dialogs state = {props.state} dispatch = {props.dispatch} />}/>
+              <Route path='/dialogs/*' element={<Dialogs data = {props.state.dialogsPage} dispatch = {props.dispatch} />}/>
               <Route path='/profile' element ={<Profile state = {props.state} dispatch = {props.dispatch} />}/>
-              <Route path='/news'  element = {<News />} />
+              <Route path='/news'  element = {<News data = {props.state.newsPage} dispatch = {props.dispatch} />} />
               <Route path='/music' element={<Music />}/>
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>
               <Route path='/friends/*' element = {<Friends Data = {props.state} />} />

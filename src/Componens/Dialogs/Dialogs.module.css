@@ -48,3 +48,9 @@
 .button:active{
     border: rgba(89, 232, 17, 0.877) solid .2vw;
 }
+
+@media (max-width: 800px){
+    .chat textarea{
+        width: 30vw;
+    }
+}

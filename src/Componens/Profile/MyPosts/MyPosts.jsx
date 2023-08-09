@@ -1,7 +1,7 @@
 import React from "react"
 import styles from "./MyPosts.module.css"
 import Post from "./Post/Post"
-import { ADD_POST_ActionCreator, CHANGED_POST_ActionCreator } from "../../../redux/store"
+import { ADD_POST_ActionCreator, CHANGED_POST_ActionCreator, CLEARE_POST_TEXT_Creator } from "../../../redux/store"
 
 // №2. Всі функції стають методами об'єкта store, а об'єкт state стає його властивістю
 
@@ -18,7 +18,6 @@ const MyPosts = (props) =>{
   let addPostClick = () => {
     // Оскільки повідомлення зберігається в об'єкті state, то ми можемо взяти його звідти, не передаючи в цю функцію жодних параметрів. Таким чином код буде трошки оптимізований, хоча й порушується правило функціонального програмування (чистих функцій)
     props.dispatch(ADD_POST_ActionCreator());
-    newPostEl.current.value = ''
   },
   // ця функція виловлює введену в textarea букву і передає її в state.profileData.textBufferForNewPosts
   onChangefunc = () =>{
@@ -28,9 +27,9 @@ const MyPosts = (props) =>{
 
     return(
         <div className= {styles.main}>
-          <textarea onChange={ onChangefunc } ref={newPostEl} value={props.data.textBufferForNewPosts} placeholder="No more then 40 char."/> <br></br>
+          <textarea onChange={ onChangefunc } ref={newPostEl} value={props.data.profilePage.textBufferForNewPosts} placeholder="No more then 40 char."/> <br></br>
           <button onClick={ addPostClick }>Add post</button> 
-          <button onClick={ () => newPostEl.current.value = '' }>Clear all</button>
+          <button onClick={ () => { props.dispatch(CLEARE_POST_TEXT_Creator()) } }>Clear all</button>
           <div>My posts</div>
           <div>
             <h3>New posts</h3>           

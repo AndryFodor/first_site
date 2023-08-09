@@ -7,8 +7,11 @@
 
 const ADD_POST = 'ADD-POST',
   CHANGED_POST = 'CHANGED-POST',
+  CLEARE_POST_TEXT = 'CLEARE_POST_TEXT',
   ADD_MESSAGE = 'ADD-MESSAGE',
-  CHANGED_MESSAGE = 'CHANGED-MESSAGE';
+  CHANGED_MESSAGE = 'CHANGED-MESSAGE',
+  ADD_MY_NEWS = 'ADD_NEWS',
+  CHANGED_NEWS = 'CHANGED_NEWS';
 
 let store = {
   rerenderEntireTree() {},
@@ -61,7 +64,13 @@ let store = {
         {id: 17, name: 'Friend17', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU', alt: "frend17" },
         {id: 18, name: 'Friend18', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRho7o-mEZpAkBRGP-w-kvXsJgy2EzK_UChiJDGMX1mpZHULNU2-yQplj0mV_HzX3PT4Rk&usqp=CAU', alt: "frend18" }       
       ]
-    }    
+    },
+    newsPage:{
+      newsData: [
+        {id:1, message: "I started deeeling with redux", date: '9.8.2023 13:00'}
+      ],
+      newsMessageBuffer: ""
+    }   
   },
 
   // addPost() {
@@ -140,8 +149,8 @@ let store = {
         id: this._state.dialogsPage.messageData[this._state.dialogsPage.messageData.length - 1].id + 1,
         message: this._state.dialogsPage.newMessageBuffer
       };
-      this._state.dialogsPage.messageData.push(newMessage);
       this._state.dialogsPage.newMessageBuffer = '';
+      this._state.dialogsPage.messageData.push(newMessage);
       this.rerenderEntireTree(this._state);
 
 
@@ -151,14 +160,34 @@ let store = {
       this.rerenderEntireTree(this._state);
 
 
+    } else if(action.type === ADD_MY_NEWS){
+      let dat = new Date();
+      let createdNews = {
+        id: this._state.newsPage.newsData[this._state.newsPage.newsData.length - 1].id + 1,
+        message: this._state.newsPage.newsMessageBuffer,
+        date: `${dat.getDate()}.${dat.getMonth()+1}.${dat.getFullYear()} ${dat.getHours()}:${dat.getMinutes()}`
+      }
+      this._state.newsPage.newsMessageBuffer = '';
+      this._state.newsPage.newsData.push(createdNews);
+      this.rerenderEntireTree(this._state);
+
+    } else if(action.type === CHANGED_NEWS){
+      this._state.newsPage.newsMessageBuffer = action.changes;
+      this.rerenderEntireTree(this._state);
+    }else if(action.type === CLEARE_POST_TEXT){
+      this._state.profilePage.textBufferForNewPosts = '';
+      this.rerenderEntireTree(this._state);
     }
   }
 }
 
 export const ADD_POST_ActionCreator = () => ({type: ADD_POST}),
 CHANGED_POST_ActionCreator = text => ({type: CHANGED_POST, changes: text}),
+CLEARE_POST_TEXT_Creator = () => ({type: CLEARE_POST_TEXT}),
 ADD_MESSAGE_ActionCreator = () => ({type: ADD_MESSAGE}),
-CHANGED_MESSAGE_ActionCreator = text => ({type: CHANGED_MESSAGE, changes: text});
+CHANGED_MESSAGE_ActionCreator = text => ({type: CHANGED_MESSAGE, changes: text}),
+CHANGED_NEWS_Creator = text => ({type: CHANGED_NEWS, changes: text}),
+ADD_MY_NEWS_Creator = () => ({type: ADD_MY_NEWS});
 
 export default store;
 
