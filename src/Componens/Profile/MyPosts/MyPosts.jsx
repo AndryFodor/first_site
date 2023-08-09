@@ -1,7 +1,7 @@
 import React from "react"
 import styles from "./MyPosts.module.css"
 import Post from "./Post/Post"
-import { ADD_POST_ActionCreator, CHANGED_POST_ActionCreator, CLEARE_POST_TEXT_Creator } from "../../../redux/store"
+import { ADD_POST_ActionCreator, CHANGED_POST_ActionCreator, CLEARE_POST_TEXT_Creator } from "../../../redux/profileReducer"
 
 // №2. Всі функції стають методами об'єкта store, а об'єкт state стає його властивістю
 

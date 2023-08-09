@@ -3,15 +3,12 @@
 //   rerenderEntireTree = observer; //тут використано патерн observe
 // }
 
-// Тепер переходимо до кроку застовсування свого роду ООП. Складемо об'єкт,який міститиме властивості як дані і методи як функції, які використовувалися минулого разу. І тепер все це слід передати далі через пропси, але тепер це все зберігатиметься в одному об'єкті
+import DialogsReducer from "./dialogsReducer";
+import FriendsReducer from "./friendsReducer";
+import NewsReducer from "./newsReducer";
+import ProfileReducer from "./profileReducer";
 
-const ADD_POST = 'ADD-POST',
-  CHANGED_POST = 'CHANGED-POST',
-  CLEARE_POST_TEXT = 'CLEARE_POST_TEXT',
-  ADD_MESSAGE = 'ADD-MESSAGE',
-  CHANGED_MESSAGE = 'CHANGED-MESSAGE',
-  ADD_MY_NEWS = 'ADD_NEWS',
-  CHANGED_NEWS = 'CHANGED_NEWS';
+// Тепер переходимо до кроку застовсування свого роду ООП. Складемо об'єкт,який міститиме властивості як дані і методи як функції, які використовувалися минулого разу. І тепер все це слід передати далі через пропси, але тепер це все зберігатиметься в одному об'єкті
 
 let store = {
   rerenderEntireTree() {},
@@ -117,77 +114,15 @@ let store = {
   // замість того, щоб кожний метод містився окремо, їх всіх можна скласти в один метод dispathValue. Це дуже спрощує подальшу роботу, адже в об'єкті action буде передаватися вся інформація, необхідна для реалізації потрібного фрагменту кода
 
   dispatchEvent(action) { //action = {type: ADD-POST,... }
-    if(action.type === ADD_POST){ 
-
-      if(this._state.profilePage.textBufferForNewPosts.length > 40){
-        alert(`Your message is too long ${this._state.profilePage.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
-        this._state.profilePage.textBufferForNewPosts = '';
-      } else{
     
-        let newPost = {
-          id: this._state.profilePage.postsData[this._state.profilePage.postsData.length - 1].id + 1,
-          likes: 0,
-          message: this._state.profilePage.textBufferForNewPosts,
-          img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
-          alt: 'My post'
-        };
-        this._state.profilePage.postsData.push(newPost);
-        this._state.profilePage.textBufferForNewPosts = '';
-      }
-      this.rerenderEntireTree(this._state);
+    this._state.profilePage = ProfileReducer(this._state.profilePage, action);
+    this._state.dialogsPage = DialogsReducer(this._state.dialogsPage, action);
+    this._state.newsPage = NewsReducer(this._state.newsPage, action);
+    this._state.friendsPage = FriendsReducer(this._state.friendsPage, action);
 
-
-    } else if(action.type === CHANGED_POST){
-
-      this._state.profilePage.textBufferForNewPosts = action.changes;
-      this.rerenderEntireTree(this._state);
-
-      
-    } else if(action.type === ADD_MESSAGE){
-
-        let newMessage = {
-        id: this._state.dialogsPage.messageData[this._state.dialogsPage.messageData.length - 1].id + 1,
-        message: this._state.dialogsPage.newMessageBuffer
-      };
-      this._state.dialogsPage.newMessageBuffer = '';
-      this._state.dialogsPage.messageData.push(newMessage);
-      this.rerenderEntireTree(this._state);
-
-
-    } else if(action.type === CHANGED_MESSAGE){
-
-      this._state.dialogsPage.newMessageBuffer = action.changes;
-      this.rerenderEntireTree(this._state);
-
-
-    } else if(action.type === ADD_MY_NEWS){
-      let dat = new Date();
-      let createdNews = {
-        id: this._state.newsPage.newsData[this._state.newsPage.newsData.length - 1].id + 1,
-        message: this._state.newsPage.newsMessageBuffer,
-        date: `${dat.getDate()}.${dat.getMonth()+1}.${dat.getFullYear()} ${dat.getHours()}:${dat.getMinutes()}`
-      }
-      this._state.newsPage.newsMessageBuffer = '';
-      this._state.newsPage.newsData.push(createdNews);
-      this.rerenderEntireTree(this._state);
-
-    } else if(action.type === CHANGED_NEWS){
-      this._state.newsPage.newsMessageBuffer = action.changes;
-      this.rerenderEntireTree(this._state);
-    }else if(action.type === CLEARE_POST_TEXT){
-      this._state.profilePage.textBufferForNewPosts = '';
-      this.rerenderEntireTree(this._state);
-    }
+    this.rerenderEntireTree(this._state);
   }
 }
-
-export const ADD_POST_ActionCreator = () => ({type: ADD_POST}),
-CHANGED_POST_ActionCreator = text => ({type: CHANGED_POST, changes: text}),
-CLEARE_POST_TEXT_Creator = () => ({type: CLEARE_POST_TEXT}),
-ADD_MESSAGE_ActionCreator = () => ({type: ADD_MESSAGE}),
-CHANGED_MESSAGE_ActionCreator = text => ({type: CHANGED_MESSAGE, changes: text}),
-CHANGED_NEWS_Creator = text => ({type: CHANGED_NEWS, changes: text}),
-ADD_MY_NEWS_Creator = () => ({type: ADD_MY_NEWS});
 
 export default store;
 

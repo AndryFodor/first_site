@@ -1,4 +1,4 @@
-import { ADD_MY_NEWS_Creator, CHANGED_NEWS_Creator } from "../../redux/store";
+import { ADD_MY_NEWS_Creator, CHANGED_NEWS_Creator } from "../../redux/newsReducer";
 
 
 const Newss = props => {
