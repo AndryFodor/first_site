@@ -4,7 +4,14 @@ const ADD_MY_NEWS = 'ADD_NEWS',
 export const CHANGED_NEWS_Creator = text => ({type: CHANGED_NEWS, changes: text}),
 ADD_MY_NEWS_Creator = () => ({type: ADD_MY_NEWS});
 
-const NewsReducer = (state, action) => {
+let initialState = {
+  newsData: [
+    {id:1, message: "I started deeeling with redux", date: '10.8.2023 17:30'}
+  ],
+  newsMessageBuffer: ""
+}
+
+const NewsReducer = (state = initialState, action) => {
     switch(action.type){
         case ADD_MY_NEWS:
             let dat = new Date();

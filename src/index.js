@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import store from './redux/store';
+import store from './redux/redux-store';
 
 // Цей файл необхідний для того, аби між index.js i state.js не виникало циклічної залежності, тобто щоб вони не залежали одна від одної. Адже index.js вже залежить від state.js, коли імпортує звідти дані.
 // Якщо state.js буде імпортувати від index.js функцію rerenderEntireTree - то вони будуть взаємозалежними. А це суворо заборонено, адже це призведе до великих помилок в подальшому. Тому створюємо окремий файл render.js.
@@ -21,14 +21,19 @@ let rerenderEntireTree = state => {
       <BrowserRouter> 
         <React.StrictMode>
           <App state = {state}
-          dispatch = {store.dispatchEvent.bind(store)}  />
+          dispatch = {store.dispatch.bind(store)}  />
         </React.StrictMode>
       </BrowserRouter>
     );
 }
+// Важливо. Весь store, що був створений, майже ідентичний store з redux. Але я не написав геттер для state. І також метода dispatchEvent не існує, існує dispatch. Саме його треба байндити
+// паттерн підписника працює таким чином, що не передає фкункції rerenderEntiryTree всередині себе state. Тому поки що можна виправити цю проблему таким чином
+store.subscribe(() => {
+  let state = store.getState();
+  rerenderEntireTree(state);
+});
 
-store.subscribe(rerenderEntireTree);
-rerenderEntireTree(store._state);
+rerenderEntireTree(store.getState());
 
 
 // If you want to start measuring performance in your app, pass a function
