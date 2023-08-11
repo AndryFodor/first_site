@@ -1,9 +1,7 @@
-import { ADD_MY_NEWS_Creator, CHANGED_NEWS_Creator } from "../../redux/newsReducer";
-
 
 const Newss = props => {
 
-    let resultNews = props.data.newsData.map(el => {
+    let resultNews = props.NewsData.map(el => {
         return (
             <div>
                 <p>{el.id}. ATTENTION!!!</p>
@@ -15,17 +13,17 @@ const Newss = props => {
     }),
     
     ChangesListener = e => {
-        props.dispatch(CHANGED_NEWS_Creator(e.target.value));        
+        props.changes(e.target.value);        
     },
     ClickListener = () =>{
-        props.dispatch(ADD_MY_NEWS_Creator());
+        props.click();
     }
 
     return (
         <div>
             News
             <div>{resultNews}</div>
-            <div><textarea onChange={ChangesListener} value={props.data.newsMessageBuffer}></textarea></div>
+            <div><textarea onChange={ChangesListener} value={props.buffer}></textarea></div>
             <div><button onClick={ClickListener}>Create news</button></div>
         </div>
     );
