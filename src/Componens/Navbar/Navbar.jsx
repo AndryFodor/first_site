@@ -1,16 +1,20 @@
 import { NavLink } from "react-router-dom";
 import classes from "./Navbar.module.css";
 import FriendLink from "./Friends/FriendLink";
+import StoreContext from "../../StoreContext";
 
-const Navbar = props => {
-
-  let resultFriends = props.Data.friendsPage.friendsData.map(el => {
-    if(el.id <= 3) return <FriendLink logo = {el.img} alt = {el.alt} name = {el.name} id = {el.id}/>
-    else return null;
-  });
+const Navbar = () => {
 
   return (
-    <nav className={classes.nav}>
+    <StoreContext.Consumer>
+      { store =>{
+        let resultFriends = store.getState().friendsPage.friendsData.map(el => {
+          if(el.id <= 3) return <FriendLink logo = {el.img} alt = {el.alt} name = {el.name} id = {el.id}/>
+          else return null;
+        });
+
+        return (
+          <nav className={classes.nav}>
       <div className={classes["ac-tive"]}>
         <NavLink to="/profile" className={navData =>navData.isActive?classes.activeLink : classes.item}>Profile</NavLink>
       </div>
@@ -31,6 +35,11 @@ const Navbar = props => {
         <div className={classes.friends}>{resultFriends}</div>
       </div>
     </nav>
+        )
+      }
+
+      }
+    </StoreContext.Consumer>
   );
 };
 

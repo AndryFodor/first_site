@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import store from './redux/redux-store';
+import StoreContext from './StoreContext';
 
 // Цей файл необхідний для того, аби між index.js i state.js не виникало циклічної залежності, тобто щоб вони не залежали одна від одної. Адже index.js вже залежить від state.js, коли імпортує звідти дані.
 // Якщо state.js буде імпортувати від index.js функцію rerenderEntireTree - то вони будуть взаємозалежними. А це суворо заборонено, адже це призведе до великих помилок в подальшому. Тому створюємо окремий файл render.js.
@@ -16,12 +17,14 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Важливо функції, які передаються з об'єкту store, забайндити. Тобто зробити для них потсійний контекст, адже в них використовується this. Таким чином вони завжди будуть викликатися в контексті storeЮ а не якомусь іншому (з цьою помилкою я достатньо таки стикнувся)
 
+// №3 Огортаємо компоненту App в тег StoreContext.Provider із значенням value = store. Тепер store буде доступним в тегу <StoreContext.Consumer><StoreContext.Consumer/> як параметр анонімної функції в ній
 let rerenderEntireTree = state => {
     root.render(
       <BrowserRouter> 
         <React.StrictMode>
-          <App state = {state}
-          dispatch = {store.dispatch.bind(store)}  />
+          <StoreContext.Provider value={store}>
+          <App />
+          </StoreContext.Provider>
         </React.StrictMode>
       </BrowserRouter>
     );

@@ -24,8 +24,9 @@ const ProfileReducer = (state = initialState, action) => {
             if(state.textBufferForNewPosts.length > 40){
                 alert(`Your message is too long ${state.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
                 state.textBufferForNewPosts = '';
-              } else{
-            
+              } else if(state.textBufferForNewPosts === ''){
+                alert("You cannot publish post without text!");
+              }else{
                 let newPost = {
                   id: state.postsData[state.postsData.length - 1].id + 1,
                   likes: 0,
@@ -45,7 +46,11 @@ const ProfileReducer = (state = initialState, action) => {
 
 
         case CLEARE_POST_TEXT:
-            state.textBufferForNewPosts = '';
+            if(state.textBufferForNewPosts === ''){
+                alert("Input field is cleared")
+            }else{
+                state.textBufferForNewPosts = '';
+            }            
             return state;
 
 

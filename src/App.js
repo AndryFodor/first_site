@@ -9,19 +9,20 @@ import DialogsConteiner from './Componens/Dialogs/DialogsConteiner';
 import FriendsConteiner from './Componens/Friends/FriendsConteiner';
 import NewsContainer from './Componens/News/NewsConteiner';
 
-function App(props) {
+// Таким чином, коли тег App обернути в тег <StoreContext.Provider><StoreContext.Provider/> (компонента App створила свій контекст, в якому міститься змінна store), всі нащадки можуть використовувати цей контекст і напряму брати з нього store
+function App () {
   return (
           <div className="app-wrapper">
             <Header />
-            <Navbar Data = {props.state}/>
+            <Navbar />
             <div className='app-wrapper-content'>
               <Routes>
-              <Route path='/dialogs/*' element={<DialogsConteiner data = {props.state} dispatch = {props.dispatch} />}/>
-              <Route path='/profile' element ={<Profile state = {props.state} dispatch = {props.dispatch} />}/>
-              <Route path='/news'  element = {<NewsContainer data = {props.state} dispatch = {props.dispatch} />} />
+              <Route path='/dialogs/*' element={<DialogsConteiner />}/>
+              <Route path='/profile' element ={<Profile />}/>
+              <Route path='/news'  element = {<NewsContainer />} />
               <Route path='/music' element={<Music />}/>
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>
-              <Route path='/friends/*' element = {<FriendsConteiner Data = {props.state} />} />
+              <Route path='/friends/*' element = {<FriendsConteiner />} />
               </Routes>
             </div>
           </div>
