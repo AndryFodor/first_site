@@ -15,4 +15,6 @@ let reducers = combineReducers({
 // за допомогою бібіліотеки redux ми створюємо вже готовий store, який дуже схожий до нашого store
 let store = legacy_createStore(reducers);
 
+window.store = store;
+
 export default store;

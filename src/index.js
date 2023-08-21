@@ -5,7 +5,8 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import store from './redux/redux-store';
-import StoreContext from './StoreContext';
+// import StoreContext from './StoreContext';
+import { Provider } from 'react-redux';
 
 // Цей файл необхідний для того, аби між index.js i state.js не виникало циклічної залежності, тобто щоб вони не залежали одна від одної. Адже index.js вже залежить від state.js, коли імпортує звідти дані.
 // Якщо state.js буде імпортувати від index.js функцію rerenderEntireTree - то вони будуть взаємозалежними. А це суворо заборонено, адже це призведе до великих помилок в подальшому. Тому створюємо окремий файл render.js.
@@ -18,25 +19,27 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // Важливо функції, які передаються з об'єкту store, забайндити. Тобто зробити для них потсійний контекст, адже в них використовується this. Таким чином вони завжди будуть викликатися в контексті storeЮ а не якомусь іншому (з цьою помилкою я достатньо таки стикнувся)
 
 // №3 Огортаємо компоненту App в тег StoreContext.Provider із значенням value = store. Тепер store буде доступним в тегу <StoreContext.Consumer><StoreContext.Consumer/> як параметр анонімної функції в ній
-let rerenderEntireTree = state => {
+// №4 Насправді в бібліотеці react-redux вже є готовий Provider, і він працює схожим чином до того, який ми написали. Важливо, шо тут треба передавати у Provider через пропси store через ім'я store, а не value, чи якесь інше (як було в мене, через що я довго не міг зрозуміти в чому помилка)
+
     root.render(
       <BrowserRouter> 
         <React.StrictMode>
-          <StoreContext.Provider value={store}>
+          <Provider store={store}>
           <App />
-          </StoreContext.Provider>
+          </Provider>
         </React.StrictMode>
       </BrowserRouter>
     );
-}
+
 // Важливо. Весь store, що був створений, майже ідентичний store з redux. Але я не написав геттер для state. І також метода dispatchEvent не існує, існує dispatch. Саме його треба байндити
 // паттерн підписника працює таким чином, що не передає фкункції rerenderEntiryTree всередині себе state. Тому поки що можна виправити цю проблему таким чином
-store.subscribe(() => {
-  let state = store.getState();
-  rerenderEntireTree(state);
-});
+// store.subscribe(() => {
+//   rerenderEntireTree();
+// });
+// №4 Тепер цей метод не потрібний, адже підписується тепер сам React-Redux за допомогою функції connect. Він 
+// починає слідкувати за змінами лише конкретного шматку state, і таким чином перемальовує не все, а лише конкретний шматок сторінки
 
-rerenderEntireTree(store.getState());
+// rerenderEntireTree();
 
 
 // If you want to start measuring performance in your app, pass a function

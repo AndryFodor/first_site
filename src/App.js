@@ -1,6 +1,5 @@
 import './App.css';
 import Header from './Componens/Header/Header';
-import Navbar from './Componens/Navbar/Navbar';
 import Profile from './Componens/Profile/Profile';
 import { Route, Routes } from 'react-router-dom';
 import Music from './Componens/Music/Music';
@@ -8,13 +7,15 @@ import Settings from './Componens/Settings/Settings';
 import DialogsConteiner from './Componens/Dialogs/DialogsConteiner';
 import FriendsConteiner from './Componens/Friends/FriendsConteiner';
 import NewsContainer from './Componens/News/NewsConteiner';
+import NavbarContainer from './Componens/Navbar/NavbarContainer';
 
 // Таким чином, коли тег App обернути в тег <StoreContext.Provider><StoreContext.Provider/> (компонента App створила свій контекст, в якому міститься змінна store), всі нащадки можуть використовувати цей контекст і напряму брати з нього store
+// №2 Тепер тег App обернений тегом Provider з бібліотеки react-redux. Але суть та сама
 function App () {
   return (
           <div className="app-wrapper">
             <Header />
-            <Navbar />
+            <NavbarContainer />
             <div className='app-wrapper-content'>
               <Routes>
               <Route path='/dialogs/*' element={<DialogsConteiner />}/>

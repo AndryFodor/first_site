@@ -17,14 +17,19 @@ let initialState = {
       textBufferForNewPosts: ''
 }
 
+// №2 Оскільки функція connect слідкує за змінами в переданих параметрами даних по принципу чистої функції функціонального програмування (connect - ідемпатентна, детермінована функція), то функцію треба переписати так, щоб вона змінювала не зовнішні дані, а дані всередині себе.
+// Якщо ми створимо копію нашого стейту, то підписник помітить зміни в стейті і відрендерить той фрагмент сторінки, який змінився (в нашому випадку profilePage). Це зумовлено тим, що функція порівнює масиви зі стейту і ті, що повертає цей рід'юсер. Тому треба зробити так, щоб ми не просто змінили зовнішній стейт і вернули йому ссилку на той самий масив, а треба створити копію стайта і вернути зовсім інший об'єкт. Таким чином функція зрозуміє, що відбулися зміни - і все перемалює, що треба 
 const ProfileReducer = (state = initialState, action) => {
     
+    const copyState = {...state};
+    copyState.postsData = [...state.postsData];
+
     switch(action.type){
         case ADD_POST:
-            if(state.textBufferForNewPosts.length > 40){
-                alert(`Your message is too long ${state.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
-                state.textBufferForNewPosts = '';
-              } else if(state.textBufferForNewPosts === ''){
+            if(copyState.textBufferForNewPosts.length > 40){
+                alert(`Your message is too long ${copyState.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
+                copyState.textBufferForNewPosts = '';
+              } else if(copyState.textBufferForNewPosts === ''){
                 alert("You cannot publish post without text!");
               }else{
                 let newPost = {
@@ -34,28 +39,28 @@ const ProfileReducer = (state = initialState, action) => {
                   img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
                   alt: 'My post'
                 };
-                state.postsData.push(newPost);
-                state.textBufferForNewPosts = '';
+                copyState.postsData.push(newPost);
+                copyState.textBufferForNewPosts = '';
               }
-              return state;
+              return copyState;
 
 
         case CHANGED_POST:
-            state.textBufferForNewPosts = action.changes;
-            return state;
+            copyState.textBufferForNewPosts = action.changes;
+            return copyState;
 
 
         case CLEARE_POST_TEXT:
-            if(state.textBufferForNewPosts === ''){
+            if(copyState.textBufferForNewPosts === ''){
                 alert("Input field is cleared")
             }else{
-                state.textBufferForNewPosts = '';
+                copyState.textBufferForNewPosts = '';
             }            
-            return state;
+            return copyState;
 
 
         default:
-            return state;
+            return copyState;
 
     }
 }
