@@ -6,7 +6,7 @@ import FriendLink from "./Friends/FriendLink";
 const Navbar = props => {
 
   let resultFriends = props.fData.map(el => {
-    if(el.id <= 3) return <FriendLink logo = {el.img} alt = {el.alt} name = {el.name} id = {el.id}/>
+    if(el.id <= 3) return <FriendLink logo = {el.img} alt = {el.alt} name = {el.name} id = {el.id} key = {el.id}/>
     else return null;
   })
   return (

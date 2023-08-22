@@ -6,7 +6,7 @@ const Friends = props =>{
     let resultFriends = props.FriendsData.map(el => {
         return(
             <div className={s.element}>
-                <FriendItem id = {el.id} name = {el.name} logo = {el.img} alt = {el.alt} />
+                <FriendItem id = {el.id} name = {el.name} logo = {el.img} alt = {el.alt} key = {el.id}/>
             </div>
         )
     })

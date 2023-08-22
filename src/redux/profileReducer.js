@@ -21,16 +21,27 @@ let initialState = {
 // Якщо ми створимо копію нашого стейту, то підписник помітить зміни в стейті і відрендерить той фрагмент сторінки, який змінився (в нашому випадку profilePage). Це зумовлено тим, що функція порівнює масиви зі стейту і ті, що повертає цей рід'юсер. Тому треба зробити так, щоб ми не просто змінили зовнішній стейт і вернули йому ссилку на той самий масив, а треба створити копію стайта і вернути зовсім інший об'єкт. Таким чином функція зрозуміє, що відбулися зміни - і все перемалює, що треба 
 const ProfileReducer = (state = initialState, action) => {
     
-    const copyState = {...state};
-    copyState.postsData = [...state.postsData];
+    // Через то, що я тут створював новий об'єкт, і повертав саме його, то таким чином subscriber з функції connect приймав це як зміна стейта, і тому завжди перемальовував всю цю сторінку. Більше того, через те, що цей ред'юсер спрацьовує завжди, як і решта, то при зміні навіть стейта в іншій частині все перемальовується, оскільки попередній стейт посилається не на ті об'єкти і масиви, на які посилається новий, що повернутий з цього ред'юсера
+    // Таким чином забруднюється пам'ятт і зменшується екфективність. Насправді треба створювати новий об'єкт (копію стейта) саме в кейсах світча. Таким чином перемальовка відбуватиметься тільки тоді, коли справді зміниться стейт, а не просто повернеться нова копія того самого стейта (а два об'єкти рівні лише тоді, коли рівні їхні значення примітивних типів і ссилки масивів та об'єків. Останнє при створення копії не рівне, хоча значення в масивах і об'єктах ті самі. Але оскільки ссилки різні, то субскрайер вважає, що стейт було змінено і без потреби перемальовує його
+    // const copyState = {...state};
+    // copyState.postsData = [...state.postsData];
+    // ===
+    // const copyState = {
+    //     ...state,
+    //     postsData: [...state.postsData]
+    // }
 
     switch(action.type){
         case ADD_POST:
-            if(copyState.textBufferForNewPosts.length > 40){
-                alert(`Your message is too long ${copyState.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
-                copyState.textBufferForNewPosts = '';
-              } else if(copyState.textBufferForNewPosts === ''){
+            if(state.textBufferForNewPosts.length > 40){
+                alert(`Your message is too long ${state.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
+                return {
+                    ...state,
+                    textBufferForNewPosts: ''
+                }
+              } else if(state.textBufferForNewPosts === ''){
                 alert("You cannot publish post without text!");
+                return state;
               }else{
                 let newPost = {
                   id: state.postsData[state.postsData.length - 1].id + 1,
@@ -39,28 +50,41 @@ const ProfileReducer = (state = initialState, action) => {
                   img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
                   alt: 'My post'
                 };
-                copyState.postsData.push(newPost);
-                copyState.textBufferForNewPosts = '';
+                // copyState.postsData.push(newPost);
+                // copyState.textBufferForNewPosts = '';
+
+                // Запис вище можна замінити так. Тобто, можна відразу повертати вже готовий об'єкт, замість того, аби створювати новий і передавати його в оператор return. Додати новий об'єкт до масиву можна за допомогою оператора спред замість метода пуш. Змінну newPost можна було б теж не створювати, а відразу передати туди літерал об'єкту з необхідними даними, але поки що хай буде так
+                return {
+                    ...state,
+                    textBufferForNewPosts: '',
+                    postsData: [...state.postsData, newPost]
+                }
               }
-              return copyState;
 
 
         case CHANGED_POST:
-            copyState.textBufferForNewPosts = action.changes;
-            return copyState;
+
+            // Як видно, легше просто відразу повернути скопійований поверхово і змінений де треба об'єкт, а ніж створювати нову змінну для збереження цього об'єкту
+            return {
+                ...state,
+                textBufferForNewPosts: action.changes
+            };
 
 
         case CLEARE_POST_TEXT:
-            if(copyState.textBufferForNewPosts === ''){
+            if(state.textBufferForNewPosts === ''){
                 alert("Input field is cleared")
+                return state;
             }else{
-                copyState.textBufferForNewPosts = '';
-            }            
-            return copyState;
+                return {
+                    ...state,
+                    textBufferForNewPosts: ''
+                }
+            }
 
 
         default:
-            return copyState;
+            return state;
 
     }
 }

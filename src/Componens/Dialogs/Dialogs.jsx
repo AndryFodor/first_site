@@ -7,8 +7,8 @@ import Message from './Message/Message';
 
 const Dialogs = (props) => {
 
-    let resultDialogs = props.dialogsData.map(el => <DialogsItem id = {el.id} name = {el.name} />),
-    resultMessages = props.messagesData.map(el => <Message id = {el.id} message = {el.message}/>),
+    let resultDialogs = props.dialogsData.map(el => <DialogsItem id = {el.id} name = {el.name} key = {el.id}/>),
+    resultMessages = props.messagesData.map(el => <Message id = {el.id} message = {el.message} key = {el.id}/>),
 
     SendBottonClick = () =>{
         props.SendBotton();

@@ -12,6 +12,7 @@ let initialState = {
 }
 
 const NewsReducer = (state = initialState, action) => {
+
     switch(action.type){
         case ADD_MY_NEWS:
             let dat = new Date();
@@ -20,14 +21,18 @@ const NewsReducer = (state = initialState, action) => {
               message: state.newsMessageBuffer,
               date: `${dat.getDate()}.${dat.getMonth()+1}.${dat.getFullYear()} ${dat.getHours()}:${dat.getMinutes()}`
             }
-            state.newsMessageBuffer = '';
-            state.newsData.push(createdNews);
-            return state;
+            return {
+              ...state,
+              newsMessageBuffer: '',
+              newsData: [...state.newsData, createdNews]
+            };
 
 
         case CHANGED_NEWS:
-            state.newsMessageBuffer = action.changes;
-            return state;
+            return {
+              ...state, 
+              newsMessageBuffer: action.changes
+            };
 
 
         default:
