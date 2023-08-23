@@ -3,7 +3,7 @@ const Newss = props => {
 
     let resultNews = props.NewsData.map(el => {
         return (
-            <div>
+            <div key = {el.id}>
                 <p>{el.id}. ATTENTION!!!</p>
                 <div>{el.message}</div>
                 <p>{el.date}</p>

@@ -1,0 +1,73 @@
+.caption{
+    margin: 0 20px 30px 20px;
+    font-size: calc(var(--index)*1.8);
+    font-weight: 500;
+}
+
+.mainContainer{
+    padding: 0 20px 5vh 20px;
+}
+
+.gridContainer{
+    display: grid;
+    background-color: rgb(99, 160, 225);
+    grid-template-columns: 1fr 3fr;
+}
+
+.item1 {
+    border-radius: 10em;
+    background: linear-gradient(0.25turn, rgb(139, 242, 134), rgb(99, 160, 225) );
+    border: rgba(99, 160, 225, 0.5) solid 2px;
+    border-right: none;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.item1 button {
+    font-size: 1vw;
+    padding: .5vh .5vw;
+    border-radius: 10em;
+    background-color: rgba(99, 160, 225, 0.646);
+    color: rgb(108, 244, 101);
+    font-weight: 600;
+    margin-top: calc(var(--index)*1);
+    margin-bottom: 1vh;
+}
+
+.mainContainer img {
+    width: 7vw;
+    border-radius: 10em;
+    margin-top: 1vh;
+    margin-bottom: calc(var(--index)*(-.5));
+}
+
+.item2 {
+    border: rgba(99, 160, 225, 0.5) solid 2px;
+    border-left: none;
+    color: rgb(139, 242, 134);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.item22 {
+    font-size: calc(var(--index)*1);
+    justify-self: flex-end;
+    width: 15vw;
+    background: linear-gradient(0.25turn, rgb(99, 160, 225), rgb(139, 242, 134) );
+    text-align: end;
+    padding-right: 10vw;
+    font-style: italic;
+}
+
+.desc {
+    font-size: calc(var(--index)*.8);
+    transition: font-size 2s 0.1s;
+    color: rgba(139, 242, 134, 0.5);
+}
+
+.desc:hover{
+    font-size: calc(var(--index));
+    cursor: pointer;
+    color: rgb(139, 242, 134);
+}

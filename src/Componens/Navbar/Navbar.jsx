@@ -23,6 +23,9 @@ const Navbar = props => {
       <div>
         <NavLink to="/music" className={navData =>navData.isActive?classes.activeLink :  classes.item}>Music</NavLink>
       </div>
+      <div>
+        <NavLink to="/users" className={navData =>navData.isActive?classes.activeLink :  classes.item}>Users</NavLink>
+      </div>
       <div className={classes.settings}>
         <NavLink to="/settings" className={navData =>navData.isActive?classes.activeLink :  classes.item}>Settings</NavLink>
       </div>

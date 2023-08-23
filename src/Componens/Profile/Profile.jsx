@@ -3,7 +3,7 @@ import s from './Profile.module.css'
 import MyPostsConteiner from './MyPosts/MyPostsConteiner';
 
 // Як видно, через пропси ми тепер нічого не прокидуємо. Всі контейнерні компоненти тепер беруть необхідні дані та кообеки з контексту компоненти App
-const Profile = props =>{
+const Profile = () =>{
   
     return (
         <div className = {s.p}> 
