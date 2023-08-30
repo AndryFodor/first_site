@@ -71,3 +71,46 @@
     cursor: pointer;
     color: rgb(139, 242, 134);
 }
+
+.select{
+    font-weight: bold;
+    font-size: calc(var(--index)*1.6);
+}
+
+.pageNumber{
+    margin-bottom: 1.7vw;
+    width: 70vw;
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    justify-content: center;
+    align-items: center;
+}
+
+.pageNumber span{
+    margin-left: 1vw;
+    cursor: pointer;
+    border-radius: 10em;
+    text-align: center;
+}
+
+
+
+.pageNumber span:hover{
+    color: rgb(139, 242, 134);
+    background-color: rgb(99, 160, 225);
+}
+
+.pageNumber .select:hover{
+    color: rgb(99, 160, 225);
+    background-color: rgb(139, 242, 134);
+    
+}
+
+.pageNumber button{
+    padding: 1vh .5vw;
+    margin: 0 1.5vw;
+    border-radius: 10em;
+    background-color: rgba(99, 160, 225, 0.646);
+    color: rgb(108, 244, 101);
+    cursor: pointer;
+}

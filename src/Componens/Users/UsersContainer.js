@@ -1,11 +1,17 @@
 import { connect } from "react-redux";
 // import Users from "./Users";
-import { followAC, setUsersAC, unfollowAC } from "../../redux/usersReducer";
+import { backBottonClickedAC, clearNextBackCounterAC, followAC, nextBottonClickedAC, setAllUsersCountAC, setPageNumberAC, setUsersAC, setUsersPagesAC, unfollowAC } from "../../redux/usersReducer";
 import UsersC from "./Users";
 
 const mapStateToProps = state => {
     return {
-        data: state.usersPage.users
+        data: state.usersPage.users,
+        allUsersCount: state.usersPage.allUsersCount,
+        usersCountForPage: state.usersPage.usersCountForPage,
+        selectedPage: state.usersPage.selectedPage,
+        nextButon: state.usersPage.nextButon,
+        backBottom: state.usersPage.backBottom,
+        ArraycountOfUserPages: state.usersPage.portionOfPages
     }
 },
 mapDispatchToProps = dispatch => {
@@ -18,6 +24,24 @@ mapDispatchToProps = dispatch => {
         },
         setUsers: users => {
             dispatch(setUsersAC(users));
+        },
+        setPageNumber: number => {
+            dispatch(setPageNumberAC(number))
+        },
+        setUsersCount: count => {
+            dispatch(setAllUsersCountAC(count))
+        },
+        setCountOfUP: count => {
+            dispatch(setUsersPagesAC(count))
+        },
+        nextButonClicked: () => {
+            dispatch(nextBottonClickedAC())
+        },
+        backBottonClicked: () => {
+            dispatch(backBottonClickedAC())
+        },
+        unmountClearing: () => {
+            dispatch(clearNextBackCounterAC())
         }
     }
 },

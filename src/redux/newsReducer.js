@@ -7,7 +7,8 @@ ADD_MY_NEWS_Creator = () => ({type: ADD_MY_NEWS});
 let initialState = {
   newsData: [
     {id: 1, message: "I started deeeling with redux", date: '10.8.2023 17:30'},
-    {id: 2, message: "Made a request to the server for the first time", date: '28.08.2023 11:30'}
+    {id: 2, message: "Made a request to the server for the first time", date: '28.08.2023 11:30'},
+    {id: 3, message: "Independently realized the turning of page numbers with bottons 'NEXT' and 'BACK'", date: '30.08.2023 12:50'}
   ],
   newsMessageBuffer: ""
 }

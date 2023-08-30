@@ -14,11 +14,26 @@ class UsersC extends React.Component {
         // На відміну від класових компонент, функціональна компонента викликається щоразу, коли користувач змінює стейт і необхідна перемальовка. Але після цього, коли функція відпрауює, перемалювавши за концепцією FLUX сторінку, всі її дані "помирають". А життєвий цикл класової компоненти буде тривати до того часу, поки користувач не переключиться на іншу сторінку. В той момент роути знищують екземпляр класу (компоненту). Тому коли знову переключитися на цю сторінку, знову створюється ця класова компонента. Але оскільки весь додаток знаходиться в тегу <React.StrictMode>, то відмальовка деяких частин може відбуватися двічі для тестування і безпечнішої відмальовки. Таким чином, якщо тут, в конструкторі виконати, наприклад, alert, то він виконається двічі, оскільки цей тег змушує створювати дві класові компоненти. Якщо тут виконати запит на сервер, то він виконається двічі, і всі користувачі будуть відображатися двічі. Але це не є проблемою, адже всі ці запити будуть виконуватися не тут
         // Цей alert допомагає чітко побачити, коли виконується створення об'єкту
         alert('instance of UserdC created');
+    }
 
-        axios.get('https://social-network.samuraijs.com/api/1.0/users')
+    componentDidMount(){
+        alert("Component has mounted");
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}`)
             .then(res => {
                 this.props.setUsers(res.data.items);
+                this.props.setUsersCount(res.data.totalCount);
+                this.props.setCountOfUP( Math.ceil(res.data.totalCount / this.props.usersCountForPage) );
             });
+    }
+
+    // componentDidUpdate(){
+    //     alert('Componen has updated')
+    // }
+
+    componentWillUnmount(){
+        this.props.setPageNumber(1);
+        this.props.unmountClearing();
+        alert('component will be unmounted')
     }
 
     // Необхідні функції ми можемо описати як методи класу. Таким чином ми позбуваємося проблеми нечистої функції. Але створювати для початку методи краще таким синтаксисом, а не стандартним (таким, як метод render). При такому синтаксисі не втрачається контекст і не треба використовувати метод bind (все це досягається тим, що стрілочна функція не має власного контексту на відміну від решти оголошених функцій)
@@ -31,9 +46,39 @@ class UsersC extends React.Component {
     //     }
     // }
 
+    getPageN = n => {
+        this.props.setPageNumber(n);
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}&page=${n}`)
+        .then(res => {
+            this.props.setUsers(res.data.items);
+        });
+    }
+
+    renderNextBotton = nextBotton => {
+        if(nextBotton) {
+            return (
+                <button onClick={this.props.nextButonClicked} >NEXT</button>
+            )
+        } else return null
+    };
+
+    renderBackBotton = backBotton => {
+        if(backBotton) {
+            return (
+                <button onClick={this.props.backBottonClicked} >BACK</button>
+            )
+        } else return null
+    };
 
     // При створенні класової компоненти обов'язково повинен бути визначений метож render, який повертає JSX, адже це є суттю компоненти
     render() {
+
+        // let pagesNumLength = Math.ceil(this.props.allUsersCount / this.props.usersCountForPage);
+        // let arrOfPages = [];
+        // for(let i = 0; i < 15; i++){
+        //     arrOfPages[i] = i + 1;
+        // }
+
         return <div>
         <p className={s.caption}>Users</p>
         {/* <button onClick={this.getUsers}>Get Users</button> */}
@@ -43,7 +88,7 @@ class UsersC extends React.Component {
                 <section className={s.mainContainer} key={el.id} >
                     <div className={s.gridContainer}>
                         <div className={s.item1}>
-                            <img src= {el.photos.small != null ? el.photos.small:dUserPhoto} alt={'default_Photo'} />
+                            <img src= {el.photos.small != null ? el.photos.small:dUserPhoto} alt={'user_Photo'} />
                             {el.followed?
                             <button onClick={() => this.props.unfollow(el.id)} >Unfollow</button>:
                             <button onClick={() => this.props.follow(el.id)} >Follow</button>}
@@ -52,7 +97,7 @@ class UsersC extends React.Component {
                         <div className={s.item2}>
                             <div>
                                 <p>{el.name}</p>
-                                <p className={s.desc}>{'el.description'}</p>
+                                <p className={s.desc}>{el.status === null?'default status':el.status}</p>
                             </div>
                             <div className={s.item22} >
                                 <p>{'el.location.country'},</p>
@@ -64,6 +109,15 @@ class UsersC extends React.Component {
                 )
             })
             }
+            <div className={s.pageNumber}>
+                {this.renderBackBotton(this.props.backBottom)}
+                {
+                    this.props.ArraycountOfUserPages.map(el => {
+                        return <span key = {el} onClick={() => { this.getPageN(el) }} className={el === this.props.selectedPage ? s.select : ''}>{el}</span>
+                    })
+                }
+                {this.renderNextBotton(this.props.nextButon)}
+            </div>
         </div>
     }
 }
