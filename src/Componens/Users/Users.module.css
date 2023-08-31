@@ -2,6 +2,7 @@
     margin: 0 20px 30px 20px;
     font-size: calc(var(--index)*1.8);
     font-weight: 500;
+    cursor: default;
 }
 
 .mainContainer{
@@ -48,6 +49,7 @@
     color: rgb(139, 242, 134);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    cursor: default;
 }
 
 .item22 {
@@ -68,7 +70,7 @@
 
 .desc:hover{
     font-size: calc(var(--index));
-    cursor: pointer;
+    cursor: none;
     color: rgb(139, 242, 134);
 }
 
