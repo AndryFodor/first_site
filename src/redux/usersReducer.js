@@ -6,16 +6,18 @@ let FOLLOW = 'FOLLOW',
     SET_PAGES = 'SET_PAGES',
     NEXT_BOTTON_CLICKED = 'NEXT_BOTTON_CLICKED',
     BACK_BOTTON_CLICKED = 'BACK_BOTTON_CLICKED',
-    CLEAR_nextBackCounter = 'CLEAR_nextBackCounter'
-export const followAC = userID => ({type: FOLLOW, userID}),
-    unfollowAC = userID => ({type: UNFOLLOW, userID}),
-    setUsersAC = users => ({type: SETUSERS, users}),
-    setPageNumberAC = num => ({type: SET_PAGE_NUMBER, num}),
-    setAllUsersCountAC = count => ({type: SET_ALL_USERS_COUNT, count}),
-    setUsersPagesAC = len => ({type: SET_PAGES, len}),
-    nextBottonClickedAC = () => ({type: NEXT_BOTTON_CLICKED}),
-    backBottonClickedAC = () => ({type: BACK_BOTTON_CLICKED}),
-    clearNextBackCounterAC = () => ({type: CLEAR_nextBackCounter})
+    CLEAR_nextBackCounter = 'CLEAR_nextBackCounter',
+    SET_PRELOADER = 'SET_PRELOADER' 
+export const follow = userID => ({type: FOLLOW, userID}),
+    unfollow = userID => ({type: UNFOLLOW, userID}),
+    setUsers = users => ({type: SETUSERS, users}),
+    setPageNumber = num => ({type: SET_PAGE_NUMBER, num}),
+    setUsersCount = count => ({type: SET_ALL_USERS_COUNT, count}),
+    setCountOfUP = len => ({type: SET_PAGES, len}),
+    nextButonClicked = () => ({type: NEXT_BOTTON_CLICKED}),
+    backBottonClicked = () => ({type: BACK_BOTTON_CLICKED}),
+    unmountClearing = () => ({type: CLEAR_nextBackCounter}),
+    setPreloader = toggle => ({type:SET_PRELOADER, toggle})
 
 const initialState = {
     users: [],
@@ -26,7 +28,8 @@ const initialState = {
     backBottom: false,
     nextBackCounter: 0,
     arrOfPages: [],
-    portionOfPages: []
+    portionOfPages: [],
+    isFetching: false
 },
 usersReducer = (state = initialState, action) => {
 
@@ -130,6 +133,12 @@ usersReducer = (state = initialState, action) => {
                 nextBackCounter: 0,
                 backBottom: false,
                 nextBottom: true
+            }
+
+        case SET_PRELOADER: 
+            return{
+                ...state,
+                isFetching: action.toggle
             }
 
         default:

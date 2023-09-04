@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
-import { backBottonClickedAC, clearNextBackCounterAC, followAC, nextBottonClickedAC, setAllUsersCountAC, setPageNumberAC, setUsersAC, setUsersPagesAC, unfollowAC } from "../../redux/usersReducer";
+import { backBottonClicked, follow, nextButonClicked, setCountOfUP, setPageNumber, setPreloader, setUsers, setUsersCount, unfollow,  unmountClearing } from "../../redux/usersReducer";
 import React from 'react';
 import axios/*, * as others*/ from 'axios';
 import Users from "./Users";
+import Preloader from "../../common/preloader/preloader";
 
 
 
@@ -25,8 +26,10 @@ class UsersAPIContainer extends React.Component {
 
     componentDidMount(){
         alert("Component has mounted");
+        this.props.setPreloader(true);
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}`)
             .then(res => {
+                this.props.setPreloader(false);
                 this.props.setUsers(res.data.items);
                 this.props.setUsersCount(res.data.totalCount);
                 this.props.setCountOfUP( Math.ceil(res.data.totalCount / this.props.usersCountForPage) );
@@ -43,20 +46,12 @@ class UsersAPIContainer extends React.Component {
         alert('component will be unmounted')
     }
 
-    // Необхідні функції ми можемо описати як методи класу. Таким чином ми позбуваємося проблеми нечистої функції. Але створювати для початку методи краще таким синтаксисом, а не стандартним (таким, як метод render). При такому синтаксисі не втрачається контекст і не треба використовувати метод bind (все це досягається тим, що стрілочна функція не має власного контексту на відміну від решти оголошених функцій)
-    // getUsers = () => {
-    //     if(this.props.data.length === 0){
-    //         axios.get('https://social-network.samuraijs.com/api/1.0/users')
-    //         .then(res => {
-    //             this.props.setUsers(res.data.items);
-    //         });
-    //     }
-    // }
-
     getPageN = n => {
         this.props.setPageNumber(n);
+        this.props.setPreloader(true);
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}&page=${n}`)
         .then(res => {
+            this.props.setPreloader(false);
             this.props.setUsers(res.data.items);
         });
     }
@@ -80,17 +75,22 @@ class UsersAPIContainer extends React.Component {
     // При створенні класової компоненти обов'язково повинен бути визначений метож render, який повертає JSX, адже це є суттю компоненти
     // Метод render буде відмальовувати чисту функціональну презентаційну компоненту, в яку буде передавати через пропси тільки необхідні дані (не правильно буде передати всі пропси, адже таким чином утворюється зайвий потік даних, що може завантажити виконання програми. Тобто, краще не робити props = this.props, а передати тільки необхідні дані).
     render() {
-        return <Users data = {this.props.data}
-            follow = {this.props.follow}
-            unfollow = {this.props.unfollow}
-            renderBackBotton = {this.renderBackBotton}
-            backBottom = {this.props.backBottom}
-            ArraycountOfUserPages = {this.props.ArraycountOfUserPages}
-            getPageN = {this.getPageN}
-            selectedPage = {this.props.selectedPage}
-            renderNextBotton = {this.renderNextBotton}
-            nextButon = {this.props.nextButon}
-        />
+        return <>
+            {
+                this.props.isFetchingData? <Preloader /> : null
+            }
+            <Users data = {this.props.data}
+                follow = {this.props.follow}
+                unfollow = {this.props.unfollow}
+                renderBackBotton = {this.renderBackBotton}
+                backBottom = {this.props.backBottom}
+                ArraycountOfUserPages = {this.props.ArraycountOfUserPages}
+                getPageN = {this.getPageN}
+                selectedPage = {this.props.selectedPage}
+                renderNextBotton = {this.renderNextBotton}
+                nextButon = {this.props.nextButon}
+            />    
+        </>    
     }
 }
 
@@ -105,41 +105,30 @@ const mapStateToProps = state => {
         selectedPage: state.usersPage.selectedPage,
         nextButon: state.usersPage.nextButon,
         backBottom: state.usersPage.backBottom,
-        ArraycountOfUserPages: state.usersPage.portionOfPages
+        ArraycountOfUserPages: state.usersPage.portionOfPages,
+        isFetchingData: state.usersPage.isFetching
     }
 },
-mapDispatchToProps = dispatch => {
-    return{
-        follow: userID =>{
-            dispatch(followAC(userID))
-        },
-        unfollow: userID =>{
-            dispatch(unfollowAC(userID))
-        },
-        setUsers: users => {
-            dispatch(setUsersAC(users));
-        },
-        setPageNumber: number => {
-            dispatch(setPageNumberAC(number))
-        },
-        setUsersCount: count => {
-            dispatch(setAllUsersCountAC(count))
-        },
-        setCountOfUP: count => {
-            dispatch(setUsersPagesAC(count))
-        },
-        nextButonClicked: () => {
-            dispatch(nextBottonClickedAC())
-        },
-        backBottonClicked: () => {
-            dispatch(backBottonClickedAC())
-        },
-        unmountClearing: () => {
-            dispatch(clearNextBackCounterAC())
-        }
-    }
-},
- UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIContainer);
+// В ідеалі можна не створювати функцію mapDispatchToProps, а передати замість неї такий об'єкт з ActionCreators. В такому випадку бібліотека react-redux сама створить на їх основі необхідні функції всередині себе
+// mapDispatchToProps = dispatch => {
+//     return{
+//         follow: followAC,
+//         unfollow: unfollowAC,
+//         setUsers: setUsersAC,
+//         setPageNumber: setPageNumberAC,
+//         setUsersCount: setAllUsersCountAC,
+//         setCountOfUP: setUsersPagesAC,
+//         nextButonClicked: nextBottonClickedAC,
+//         backBottonClicked: backBottonClickedAC,
+//         unmountClearing: clearNextBackCounterAC,
+//         setPreloader: setPreloaderAC
+//     }
+// },
+// Наступний синтаксис можна замінити за таким принципом (let prop1 = 'fldak lakd ', ... , obj = {prop1, ...}). Тобто, при такому значенні поле знайде одноіменну змінну і вставить її як значення цього поля. Таким чином треба просто змінити імена ActionCreator на відповідні іменам полів
+// Таким чином код вигладає набагато компактнішим і четабельнішим
+ UsersContainer = connect(mapStateToProps, { follow, unfollow, setUsers, setPageNumber, setUsersCount,
+    setCountOfUP, nextButonClicked, backBottonClicked, unmountClearing, setPreloader })
+    (UsersAPIContainer);
 
 //  Для функції connect не важливо, чи функціональну компоненту їй передано, чи класову. Всередині вона створена так, що може бути контейнерною для обох, може прокидувати пропси (state i dispatch) в будь-який тип компонент
 
