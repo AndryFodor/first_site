@@ -1,4 +1,4 @@
-import { ADD_POST_ActionCreator, CHANGED_POST_ActionCreator, CLEARE_POST_TEXT_Creator } from "../../../redux/profileReducer"
+import { PostClick, onChangefunc, ClearAll } from "../../../redux/profileReducer"
 import MyPosts from "./MyPosts"
 // import StoreContext from "../../../StoreContext";
 import { connect } from "react-redux";
@@ -44,21 +44,8 @@ const mapStateToProps = state =>{
     postsData: state.profilePage.postsData,
     buffer: state.profilePage.textBufferForNewPosts
   }
-},
-mapDispatchToProps = dispatch =>{
-  return{
-    onChangefunc: text => {
-      dispatch(CHANGED_POST_ActionCreator(text));
-    },
-    PostClick: () => {
-      dispatch(ADD_POST_ActionCreator());
-    },
-    ClearAll: () => {
-      dispatch(CLEARE_POST_TEXT_Creator())
-    }
-  }
 }
 
-const Super_MyPostsConteiner = connect(mapStateToProps, mapDispatchToProps)(MyPosts);
+const Super_MyPostsConteiner = connect(mapStateToProps, { onChangefunc, PostClick, ClearAll })(MyPosts);
 
 export default Super_MyPostsConteiner;

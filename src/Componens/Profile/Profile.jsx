@@ -3,11 +3,13 @@ import s from './Profile.module.css'
 import MyPostsConteiner from './MyPosts/MyPostsConteiner';
 
 // Як видно, через пропси ми тепер нічого не прокидуємо. Всі контейнерні компоненти тепер беруть необхідні дані та кообеки з контексту компоненти App
-const Profile = () =>{
+const Profile = props =>{
   
     return (
         <div className = {s.p}> 
-          <ProfileInfo img = 'https://cdn.pixabay.com/photo/2018/02/02/17/29/nature-3125912_1280.jpg' alt = 'User photo' description = 'Description'></ProfileInfo>
+          <ProfileInfo img = 'https://cdn.pixabay.com/photo/2018/02/02/17/29/nature-3125912_1280.jpg' alt = 'User photo'
+            profile = {props.profile}
+          ></ProfileInfo>
           <MyPostsConteiner />
         </div>
     );

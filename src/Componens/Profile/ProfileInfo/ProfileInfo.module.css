@@ -11,3 +11,17 @@ img {
         width: 60vw;
     }
 }
+
+.profilePhoto{
+    width: 15vw;
+}
+
+.jobPhoto{
+    width: 5vw;
+    margin-bottom: -1vw;
+}
+
+.gridWrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
