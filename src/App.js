@@ -12,6 +12,8 @@ import ProfileContainer from './Componens/Profile/Profile_Container';
 
 // Таким чином, коли тег App обернути в тег <StoreContext.Provider><StoreContext.Provider/> (компонента App створила свій контекст, в якому міститься змінна store), всі нащадки можуть використовувати цей контекст і напряму брати з нього store
 // №2 Тепер тег App обернений тегом Provider з бібліотеки react-redux. Але суть та сама
+
+// У шлляху profile/:userId? userId - це параметр, який приходить в адресовому рядочку. Реакт його може зчитати за допомогою гуків і в об'єкті match в об'єкт params буде передана відповідна властивість з її значенням. ? означає, що цей параметр не є обов'язковим, я якщо його не буде, то роут повинен відобразити просто профіль
 function App () {
   return (
           <div className="app-wrapper">
@@ -20,7 +22,7 @@ function App () {
             <div className='app-wrapper-content'>
               <Routes>
               <Route path='/dialogs/*' element={<DialogsConteiner />}/>
-              <Route path='/profile' element ={<ProfileContainer />}/>
+              <Route path='/profile/:userId?' element ={<ProfileContainer />}/>
               <Route path='/news'  element = {<NewsContainer />} />
               <Route path='/music' element={<Music />}/>
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>

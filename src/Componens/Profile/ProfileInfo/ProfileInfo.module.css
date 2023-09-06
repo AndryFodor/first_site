@@ -2,6 +2,11 @@
     padding: 3vh 0;
 }
 
+.main {
+    border-bottom: solid rgba(99, 160, 225) 2px;
+    margin-bottom: 2vw;
+}
+
 img {
     width: 69.5vw;
 }
@@ -14,6 +19,7 @@ img {
 
 .profilePhoto{
     width: 15vw;
+    border-radius: 10em;
 }
 
 .jobPhoto{
@@ -24,4 +30,8 @@ img {
 .gridWrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+}
+
+.gridWrapper ul li{
+    margin-bottom: 3vw;
 }

@@ -1,5 +1,6 @@
 import s from './Users.module.css';
 import dUserPhoto from '../../assets/images/defaultUser.png'
+import { NavLink } from "react-router-dom";
 
 
 // Тут ми створюємо чисту функціональну компоненту, в якій не буде ні звернення до store, ні звернення до сервера. Виконання цих операцій делегується контейнерній компоненті, створеній за допомогою функції connect, та класовій контейнерній компоненті відповідно
@@ -15,7 +16,9 @@ let Users = props => {
                 <section className={s.mainContainer} key={el.id} >
                     <div className={s.gridContainer}>
                         <div className={s.item1}>
-                            <img src= {el.photos.small != null ? el.photos.small:dUserPhoto} alt={'user_Photo'} />
+                            <NavLink to={`/profile/${el.id}`}>
+                                <img src= {el.photos.small != null ? el.photos.small:dUserPhoto} alt={'user_Photo'} />
+                            </NavLink>
                             {el.followed?
                             <button onClick={() => props.unfollow(el.id)} >Unfollow</button>:
                             <button onClick={() => props.follow(el.id)} >Follow</button>}
