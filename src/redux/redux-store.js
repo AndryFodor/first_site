@@ -4,6 +4,7 @@ import DialogsReducer from "./dialogsReducer";
 import FriendsReducer from "./friendsReducer";
 import NewsReducer from "./newsReducer";
 import usersReducer from "./usersReducer";
+import authorizationReducer from "./authorizationReducer";
 
 // за допомогою такої функції ми комбінуємо всі reducer і кидаємо їх в store
 let reducers = combineReducers({
@@ -11,7 +12,8 @@ let reducers = combineReducers({
     dialogsPage: DialogsReducer,
     friendsPage: FriendsReducer,
     newsPage: NewsReducer,
-    usersPage: usersReducer
+    usersPage: usersReducer,
+    auth: authorizationReducer
 })
 
 // за допомогою бібіліотеки redux ми створюємо вже готовий store, який дуже схожий до нашого store

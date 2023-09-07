@@ -17,3 +17,21 @@
       padding-bottom: 5vh;
     }
   }
+  @media (max-width: 800px) {
+    .auth_block{
+      top: 11%;
+    }
+  }
+
+  .auth_block{
+    position: absolute;
+    left: 90%;
+    margin-top: -8vh;
+    font-style: italic;
+    color: rgb(139, 242, 134);
+  }
+
+  .auth_block a{
+    text-decoration: none;
+    color: rgb(139, 242, 134);
+  }
