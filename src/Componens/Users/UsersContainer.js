@@ -27,7 +27,7 @@ class UsersAPIContainer extends React.Component {
     componentDidMount(){
         alert("Component has mounted");
         this.props.setPreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}`, {withCredentials: true})
             .then(res => {
                 this.props.setPreloader(false);
                 this.props.setUsers(res.data.items);
@@ -49,7 +49,7 @@ class UsersAPIContainer extends React.Component {
     getPageN = n => {
         this.props.setPageNumber(n);
         this.props.setPreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}&page=${n}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}&page=${n}`, {withCredentials: true})
         .then(res => {
             this.props.setPreloader(false);
             this.props.setUsers(res.data.items);

@@ -1,6 +1,7 @@
 import s from './Users.module.css';
 import dUserPhoto from '../../assets/images/defaultUser.png'
 import { NavLink } from "react-router-dom";
+import axios from 'axios';
 
 
 // Тут ми створюємо чисту функціональну компоненту, в якій не буде ні звернення до store, ні звернення до сервера. Виконання цих операцій делегується контейнерній компоненті, створеній за допомогою функції connect, та класовій контейнерній компоненті відповідно
@@ -19,9 +20,28 @@ let Users = props => {
                             <NavLink to={`/profile/${el.id}`}>
                                 <img src= {el.photos.small != null ? el.photos.small:dUserPhoto} alt={'user_Photo'} />
                             </NavLink>
+                            {/* для всіх rest-мктодів, крім get, тут необхідно в об'єкті headers необхідно визначати властивість API-KEY для того, аби сервер міг безпечно дати відповідь. Цей об'єкт, як і об'єкт налаштувань, передається другим для get та delete запита. Для запита post він передається третім параметром
+                            Також більшість відповідей із сервера містить resultCode, який свідчить про статус операції. Якщо все пройшло успішно - він рівний 0
+                            Не менш важливим є те, що після авторизації необхідно до кожного запита прикріплювати кукі файли, щоб сервер давав інформацію саме для цього конкретного користувача*/}
                             {el.followed?
-                            <button onClick={() => props.unfollow(el.id)} >Unfollow</button>:
-                            <button onClick={() => props.follow(el.id)} >Follow</button>}
+                            <button onClick={() => {
+                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`, 
+                                {withCredentials: true, headers: {"API-KEY": "1f661617-c423-4501-94b4-dad45f13a2cb"}})
+                                .then(res => {
+                                    if(res.data.resultCode === 0){
+                                        props.unfollow(el.id)
+                                    }
+                                })
+                            }} >Unfollow</button>:
+                            <button onClick={() => {
+                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`, {}, 
+                                {withCredentials: true, headers: {"API-KEY": "1f661617-c423-4501-94b4-dad45f13a2cb"}})
+                                .then(res => {
+                                    if(res.data.resultCode === 0){
+                                        props.follow(el.id)
+                                    }
+                                })
+                                }} >Follow</button>}
                             
                         </div>
                         <div className={s.item2}>

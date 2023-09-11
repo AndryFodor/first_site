@@ -19,7 +19,6 @@ class CProfileContainer extends React.Component {
   componentDidMount = () => {
     axios.get('https://social-network.samuraijs.com/api/1.0/auth/me', {withCredentials: true})
     .then(res => {
-      debugger
       axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.match.params.userId ? this.props.match.params.userId: res.data.data.id}`)
       .then(resolve => {
         this.props.setUserProfile(resolve.data);
