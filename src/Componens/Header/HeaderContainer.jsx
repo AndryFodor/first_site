@@ -8,10 +8,12 @@ import axios from "axios";
 class CHeaderContainer extends React.Component  {
 
     componentDidMount(){
+        
         axios.get('https://social-network.samuraijs.com/api/1.0/auth/me', {withCredentials: true})
             .then(res => {
+                let {login, id, email} = res.data.data;
                 if(res.data.resultCode === 0){
-                    this.props.auth_user(res.data.data)
+                    this.props.auth_user(id, email, login)
                 }
             })
     }

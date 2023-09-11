@@ -12,7 +12,6 @@ const initialState = {
 authorizationReducer = (state = initialState, action) => {
 
     switch (action.type){
-
         case AUTH_USER: 
             return {
                 ...state,
