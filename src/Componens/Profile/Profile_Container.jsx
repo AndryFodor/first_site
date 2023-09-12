@@ -1,9 +1,9 @@
 import React from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { setUserProfile } from '../../redux/profileReducer';
 import { useParams } from 'react-router-dom';
+import { API } from '../../API/api';
 
 // Колись в бібліотеці 'react-router-dom' існувала функція withRouter, яка передавала у компоненту, яку їй передана параметром, всю інформацію з адресної сторінки. Але тепер на заміну прийшли гуки, які не можна використовувати в класових компонентах. Таким чином, щоб тут можна було прочитати з адреса id користувача, необхідно робити такі махінації з гуками. UseParams передасть у пропсах необхідні параметри, які потім при потребі можна буде зчитати і використати, де потрібно
 export function withRouter(Children){
@@ -17,11 +17,11 @@ export function withRouter(Children){
 class CProfileContainer extends React.Component {
 
   componentDidMount = () => {
-    axios.get('https://social-network.samuraijs.com/api/1.0/auth/me', {withCredentials: true})
+    API.authMe()
     .then(res => {
-      axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.match.params.userId ? this.props.match.params.userId: res.data.data.id}`)
+      API.getProfile(this.props.match.params.userId ? this.props.match.params.userId: res.data.id)
       .then(resolve => {
-        this.props.setUserProfile(resolve.data);
+        this.props.setUserProfile(resolve);
       })
     })
     

@@ -93,7 +93,7 @@ usersReducer = (state = initialState, action) => {
 
         case NEXT_BOTTON_CLICKED:
             // debugger;
-            console.log(NEXT_BOTTON_CLICKED, state.nextBackCounter);
+            // console.log(NEXT_BOTTON_CLICKED, state.nextBackCounter);
 
             let newArr = [...state.arrOfPages],
             newPortion = newArr.splice((state.nextBackCounter+1)*12, 12);

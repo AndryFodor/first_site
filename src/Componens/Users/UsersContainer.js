@@ -1,9 +1,10 @@
 import { connect } from "react-redux";
 import { backBottonClicked, follow, nextButonClicked, setCountOfUP, setPageNumber, setPreloader, setUsers, setUsersCount, unfollow,  unmountClearing } from "../../redux/usersReducer";
 import React from 'react';
-import axios/*, * as others*/ from 'axios';
 import Users from "./Users";
 import Preloader from "../../common/preloader/preloader";
+import { API } from "../../API/api";
+
 
 
 
@@ -27,12 +28,12 @@ class UsersAPIContainer extends React.Component {
     componentDidMount(){
         alert("Component has mounted");
         this.props.setPreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}`, {withCredentials: true})
-            .then(res => {
+        API.getUsers(this.props.usersCountForPage)
+        .then(res => {
                 this.props.setPreloader(false);
-                this.props.setUsers(res.data.items);
-                this.props.setUsersCount(res.data.totalCount);
-                this.props.setCountOfUP( Math.ceil(res.data.totalCount / this.props.usersCountForPage) );
+                this.props.setUsers(res.items);
+                this.props.setUsersCount(res.totalCount);
+                this.props.setCountOfUP( Math.ceil(res.totalCount / this.props.usersCountForPage) );
             });
     }
 
@@ -49,10 +50,10 @@ class UsersAPIContainer extends React.Component {
     getPageN = n => {
         this.props.setPageNumber(n);
         this.props.setPreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.usersCountForPage}&page=${n}`, {withCredentials: true})
+        API.getUsers(this.props.usersCountForPage, n)
         .then(res => {
             this.props.setPreloader(false);
-            this.props.setUsers(res.data.items);
+            this.props.setUsers(res.items);
         });
     }
 

@@ -1,7 +1,7 @@
 import s from './Users.module.css';
 import dUserPhoto from '../../assets/images/defaultUser.png'
 import { NavLink } from "react-router-dom";
-import axios from 'axios';
+import { API } from '../../API/api';
 
 
 // Тут ми створюємо чисту функціональну компоненту, в якій не буде ні звернення до store, ні звернення до сервера. Виконання цих операцій делегується контейнерній компоненті, створеній за допомогою функції connect, та класовій контейнерній компоненті відповідно
@@ -25,19 +25,17 @@ let Users = props => {
                             Не менш важливим є те, що після авторизації необхідно до кожного запита прикріплювати кукі файли, щоб сервер давав інформацію саме для цього конкретного користувача*/}
                             {el.followed?
                             <button onClick={() => {
-                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`, 
-                                {withCredentials: true, headers: {"API-KEY": "1f661617-c423-4501-94b4-dad45f13a2cb"}})
+                                API.Following(el.id, 'delete')
                                 .then(res => {
-                                    if(res.data.resultCode === 0){
+                                    if(res.resultCode === 0){
                                         props.unfollow(el.id)
                                     }
                                 })
                             }} >Unfollow</button>:
                             <button onClick={() => {
-                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`, {}, 
-                                {withCredentials: true, headers: {"API-KEY": "1f661617-c423-4501-94b4-dad45f13a2cb"}})
+                                API.Following(el.id, 'create')
                                 .then(res => {
-                                    if(res.data.resultCode === 0){
+                                    if(res.resultCode === 0){
                                         props.follow(el.id)
                                     }
                                 })
