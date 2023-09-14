@@ -24,20 +24,25 @@ let Users = props => {
                             Також більшість відповідей із сервера містить resultCode, який свідчить про статус операції. Якщо все пройшло успішно - він рівний 0
                             Не менш важливим є те, що після авторизації необхідно до кожного запита прикріплювати кукі файли, щоб сервер давав інформацію саме для цього конкретного користувача*/}
                             {el.followed?
-                            <button onClick={() => {
+                            // маючи масив користувачів, за якими користувач хоче (не)слудкувати, створюючи 5 елементів в нашому випадку, ми пробіжимося по масиву методом some, який, якщо побачить, що id користувача, якого треба відобразити, збігається хоча б з одним числом заданого йому масива, то він поверне true і кнопка буде disable. Так само, коли запит виконається, цей метод подивиться, і не знайде вже в масиві цього числа (айді користувача), в результаті чого поверне false і кнопка не буде disable
+                            <button disabled = {props.followingIsFetching.some(id => id === el.id)} onClick={() => {
+                                props.toggleFollowingProgress(true, el.id);
                                 API.Following(el.id, 'delete')
                                 .then(res => {
                                     if(res.resultCode === 0){
                                         props.unfollow(el.id)
                                     }
+                                    props.toggleFollowingProgress(false, el.id);
                                 })
                             }} >Unfollow</button>:
-                            <button onClick={() => {
+                            <button disabled = {props.followingIsFetching.some(id => id === el.id)} onClick={() => {
+                                props.toggleFollowingProgress(true, el.id);
                                 API.Following(el.id, 'create')
                                 .then(res => {
                                     if(res.resultCode === 0){
                                         props.follow(el.id)
                                     }
+                                    props.toggleFollowingProgress(false, el.id);
                                 })
                                 }} >Follow</button>}
                             

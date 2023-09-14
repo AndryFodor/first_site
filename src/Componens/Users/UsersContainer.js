@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { backBottonClicked, follow, nextButonClicked, setCountOfUP, setPageNumber, setPreloader, setUsers, setUsersCount, unfollow,  unmountClearing } from "../../redux/usersReducer";
+import { backBottonClicked, follow, nextButonClicked, setCountOfUP, setPageNumber, setPreloader, setUsers, setUsersCount, toggleFollowingProgress, unfollow,  unmountClearing } from "../../redux/usersReducer";
 import React from 'react';
 import Users from "./Users";
 import Preloader from "../../common/preloader/preloader";
@@ -90,6 +90,8 @@ class UsersAPIContainer extends React.Component {
                 selectedPage = {this.props.selectedPage}
                 renderNextBotton = {this.renderNextBotton}
                 nextButon = {this.props.nextButon}
+                toggleFollowingProgress = {this.props.toggleFollowingProgress}
+                followingIsFetching = {this.props.followingIsFetching}
             />    
         </>    
     }
@@ -107,7 +109,8 @@ const mapStateToProps = state => {
         nextButon: state.usersPage.nextButon,
         backBottom: state.usersPage.backBottom,
         ArraycountOfUserPages: state.usersPage.portionOfPages,
-        isFetchingData: state.usersPage.isFetching
+        isFetchingData: state.usersPage.isFetching,
+        followingIsFetching: state.usersPage.followingInProgress
     }
 },
 // В ідеалі можна не створювати функцію mapDispatchToProps, а передати замість неї такий об'єкт з ActionCreators. В такому випадку бібліотека react-redux сама створить на їх основі необхідні функції всередині себе
@@ -128,9 +131,11 @@ const mapStateToProps = state => {
 // Наступний синтаксис можна замінити за таким принципом (let prop1 = 'fldak lakd ', ... , obj = {prop1, ...}). Тобто, при такому значенні поле знайде одноіменну змінну і вставить її як значення цього поля. Таким чином треба просто змінити імена ActionCreator на відповідні іменам полів
 // Таким чином код вигладає набагато компактнішим і четабельнішим
  UsersContainer = connect(mapStateToProps, { follow, unfollow, setUsers, setPageNumber, setUsersCount,
-    setCountOfUP, nextButonClicked, backBottonClicked, unmountClearing, setPreloader })
+    setCountOfUP, nextButonClicked, backBottonClicked, unmountClearing, setPreloader, toggleFollowingProgress })
     (UsersAPIContainer);
 
 //  Для функції connect не важливо, чи функціональну компоненту їй передано, чи класову. Всередині вона створена так, що може бути контейнерною для обох, може прокидувати пропси (state i dispatch) в будь-який тип компонент
+
+
 
  export default UsersContainer;

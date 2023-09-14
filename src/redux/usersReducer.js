@@ -1,4 +1,4 @@
-let FOLLOW = 'FOLLOW',
+const FOLLOW = 'FOLLOW',
     UNFOLLOW = 'UNFOLLOW',
     SETUSERS = 'SETUSERS',
     SET_PAGE_NUMBER = 'SET_PAGE_NUMBER',
@@ -7,7 +7,8 @@ let FOLLOW = 'FOLLOW',
     NEXT_BOTTON_CLICKED = 'NEXT_BOTTON_CLICKED',
     BACK_BOTTON_CLICKED = 'BACK_BOTTON_CLICKED',
     CLEAR_nextBackCounter = 'CLEAR_nextBackCounter',
-    SET_PRELOADER = 'SET_PRELOADER' 
+    SET_PRELOADER = 'SET_PRELOADER',
+    TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
 export const follow = userID => ({type: FOLLOW, userID}),
     unfollow = userID => ({type: UNFOLLOW, userID}),
     setUsers = users => ({type: SETUSERS, users}),
@@ -17,7 +18,8 @@ export const follow = userID => ({type: FOLLOW, userID}),
     nextButonClicked = () => ({type: NEXT_BOTTON_CLICKED}),
     backBottonClicked = () => ({type: BACK_BOTTON_CLICKED}),
     unmountClearing = () => ({type: CLEAR_nextBackCounter}),
-    setPreloader = toggle => ({type:SET_PRELOADER, toggle})
+    setPreloader = toggle => ({type:SET_PRELOADER, toggle}),
+    toggleFollowingProgress = (isFetching, userId) => ({type:TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId})
 
 const initialState = {
     users: [],
@@ -29,7 +31,8 @@ const initialState = {
     nextBackCounter: 0,
     arrOfPages: [],
     portionOfPages: [],
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 },
 usersReducer = (state = initialState, action) => {
 
@@ -139,6 +142,15 @@ usersReducer = (state = initialState, action) => {
             return{
                 ...state,
                 isFetching: action.toggle
+            }
+
+            // в цьому випадку в масиві followingInProgress ми зберігаємо id тих користувачів, за якими користувач хоче (не)слідкувати. Перевіряється action.isFetching. Якщо запит тільки відправився, то тут буде true, і замість існуючого масива ми поставимо той самий масив, але в нього додамо за допомогою оператора spread ще одне число(id поточного користувача). Якщо буде false (запит виконався і метод then обробив дані), то в такому випадку метод filter пройдеться по існуючому масиву, а коли зустріне таке число, яку буде збігатися action.userId, пропустить його, тобто викресле з масиву. Таким чином створюватисметься масив з id користувачами, запит на (un)follow буде в прогресі виконання
+        case TOGGLE_IS_FOLLOWING_PROGRESS: {
+            return{ ...state, 
+                followingInProgress: action.isFetching ? 
+                [...state.followingInProgress, action.userId] :
+                state.followingInProgress.filter(id => id !== action.userId)
+            }
             }
 
         default:
