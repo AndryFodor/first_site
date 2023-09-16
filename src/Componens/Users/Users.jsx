@@ -1,7 +1,6 @@
 import s from './Users.module.css';
 import dUserPhoto from '../../assets/images/defaultUser.png'
 import { NavLink } from "react-router-dom";
-import { API } from '../../API/api';
 
 
 // Тут ми створюємо чисту функціональну компоненту, в якій не буде ні звернення до store, ні звернення до сервера. Виконання цих операцій делегується контейнерній компоненті, створеній за допомогою функції connect, та класовій контейнерній компоненті відповідно
@@ -26,24 +25,10 @@ let Users = props => {
                             {el.followed?
                             // маючи масив користувачів, за якими користувач хоче (не)слудкувати, створюючи 5 елементів в нашому випадку, ми пробіжимося по масиву методом some, який, якщо побачить, що id користувача, якого треба відобразити, збігається хоча б з одним числом заданого йому масива, то він поверне true і кнопка буде disable. Так само, коли запит виконається, цей метод подивиться, і не знайде вже в масиві цього числа (айді користувача), в результаті чого поверне false і кнопка не буде disable
                             <button disabled = {props.followingIsFetching.some(id => id === el.id)} onClick={() => {
-                                props.toggleFollowingProgress(true, el.id);
-                                API.Following(el.id, 'delete')
-                                .then(res => {
-                                    if(res.resultCode === 0){
-                                        props.unfollow(el.id)
-                                    }
-                                    props.toggleFollowingProgress(false, el.id);
-                                })
+                                props.FollowingThunkCreator(el.id, 'delete');
                             }} >Unfollow</button>:
                             <button disabled = {props.followingIsFetching.some(id => id === el.id)} onClick={() => {
-                                props.toggleFollowingProgress(true, el.id);
-                                API.Following(el.id, 'create')
-                                .then(res => {
-                                    if(res.resultCode === 0){
-                                        props.follow(el.id)
-                                    }
-                                    props.toggleFollowingProgress(false, el.id);
-                                })
+                                props.FollowingThunkCreator(el.id, 'create');
                                 }} >Follow</button>}
                             
                         </div>

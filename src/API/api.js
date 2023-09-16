@@ -21,6 +21,7 @@ export const API = {
 
     // метод для оформлення або знищення підписки на певного користувача із серверу (приймає id користувача, з яким необхідно виконати або delete (відписатися), або create (створити підписку - підписатися))
     Following (userId, mode) {
+        
         if(mode === 'delete'){
             return axiosInst.delete(`follow/${userId}`)
             .then(res => res.data);

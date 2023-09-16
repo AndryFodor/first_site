@@ -1,3 +1,5 @@
+import { API } from "../API/api";
+
 const FOLLOW = 'FOLLOW',
     UNFOLLOW = 'UNFOLLOW',
     SETUSERS = 'SETUSERS',
@@ -20,6 +22,50 @@ export const follow = userID => ({type: FOLLOW, userID}),
     unmountClearing = () => ({type: CLEAR_nextBackCounter}),
     setPreloader = toggle => ({type:SET_PRELOADER, toggle}),
     toggleFollowingProgress = (isFetching, userId) => ({type:TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId})
+
+
+export const getUsersThunkCreator = (usersCountForPage, pageNumber = 1, init) => { 
+        return  (dispatch) => {
+            dispatch(setPreloader(true));
+            API.getUsers(usersCountForPage, pageNumber)
+            .then(res => {
+                    dispatch(setPreloader(false));
+                    dispatch(setUsers(res.items));
+                    if(init){
+                        dispatch(setUsersCount(res.totalCount));
+                        dispatch( setCountOfUP( Math.ceil(res.totalCount / usersCountForPage) ));
+                    }
+                });
+        }
+    },
+
+    FollowingThunkCreator = (userId, mode) => {
+        if(mode === 'delete'){
+
+            return dispatch => {
+                dispatch(toggleFollowingProgress(true, userId) );
+                API.Following(userId, mode)
+                .then(res => {
+                    if(res.resultCode === 0){
+                        dispatch(unfollow(userId));
+                    }
+                    dispatch(toggleFollowingProgress(false, userId));
+                })                    
+            }
+
+        } else if(mode === 'create'){
+            return dispatch => {
+                dispatch(toggleFollowingProgress(true, userId) );
+                API.Following(userId, mode)
+                .then(res => {
+                    if(res.resultCode === 0){
+                        dispatch(follow(userId));
+                    }
+                    dispatch(toggleFollowingProgress(false, userId));
+                }) 
+            }
+        }
+    }
 
 const initialState = {
     users: [],

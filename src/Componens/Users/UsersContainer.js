@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
-import { backBottonClicked, follow, nextButonClicked, setCountOfUP, setPageNumber, setPreloader, setUsers, setUsersCount, toggleFollowingProgress, unfollow,  unmountClearing } from "../../redux/usersReducer";
+import { FollowingThunkCreator, backBottonClicked, getUsersThunkCreator, nextButonClicked, setPageNumber, unmountClearing } from "../../redux/usersReducer";
 import React from 'react';
 import Users from "./Users";
 import Preloader from "../../common/preloader/preloader";
-import { API } from "../../API/api";
+
 
 
 
@@ -27,14 +27,17 @@ class UsersAPIContainer extends React.Component {
 
     componentDidMount(){
         alert("Component has mounted");
-        this.props.setPreloader(true);
-        API.getUsers(this.props.usersCountForPage)
-        .then(res => {
-                this.props.setPreloader(false);
-                this.props.setUsers(res.items);
-                this.props.setUsersCount(res.totalCount);
-                this.props.setCountOfUP( Math.ceil(res.totalCount / this.props.usersCountForPage) );
-            });
+        this.props.getUsersThunkCreator(this.props.usersCountForPage, 1, true);
+        // За допомогою thunk функцій код нижче можна замінити одним таким рядочком. Ця бібліотека допомагає реалізувати запити на сервер за рахунок створення проміжної ланки в FLUX-круговороті, яка називається middleWare. Таким чином метод dispatch подивиться, що в нього прийшло. Якщо це якийсь об'єкт, то продовжить свою роботу в звичайному режимі. Якщо ж це деяка функція, то він передасть її в цю бібліотеку thunk, яка є middleWare, і там ця функція буде коректно виконана в плані асинхронного коду. Паралельно ця функція викликатиме dispatch, передаючи туди вже actionCreators з необхідними параметрами. Тобто складну операцію thunk розбивають на маленькі dispatch і все коректно виконують. Якщо функції thunk потрібні якісь параметри (а вона приймає виключно тільки dispatch), то тут на допомогу приходить замикання. Ми створюємо функцію (ThunkCreator), яка приймає всі необхідні параметри і все, що робить - це повертає саме функцію thunk. Але завдяки створеному замиканню сама функція thunk, не приймаючи параметрів, має доступ до необхідних їй параметрів.
+        // Цей підхід дозволяє писати код строго по принципу singleResponsibility, адже таким чином не UI є менеджером проекту (він виконував запити до DAL, той йому повертав дані, далі UI ці дані давав BLL, який в свою чергу їх обробляв і повертав UI). Таким чином UI всього на всього займається лише відмальовкою інтерфейса, чим і повинен займатися. Запитами на сервер займається вже DAL, а обробкою даних (істиною) займається вже BLL. В кожного є своя відповідальність - і кожний ефективно виконує лише її. Це дозволяє також легко тестувати програму
+        // this.props.setPreloader(true);
+        // API.getUsers(this.props.usersCountForPage)
+        // .then(res => {
+        //         this.props.setPreloader(false);
+        //         this.props.setUsers(res.items);
+        //         this.props.setUsersCount(res.totalCount);
+        //         this.props.setCountOfUP( Math.ceil(res.totalCount / this.props.usersCountForPage) );
+        //     });
     }
 
     // componentDidUpdate(){
@@ -49,12 +52,15 @@ class UsersAPIContainer extends React.Component {
 
     getPageN = n => {
         this.props.setPageNumber(n);
-        this.props.setPreloader(true);
-        API.getUsers(this.props.usersCountForPage, n)
-        .then(res => {
-            this.props.setPreloader(false);
-            this.props.setUsers(res.items);
-        });
+                
+        this.props.getUsersThunkCreator(this.props.usersCountForPage, n, false);
+        // В цьому випадку ми можемо використати ту саму функцію, вказавши їй третім параметром, що це не ініціалізація, а вже робота користувача зі сторінкою
+        // this.props.setPreloader(true);
+        // API.getUsers(this.props.usersCountForPage, n)
+        // .then(res => {
+        //     this.props.setPreloader(false);
+        //     this.props.setUsers(res.items);
+        // });
     }
 
     renderNextBotton = nextBotton => {
@@ -81,8 +87,6 @@ class UsersAPIContainer extends React.Component {
                 this.props.isFetchingData? <Preloader /> : null
             }
             <Users data = {this.props.data}
-                follow = {this.props.follow}
-                unfollow = {this.props.unfollow}
                 renderBackBotton = {this.renderBackBotton}
                 backBottom = {this.props.backBottom}
                 ArraycountOfUserPages = {this.props.ArraycountOfUserPages}
@@ -90,8 +94,8 @@ class UsersAPIContainer extends React.Component {
                 selectedPage = {this.props.selectedPage}
                 renderNextBotton = {this.renderNextBotton}
                 nextButon = {this.props.nextButon}
-                toggleFollowingProgress = {this.props.toggleFollowingProgress}
                 followingIsFetching = {this.props.followingIsFetching}
+                FollowingThunkCreator = {this.props.FollowingThunkCreator}
             />    
         </>    
     }
@@ -130,10 +134,10 @@ const mapStateToProps = state => {
 // },
 // Наступний синтаксис можна замінити за таким принципом (let prop1 = 'fldak lakd ', ... , obj = {prop1, ...}). Тобто, при такому значенні поле знайде одноіменну змінну і вставить її як значення цього поля. Таким чином треба просто змінити імена ActionCreator на відповідні іменам полів
 // Таким чином код вигладає набагато компактнішим і четабельнішим
- UsersContainer = connect(mapStateToProps, { follow, unfollow, setUsers, setPageNumber, setUsersCount,
-    setCountOfUP, nextButonClicked, backBottonClicked, unmountClearing, setPreloader, toggleFollowingProgress })
+ UsersContainer = connect(mapStateToProps, { setPageNumber,
+    nextButonClicked, backBottonClicked, unmountClearing, 
+    getUsersThunkCreator, FollowingThunkCreator })
     (UsersAPIContainer);
-
 //  Для функції connect не важливо, чи функціональну компоненту їй передано, чи класову. Всередині вона створена так, що може бути контейнерною для обох, може прокидувати пропси (state i dispatch) в будь-який тип компонент
 
 

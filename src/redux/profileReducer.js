@@ -1,5 +1,7 @@
 // В окремий файл виносимо функцію і її дані, які будуть відповідати за однку сторінку. Тепер ця функція буде отримувати дані про сторінку profilePaeg, action, буде дивитися, чи треба зі сторінкою щось робити, і буде повертати правильну сторінку. І кожна сторінка в проекті так буде оброблятися. Це достатньо таки спрощує роботу
 
+import { API } from "../API/api";
+
 const ADD_POST = 'ADD-POST',
     CHANGED_POST = 'CHANGED-POST',
     CLEARE_POST_TEXT = 'CLEARE_POST_TEXT',
@@ -9,6 +11,19 @@ export const PostClick = () => ({type: ADD_POST}),
 onChangefunc = text => ({type: CHANGED_POST, changes: text}),
 ClearAll = () => ({type: CLEARE_POST_TEXT}),
 setUserProfile = userProfile => ({type: SET_USER, userProfile});
+
+export const profilePageLoadingThunkCreator = otherUserId => {
+    
+    return (dispatch) => {
+        API.authMe()
+        .then(res => {
+          API.getProfile(otherUserId ? otherUserId: res.data.id)
+          .then(resolve => {
+            dispatch(setUserProfile(resolve));
+          })
+        })
+    }
+}
 
 // на початку виникатиме помилка, яка заключатиметься в тому, що початкове значення state = undefine. Щоб виправити це, передамо функції як парамент по замовчуванню об'єкт, який міститеме початкові значення
 let initialState = {
