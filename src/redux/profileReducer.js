@@ -12,9 +12,7 @@ onChangefunc = text => ({type: CHANGED_POST, changes: text}),
 ClearAll = () => ({type: CLEARE_POST_TEXT}),
 setUserProfile = userProfile => ({type: SET_USER, userProfile});
 
-export const profilePageLoadingThunkCreator = otherUserId => {
-    
-    return (dispatch) => {
+export const profilePageLoadingThunkCreator = otherUserId =>  (dispatch) => {
         API.authMe()
         .then(res => {
           API.getProfile(otherUserId ? otherUserId: res.data.id)
@@ -23,7 +21,7 @@ export const profilePageLoadingThunkCreator = otherUserId => {
           })
         })
     }
-}
+
 
 // на початку виникатиме помилка, яка заключатиметься в тому, що початкове значення state = undefine. Щоб виправити це, передамо функції як парамент по замовчуванню об'єкт, який міститеме початкові значення
 let initialState = {

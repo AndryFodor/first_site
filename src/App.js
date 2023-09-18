@@ -9,6 +9,7 @@ import NavbarContainer from './Componens/Navbar/NavbarContainer';
 import UsersContainer from './Componens/Users/UsersContainer';
 import ProfileContainer from './Componens/Profile/Profile_Container';
 import { HeaderContainer } from './Componens/Header/HeaderContainer';
+import LoginForm from './Componens/LoginForm/login';
 
 // Таким чином, коли тег App обернути в тег <StoreContext.Provider><StoreContext.Provider/> (компонента App створила свій контекст, в якому міститься змінна store), всі нащадки можуть використовувати цей контекст і напряму брати з нього store
 // №2 Тепер тег App обернений тегом Provider з бібліотеки react-redux. Але суть та сама
@@ -28,6 +29,7 @@ function App () {
               <Route path='/settings' element={<Settings setting1 = 'FIRST setting' />}/>
               <Route path='/friends/*' element = {<FriendsConteiner />} />
               <Route path='/users' element = { <UsersContainer /> } />
+              <Route path='/login' element = {<LoginForm />} />
               </Routes>
             </div>
           </div>

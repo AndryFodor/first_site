@@ -1,7 +1,12 @@
+import { Navigate } from "react-router-dom";
 import FriendItem from "./FriendItem/FriendItem";
 import s from './Friends.module.css';
 
 const Friends = props =>{
+
+    if(!props.isAuth){
+        return <Navigate to={'/login'}/>
+    }
 
     let resultFriends = props.FriendsData.map(el => {
         return(

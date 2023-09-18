@@ -10,7 +10,8 @@ let mapStateToProps = state => {
     return {
         dialogsData: state.dialogsPage.dialogsData,
         messagesData: state.dialogsPage.messageData,
-        buffer: state.dialogsPage.newMessageBuffer
+        buffer: state.dialogsPage.newMessageBuffer,
+        isAuth: state.auth.isAuth
     }
 },
 mapDispatchToProps = dispatch =>{

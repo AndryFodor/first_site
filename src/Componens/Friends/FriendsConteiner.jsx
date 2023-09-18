@@ -8,9 +8,6 @@ const mapStateToProps = state => {
         FriendsData: state.friendsPage.friendsData
     }
 },
-mapDispatchToProps = dispatch => {
-    return{}
-},
-FriendsConteiner = connect(mapStateToProps, mapDispatchToProps)(Friends);
+FriendsConteiner = connect(mapStateToProps, {})(Friends);
 
 export default FriendsConteiner;
