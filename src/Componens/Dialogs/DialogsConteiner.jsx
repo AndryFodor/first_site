@@ -1,17 +1,16 @@
-// import React from 'react';
 import { ADD_MESSAGE_ActionCreator, CHANGED_MESSAGE_ActionCreator } from '../../redux/dialogsReducer';
 import Dialogs from './Dialogs';
 // import StoreContext from '../../StoreContext';
 import { connect } from 'react-redux';
+import withAuthRedirect from '../../HOC/withAuthRedirect';
 
 // debugger;
-
+// Тепер нам не потрібно передавати в пропсах властивість isAuth саме для withauthRedirect компонента. Він отримує цю інформацію всередині себе
 let mapStateToProps = state => {
     return {
         dialogsData: state.dialogsPage.dialogsData,
         messagesData: state.dialogsPage.messageData,
-        buffer: state.dialogsPage.newMessageBuffer,
-        isAuth: state.auth.isAuth
+        buffer: state.dialogsPage.newMessageBuffer
     }
 },
 mapDispatchToProps = dispatch =>{
@@ -25,6 +24,7 @@ mapDispatchToProps = dispatch =>{
     }
 }
 
-let DialogsConteiner = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
-
-export default DialogsConteiner;
+// Тут має бути така логіка. Вона буде створювати ще одну контейнерну компоненту над компонентою Dialogs, логіка якої буде заключатисяс в тому, аби виконати переадресацію
+// Як видно, в кожній компоненті логіка та сама, відрізняється хіба що компонента, яку повертає ця функція. Таким чином, ми можемо створити орему функцію для цієї задачі, яка буде називатися компонентом вищого порядку (HOC)
+// №2 Також можна не створювати хоком connect контейнерну компоненту і зберігати її в якійсь змінній, щоб потім передати цю змінну в експорт, а можна відразу виконати анонімний експорт. Також можна нашим HOC огортати не компоненту Dialogs, а контейнерну компоненту, що повернув connect. Таким чином ми отримаємо ще коротший запис без використання зийвих змінних
+export default withAuthRedirect( connect(mapStateToProps, mapDispatchToProps)(Dialogs) );
