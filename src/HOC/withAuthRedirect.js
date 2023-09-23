@@ -1,10 +1,11 @@
 import { connect } from "react-redux"
 import { Navigate } from "react-router-dom"
 
-// HOC - це функція, яка приймає компоненту, і повертає нову компоненту на основі прийнятої
+// HOC - це функція, яка приймає компонента, і повертає нового компонента на основі прийнятого. Але формально HOC - це теж компонент
 const withAuthRedirect = Component => {
 
     let AuthRedirect = props => {
+        debugger
         if(!props.isAuth){
             return <Navigate to={'/login'}/>
         }else{
