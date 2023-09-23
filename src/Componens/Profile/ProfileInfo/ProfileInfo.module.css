@@ -35,3 +35,7 @@ img {
 .gridWrapper ul li{
     margin-bottom: 3vw;
 }
+
+.main1 span {
+    cursor: pointer;
+}

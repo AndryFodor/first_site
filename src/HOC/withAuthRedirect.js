@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom"
 const withAuthRedirect = Component => {
 
     let AuthRedirect = props => {
-        debugger
+        
         if(!props.isAuth){
             return <Navigate to={'/login'}/>
         }else{
