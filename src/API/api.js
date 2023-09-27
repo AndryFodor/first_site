@@ -41,6 +41,16 @@ export const API = {
     getProfile (userId){
         return axiosInst.get(`profile/${userId}`)
         .then(res => res.data);
+    },
+
+    // метод для отримання статуса користувача з id = userId
+    getStatus (userId){
+        return axiosInst.get(`profile/status/${userId}`);
+    },
+
+    // метод для встановлення свого статусу. Другим об'єктом передається payLoading (корисна нагрузка), тобто дані, які повинні бути встановлені. Згідно документації це має бути об'єкт, який обов'язково містить властивість status
+    putStatus (newStatus){
+        return axiosInst.put('profile/status', {status: newStatus});
     }
 }
 

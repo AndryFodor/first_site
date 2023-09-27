@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
-import { profilePageLoadingThunkCreator} from '../../redux/profileReducer';
+import { setUserStatusThC, profilePageLoadingThunkCreator, updateStatusThC} from '../../redux/profileReducer';
 import { useParams } from 'react-router-dom';
 import withAuthRedirect from '../../HOC/withAuthRedirect';
 import { compose } from 'redux';
@@ -12,6 +12,8 @@ export function withRouter(Children){
   return(props)=>{
     
      const match  = {params: useParams()};
+    //  У випадку, коли в адресному рядочку нема id користувача, чий профіль ми відкриваємо, ця функція не передасть ніяке число в match.params.userId. В такому випадку, оскільки я не знаю іншого виходу, встановлю це число вручну
+     if(!match.params.userId) match.params.userId = 29979;
      return <Children {...props}  match = {match}/>
  }
 }
@@ -20,21 +22,23 @@ export function withRouter(Children){
 class CProfileContainer extends React.Component {
 
   componentDidMount = () => {
-    this.props.profilePageLoadingThunkCreator(this.props.match.params.userId)
+    this.props.profilePageLoadingThunkCreator(this.props.match.params.userId);
+    // початкова ініціалізація значення статуса відбувається тут
+    this.props.setUserStatusThC(this.props.match.params.userId);
   }
 
   render () {
-    return <Profile  { ...this.props} profile = {this.props.profile} />
+    return <Profile  { ...this.props} profile = {this.props.profile} status = {this.props.status} updateStatus = {this.props.updateStatusThC}/>
   }
 }
 
 
 
-const mapStateToProps = state => ({profile: state.profilePage.profile});
+const mapStateToProps = state => ({profile: state.profilePage.profile, status: state.profilePage.status});
 
 // тут compose реалізовує таку вкладеність: connect(mapStateToProps, {profilePageLoadingThunkCreator})(withAuthRedirect(withRouter(CProfileContainer))). Звичайно, мможна було залишити такий рядочок. Але за допомогою функції compose ми можемо з легкістю прочитати і зрозуміти цю вкладеність
 export default compose(
-  connect(mapStateToProps, {profilePageLoadingThunkCreator}),
+  connect(mapStateToProps, {profilePageLoadingThunkCreator, setUserStatusThC, updateStatusThC}),
   withAuthRedirect,
   withRouter
 )

@@ -6,31 +6,42 @@ class ProfileStstus extends React.Component {
 
     state = {
         editMode: false,
-        statusValue: this.props.status
+        status: this.props.status?this.props.status:'don`t set status'
     }
 
-    changeMode = () => {
-        console.log(this.state.editMode);
+    changeMode = e => {
+        if(this.state.editMode) this.props.updateStatus(e.currentTarget.value)
+        
         // цей метод є асинхронний
         this.setState({
             editMode: !this.state.editMode
         })
-        console.log(this.state.editMode);
+
     }
 
+    statusChanged = e => {
+        this.setState({
+            status: e.currentTarget.value
+        })
+    }
+
+
+// тут важливо, що в спані буде відображатися статус, що прийшов у пропсах, а в полі вводу інпут буде відображатися локальний стейт. Це призводить в такому випадку до помилок, а в основному до того, що значення не синхронізуються як треба
     render () {
+        
         return (
             <div className={s.main1}>
                 {!this.state.editMode && 
                     <div>
-                        <span onDoubleClick={ () => { this.changeMode()} }>{this.props.status?this.props.status:'don`t set status'}</span>
+                        <span onDoubleClick={ this.changeMode }>{ this.props.status?this.props.status:'don`t set status' }</span>
                     </div>
                 }
                 {this.state.editMode && 
                     <div>
-                        <input value={this.props.status}
-                               onBlur={() => { this.changeMode() } }
-                               autoFocus = {true}/>
+                        <input value={this.state.status}
+                               onBlur={this.changeMode }
+                               autoFocus = {true}
+                               onChange={this.statusChanged}/>
                     </div>
                 }
             </div>

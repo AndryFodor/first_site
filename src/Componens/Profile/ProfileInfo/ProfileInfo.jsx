@@ -17,7 +17,7 @@ const ProfileInfo = props =>{
                 <div>
                     <p>{props.profile.fullName}</p>
                     <img src={props.profile.photos.large} alt={`User${props.profile.userId}`} className={s.profilePhoto}/>
-                    <ProfileStstus status = {props.profile.aboutMe}  />
+                    <ProfileStstus status = {props.status} updateStatus = {props.updateStatus}/>
                     {/*props.profile.aboutMe*/}
                     <span>Looking for a job?</span> <img src={props.profile.lookingForAJob?Like:Dislike} alt="lJ" className={s.jobPhoto} />
                     <p>{props.profile.lookingForAJobDescription}</p>

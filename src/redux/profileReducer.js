@@ -5,12 +5,14 @@ import { API } from "../API/api";
 const ADD_POST = 'ADD-POST',
     CHANGED_POST = 'CHANGED-POST',
     CLEARE_POST_TEXT = 'CLEARE_POST_TEXT',
-    SET_USER = 'SET_USER';
+    SET_USER = 'SET_USER',
+    SET_USER_STATUS = 'SET_USER_STATUS';
 
 export const PostClick = () => ({type: ADD_POST}),
 onChangefunc = text => ({type: CHANGED_POST, changes: text}),
 ClearAll = () => ({type: CLEARE_POST_TEXT}),
-setUserProfile = userProfile => ({type: SET_USER, userProfile});
+setUserProfile = userProfile => ({type: SET_USER, userProfile}),
+setUserStatus = status => ({type: SET_USER_STATUS, status})
 
 export const profilePageLoadingThunkCreator = otherUserId =>  (dispatch) => {
         API.authMe()
@@ -22,6 +24,22 @@ export const profilePageLoadingThunkCreator = otherUserId =>  (dispatch) => {
         })
     }
 
+// ці функції виконують ініціалізацію статуса користувача (коли заходимо на сторінку профіль) і оновлення свого статусу (друга функція)
+export const setUserStatusThC = userIdd => (dispatch) => {
+    API.getStatus(userIdd)
+    .then(res => {
+        dispatch(setUserStatus(res.data));
+    })
+},
+updateStatusThC = status => dispatch => {
+    API.putStatus(status)
+    .then(res => {
+        // тут виконується пут запит на сервер, він повертає певну відповідь. Згідно документації - це об'єкт, в якого є resultCode, message, data. Якщо resultCode = 0, то запит виконався успішно і другі два поля будуть пустими. Тому якщо все пройшло успішно, ми в нашому стейті обновляємо статус переданим і обробленим значенням status
+        if(res.data.resultCode === 0){
+            dispatch(setUserStatus(status));
+        }
+    })
+}
 
 // на початку виникатиме помилка, яка заключатиметься в тому, що початкове значення state = undefine. Щоб виправити це, передамо функції як парамент по замовчуванню об'єкт, який міститеме початкові значення
 let initialState = {
@@ -30,7 +48,8 @@ let initialState = {
         {id:2, likes: 32, message: "It`s my first post", img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkfaknv6JbkcRppV4gFFlgeGFG3BX77i7uQH_RbGS1qghS__bN9CkixepsC9a69zCmyBI&usqp=CAU', alt: 'User2'}
       ],
       textBufferForNewPosts: '',
-      profile: null
+      profile: null,
+      status: ''
 }
 
 // №2 Оскільки функція connect слідкує за змінами в переданих параметрами даних по принципу чистої функції функціонального програмування (connect - ідемпатентна, детермінована функція), то функцію треба переписати так, щоб вона змінювала не зовнішні дані, а дані всередині себе.
@@ -104,6 +123,11 @@ const ProfileReducer = (state = initialState, action) => {
                 profile: action.userProfile
             }
 
+        case SET_USER_STATUS:
+            return {
+                ...state,
+                status: action.status
+            }
 
         default:
             return state;
