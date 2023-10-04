@@ -4,6 +4,12 @@ import { Navigate } from "react-router-dom"
 // HOC - це функція, яка приймає компонента, і повертає нового компонента на основі прийнятого. Але формально HOC - це теж компонент
 const withAuthRedirect = Component => {
 
+    let mapStateToProps = state => {
+        debugger
+        return {
+            isAuth: state.auth.isAuth
+        }
+    };
     let AuthRedirect = props => {
         
         if(!props.isAuth){
@@ -11,12 +17,8 @@ const withAuthRedirect = Component => {
         }else{
             return <Component { ...props} />
         }
-    },
-    mapStateToProps = state => {
-        return {
-            isAuth: state.auth.isAuth
-        }
-    }
+    };
+   
 
     AuthRedirect = connect(mapStateToProps)(AuthRedirect);
 

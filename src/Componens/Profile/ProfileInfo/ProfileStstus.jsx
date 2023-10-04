@@ -9,6 +9,10 @@ class ProfileStstus extends React.Component {
         status: this.props.status?this.props.status:'don`t set status'
     }
 
+    componentDidUpdate(){
+        
+    }
+
     changeMode = e => {
         if(this.state.editMode) this.props.updateStatus(e.currentTarget.value)
         
