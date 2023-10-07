@@ -51,6 +51,16 @@ export const API = {
     // метод для встановлення свого статусу. Другим об'єктом передається payLoading (корисна нагрузка), тобто дані, які повинні бути встановлені. Згідно документації це має бути об'єкт, який обов'язково містить властивість status
     putStatus (newStatus){
         return axiosInst.put('profile/status', {status: newStatus});
+    },
+
+    // метод для виходу з акаунту
+    logOut (){
+        return axiosInst.delete('auth/login');
+    },
+
+    // метод для входу в акаунт
+    logIn (loginData){
+        return axiosInst.post('auth/login', loginData)
     }
 }
 

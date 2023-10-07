@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom"
 const withAuthRedirect = Component => {
 
     let mapStateToProps = state => {
-        debugger
+        
         return {
             isAuth: state.auth.isAuth
         }
