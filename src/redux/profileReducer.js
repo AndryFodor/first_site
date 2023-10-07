@@ -1,16 +1,12 @@
 // В окремий файл виносимо функцію і її дані, які будуть відповідати за однку сторінку. Тепер ця функція буде отримувати дані про сторінку profilePaeg, action, буде дивитися, чи треба зі сторінкою щось робити, і буде повертати правильну сторінку. І кожна сторінка в проекті так буде оброблятися. Це достатньо таки спрощує роботу
-
+// Як видно, застосувавши форму Formik для додавання поста, ми значно зменшуємо кількість коду, тобто зменшується дублювання коду. Весь неохідний код за нас виконує бібліотека (Як видно, більше не треба використовувати константи, action-creator-и і обробляти їх в reducer(а саме введення одної змінної і перемалювання сторінки та очистка поля вводу))
 import { API } from "../API/api";
 
 const ADD_POST = 'ADD-POST',
-    CHANGED_POST = 'CHANGED-POST',
-    CLEARE_POST_TEXT = 'CLEARE_POST_TEXT',
     SET_USER = 'SET_USER',
     SET_USER_STATUS = 'SET_USER_STATUS';
 
-export const PostClick = () => ({type: ADD_POST}),
-onChangefunc = text => ({type: CHANGED_POST, changes: text}),
-ClearAll = () => ({type: CLEARE_POST_TEXT}),
+export const PostClick = message => ({type: ADD_POST, message}),
 setUserProfile = userProfile => ({type: SET_USER, userProfile}),
 setUserStatus = status => ({type: SET_USER_STATUS, status})
 
@@ -47,7 +43,6 @@ let initialState = {
         {id:1, likes: 13, message: 'Hi, dear, how are you?', img: 'https://w7.pngwing.com/pngs/862/646/png-transparent-beard-hipster-male-man-avatars-xmas-giveaway-icon-thumbnail.png', alt: 'User1'},
         {id:2, likes: 32, message: "It`s my first post", img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkfaknv6JbkcRppV4gFFlgeGFG3BX77i7uQH_RbGS1qghS__bN9CkixepsC9a69zCmyBI&usqp=CAU', alt: 'User2'}
       ],
-      textBufferForNewPosts: '',
       profile: null,
       status: ''
 }
@@ -68,20 +63,17 @@ const ProfileReducer = (state = initialState, action) => {
 
     switch(action.type){
         case ADD_POST:
-            if(state.textBufferForNewPosts.length > 40){
-                alert(`Your message is too long ${state.textBufferForNewPosts.length} character (more then 40). That is why we cannot publicate it`);
-                return {
-                    ...state,
-                    textBufferForNewPosts: ''
-                }
-              } else if(state.textBufferForNewPosts === ''){
+            if(action.message.length > 40){
+                alert(`Your message is too long ${action.message.length} character (more then 40). That is why we cannot publicate it`);
+                return state;
+              } else if(action.message.length === ''){
                 alert("You cannot publish post without text!");
                 return state;
               }else{
                 let newPost = {
                   id: state.postsData[state.postsData.length - 1].id + 1,
                   likes: 0,
-                  message: state.textBufferForNewPosts,
+                  message: action.message,
                   img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR4hZLEgxoewULSpSW-_64FgQVKWoWYp1D2h68l5C9AaokikW9N4nBmwmutDWhI2GR_pA&usqp=CAU',
                   alt: 'My post'
                 };
@@ -91,31 +83,10 @@ const ProfileReducer = (state = initialState, action) => {
                 // Запис вище можна замінити так. Тобто, можна відразу повертати вже готовий об'єкт, замість того, аби створювати новий і передавати його в оператор return. Додати новий об'єкт до масиву можна за допомогою оператора спред замість метода пуш. Змінну newPost можна було б теж не створювати, а відразу передати туди літерал об'єкту з необхідними даними, але поки що хай буде так
                 return {
                     ...state,
-                    textBufferForNewPosts: '',
                     postsData: [...state.postsData, newPost]
                 }
               }
 
-
-        case CHANGED_POST:
-
-            // Як видно, легше просто відразу повернути скопійований поверхово і змінений де треба об'єкт, а ніж створювати нову змінну для збереження цього об'єкту
-            return {
-                ...state,
-                textBufferForNewPosts: action.changes
-            };
-
-
-        case CLEARE_POST_TEXT:
-            if(state.textBufferForNewPosts === ''){
-                alert("Input field is cleared")
-                return state;
-            }else{
-                return {
-                    ...state,
-                    textBufferForNewPosts: ''
-                }
-            }
 
         case SET_USER:
             return {

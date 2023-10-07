@@ -1,8 +1,6 @@
-const   ADD_MESSAGE = 'ADD-MESSAGE',
-    CHANGED_MESSAGE = 'CHANGED-MESSAGE';
+const   ADD_MESSAGE = 'ADD-MESSAGE';
 
-export const ADD_MESSAGE_ActionCreator = () => ({type: ADD_MESSAGE}),
-CHANGED_MESSAGE_ActionCreator = text => ({type: CHANGED_MESSAGE, changes: text});
+export const ADD_MESSAGE_ActionCreator = newMessage => ({type: ADD_MESSAGE, newMessage});
 
 let initialState = {
     dialogsData: [
@@ -17,8 +15,7 @@ let initialState = {
         {id: 1, message: ' Lorem, ipsum dolor sit amet consectetur'},
         {id: 2, message: 'Dadipisicing elit. Ut, aperiam voluptate quae eius itaque consequatur, nostrum necessitatibus maiores dignissimos perferendis id aliquid nam ipsum possimus sed aliquam nulla cumque cupiditate.'},
         {id: 3, message: 'Message of 5 lorems: Lorem Lorem Lorem Lorem Lorem'}
-      ],
-        newMessageBuffer: ''
+      ]
 }
 
 const DialogsReducer = (state = initialState, action) => {
@@ -27,19 +24,13 @@ const DialogsReducer = (state = initialState, action) => {
         case ADD_MESSAGE:
             let newMessage = {
                 id: state.messageData[state.messageData.length - 1].id + 1,
-                message: state.newMessageBuffer
+                message: action.newMessage
               };
               return {
                 ...state,
-                newMessageBuffer: '',
                 messageData: [...state.messageData, newMessage]
               }
 
-        case CHANGED_MESSAGE:
-            return {
-                ...state,
-                newMessageBuffer: action.changes
-            }
         default: 
             return state;
     }

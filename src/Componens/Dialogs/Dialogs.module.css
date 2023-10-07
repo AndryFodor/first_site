@@ -29,23 +29,23 @@
     text-shadow: #FC0 1px 0 10px;
 }
 
-.button{
+button{
     font-size: 1vw;
     width: min-content;
     padding: 1vh 1vw;
     margin-left: 1.1vw;
     border-radius: 10em;
     background-color: rgba(99, 160, 225, 0.646);
-    color: rgb(108, 244, 101);
+    color: var(--green_color);
     font-weight: 600;
     cursor: pointer;
 }
 
-.button:hover{
-    background-color: rgba(99, 160, 225);
+button:hover{
+    background-color: var(--blue_color);
 }
 
-.button:active{
+button:active{
     border: rgba(89, 232, 17, 0.877) solid .2vw;
 }
 

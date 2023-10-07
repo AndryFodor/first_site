@@ -1,4 +1,4 @@
-import { PostClick, onChangefunc, ClearAll } from "../../../redux/profileReducer"
+import { PostClick } from "../../../redux/profileReducer"
 import MyPosts from "./MyPosts"
 // import StoreContext from "../../../StoreContext";
 import { connect } from "react-redux";
@@ -41,11 +41,10 @@ import { connect } from "react-redux";
 
 const mapStateToProps = state =>{
   return{
-    postsData: state.profilePage.postsData,
-    buffer: state.profilePage.textBufferForNewPosts
+    postsData: state.profilePage.postsData
   }
 }
 
-const Super_MyPostsConteiner = connect(mapStateToProps, { onChangefunc, PostClick, ClearAll })(MyPosts);
+const Super_MyPostsConteiner = connect(mapStateToProps, { PostClick })(MyPosts);
 
 export default Super_MyPostsConteiner;

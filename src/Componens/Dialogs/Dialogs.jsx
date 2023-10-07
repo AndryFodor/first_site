@@ -2,6 +2,7 @@ import React from 'react';
 import DialogsItem from './Dialog_Item/Dialog_Item';
 import s from './Dialogs.module.css'
 import Message from './Message/Message';
+import MessageForm from '../Profile/MyPosts/MessageForm'
 
 
 
@@ -10,12 +11,9 @@ const Dialogs = (props) => {
     let resultDialogs = props.dialogsData.map(el => <DialogsItem id = {el.id} name = {el.name} key = {el.id}/>),
     resultMessages = props.messagesData.map(el => <Message id = {el.id} message = {el.message} key = {el.id}/>),
 
-    SendBottonClick = () =>{
-        props.SendBotton();
-    },
-    onChangesfunc = event => {
-        let text = event.target.value;
-        props.onChanges(text);
+    SendBottonClick = values =>{
+        console.log(values)
+        props.SendBotton(values.body);
     }
 
     return(
@@ -27,8 +25,7 @@ const Dialogs = (props) => {
 
             <div className={s.chat}>
                 {resultMessages}
-                <textarea onChange = {onChangesfunc} value = {props.buffer} placeholder='enter message'></textarea>
-                <span onClick={SendBottonClick} className={s.button}>Send</span>
+                <MessageForm placeholder = 'Write a message...' getFormData = {SendBottonClick}/>
             </div>
 
         </div>
