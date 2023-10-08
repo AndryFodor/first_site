@@ -29,7 +29,7 @@
     text-shadow: #FC0 1px 0 10px;
 }
 
-button{
+.dialogsMsgF button{
     font-size: 1vw;
     width: min-content;
     padding: 1vh 1vw;
@@ -41,11 +41,11 @@ button{
     cursor: pointer;
 }
 
-button:hover{
+.dialogsMsgF button:hover{
     background-color: var(--blue_color);
 }
 
-button:active{
+.dialogsMsgF button:active{
     border: rgba(89, 232, 17, 0.877) solid .2vw;
 }
 

@@ -25,7 +25,7 @@ const Dialogs = (props) => {
 
             <div className={s.chat}>
                 {resultMessages}
-                <MessageForm placeholder = 'Write a message...' getFormData = {SendBottonClick}/>
+                <MessageForm className = {s.dialogsMsgF} placeholder = 'Write a message...' getFormData = {SendBottonClick} maxChar = {20} bottonText = 'Send message'/>
             </div>
 
         </div>

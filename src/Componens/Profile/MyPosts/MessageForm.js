@@ -1,6 +1,11 @@
 import { Field, Form, Formik } from "formik";
+import { Textarea } from "../../../common/FormControllers/form_controls";
+import { inputFieldsValidate } from "../../../utils/validators";
+
 
 const MessageForm = props => {
+    let maxChar = props.maxChar;
+    if(!props.maxChar) maxChar = 10;
     return (
       <Formik 
         initialValues={{
@@ -10,13 +15,14 @@ const MessageForm = props => {
       >
         {({errors, touched}) => {
           return (
-            <Form>
+            <Form className={props.className} >
               <Field 
                 name = "body"
-                type = "textarea"
+                component = { Textarea }
                 placeholder = {props.placeholder}
+                validate = {inputFieldsValidate(maxChar)}
               /> <br></br>
-              <button type="submit">Add post</button> 
+              <button type="submit">{props.bottonText}</button> 
             </Form>
           )
         }}

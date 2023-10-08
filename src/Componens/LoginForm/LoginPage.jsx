@@ -1,5 +1,7 @@
+import { emailValidation, passwordValidate } from '../../utils/validators'
 import s from './login.module.css'
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form, Field /*ErrorMessage*/ } from 'formik'
+import Error from '../../assets/images/error.png'
 
 export const LoginPage =  (props) => {
     return <section className={s.mainW}>
@@ -7,17 +9,8 @@ export const LoginPage =  (props) => {
         </section>
     }
 
-
 const LoginForm = (props) => {
 
-     // функція для обробки отриманих з форми даних
-    // let onS = values => {
-    //     console.log(values);
-    // }
-    // функції для валідації. Якщо валідація не проходитиме, то в такому випадку при натисканні відправки форма не відправлятиметься
-    let passwordValidate = password => {
-        if(password.length < 5) return "Password must have more then 5 characters"
-    }
 
    // тут важливо, що в тег Formik треба вставляти функцію, яка приймає два об'єкти, які міститимуть значення помилок і того, чи було поле активне. В сам тег же обов'язково передати initialValues, який буде містити ім'я полів, значення яких мають зібратися з інпутів. Всі дані прийдуть в функцію, яка буде передана як onSubmit, і там вони будуть доступними в об'єкті під іменем values, звідки їх вже можна опрацьовувати
    return <Formik
@@ -31,25 +24,43 @@ const LoginForm = (props) => {
                { ({errors, touched}) => (
                    <Form>
                        <h1>LOGIN</h1>
-                       <div>
+                       <div className={errors.email && touched.email ? s.emailError : null}>
+                           {errors.email && touched.email &&
+                            <div>
+                                <img src={Error} alt="errorImg" />
+                                <span>{errors.email}</span>
+                            </div>
+                           }
                            <Field
                                name = "email" 
+                               component = "input"
                                placeholder = "Enter your email"
+                               validate = {emailValidation}
                            />
                        </div>
-                       <div>
+                       <div className={errors.password && touched.password ? s.passwordError : null}>
+                           { errors.password && touched.password &&
+                                <div>
+                                    {
+                                        errors.password.map(el => {
+                                            return ( <>
+                                                <img src={Error} alt="errorImg" />
+                                                { el }
+                                            </>
+                                            )
+                                        })
+                                    }
+                                </div>
+                           }
                            <Field
                                name = "password" 
+                               component = "input"
                                placeholder = "Enter your password"
                                validate = {passwordValidate}
                            />
                        </div>
-                       {touched.password && 
-                       <div>touched.password is true</div>
-                       }
-                       {errors.password && touched.password &&
-                       <div>Err: {errors.password}</div>
-                       }
+                       {/* {errors.password && touched.password && <div >{errors.password}</div>}
+                       <ErrorMessage name="password" component="div"/> */}
                        <div>
                            <Field
                                name = "rememberMe"

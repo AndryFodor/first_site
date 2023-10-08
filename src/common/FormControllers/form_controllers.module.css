@@ -1,0 +1,16 @@
+
+
+.hasError span{
+    color: var(--danger_color);
+    font-size: calc(var(--index)*.9);
+    margin: 1vh 1vw;
+}
+.hasError textarea{
+    border: red 1.5px solid;
+    color: rgb(254, 127, 127)
+}
+
+
+.withoutError span{
+    display: none;
+}

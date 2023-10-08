@@ -2,6 +2,7 @@
   --index: calc(1vw + 1vh);
   --green_color: rgb(108, 244, 101);
   --blue_color: rgb(99, 160, 225);
+  --danger_color: rgb(131, 40, 147);
 }
 
 .app-wrapper{

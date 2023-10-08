@@ -2,3 +2,17 @@
     width: min-content;
     margin: 10vh auto;
 }
+
+.emailError img, .passwordError img{
+    width: 1.5vw;
+    margin-right: .5vw;
+}
+
+.emailError span, .passwordError span{
+    color: var(--danger_color);
+    font-size: calc(var(--index)*.8);
+}
+
+.emailError input, .passwordError input{
+    border: 2px red solid;
+}

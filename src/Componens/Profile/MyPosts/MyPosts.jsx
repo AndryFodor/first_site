@@ -14,11 +14,12 @@ const MyPosts = (props) =>{
   let getFormData = values => {
     console.log(values)
     props.PostClick(values.body);
-  }
+  },
+  maxChar = 30;
 
     return(
         <div className= {styles.main}>
-          <MessageForm placeholder = "No more then 40 char" getFormData = {getFormData} />
+          <MessageForm placeholder = {`No more then ${maxChar} char`} maxChar = {maxChar} getFormData = {getFormData} bottonText = 'Add post'/>
           {/* <textarea onChange={ onChangefunc } ref={newPostEl} value={props.buffer} placeholder="No more then 40 char."/> <br></br>
           <button onClick={ addPostClick }>Add post</button> 
           <button onClick={ onClearfunc }>Clear all</button> */}

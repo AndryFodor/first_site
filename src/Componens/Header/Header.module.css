@@ -40,5 +40,5 @@
   .auth_block div{
     font-size: calc(var(--index)*.7);
     cursor: pointer;
-    color: rgb(141, 99, 225);;
+    color: var(--danger_color);
   }
