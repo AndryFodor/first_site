@@ -5,7 +5,8 @@ import {LoginPage} from "./LoginPage";
 
 
 let mapStateToProps = state => ({
-    errors: state.auth.errors
+    errors: state.auth.errors,
+    iaAuth: state.auth.isAuth
 });
 
 export const LoginContainer = connect(mapStateToProps, {LonInThC})(LoginPage);

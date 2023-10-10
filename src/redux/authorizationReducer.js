@@ -47,6 +47,7 @@ export const AuthorizationThunkCreator = () => {
                     if (res.data.resultCode === 0) {
                         console.log('success');
                         dispatch(log_in());
+                        dispatch(AuthorizationThunkCreator());
                     } else {
                         console.log('error: ', res);
                         dispatch(is_errror(res.data.messages));
@@ -75,12 +76,14 @@ const initialState = {
             case LOG_OUT:
                 return {
                     ...state,
-                    isAuth: false
+                    isAuth: false,
+                    id: null,
+                    email: null,
+                    login: null
                 }
             case LOG_IN:
                 return {
                     ...state,
-                    isAuth: true,
                     errors: ''
                 }
             case IS_ERROR:

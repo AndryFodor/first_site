@@ -12,7 +12,7 @@ export const passwordValidate = password => {
     if(errors.length === 0){
         errors = undefined;
     }else{
-        errors = errors.map((el, index) => <span key={index}>{el}</span>);
+        errors = errors.map((el, index) => <span key={index}>{el} <br key={index}></br> </span> );
     }
     return errors;
 };

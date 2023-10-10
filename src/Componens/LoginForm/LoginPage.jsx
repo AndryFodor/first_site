@@ -2,8 +2,13 @@ import { emailValidation, passwordValidate } from '../../utils/validators'
 import s from './login.module.css'
 import { Formik, Form, Field /*ErrorMessage*/ } from 'formik'
 import Error from '../../assets/images/error.png'
+import { Navigate } from 'react-router-dom'
 
 export const LoginPage =  (props) => {
+
+    if(props.iaAuth){
+       return <Navigate to={'/profile'}/> 
+    }
     return <section className={s.mainW}>
             <LoginForm LonInThC = {props.LonInThC} errors = {props.errors}/>
         </section>
@@ -42,11 +47,11 @@ const LoginForm = (props) => {
                            { errors.password && touched.password &&
                                 <div>
                                     {
-                                        errors.password.map(el => {
-                                            return ( <>
-                                                <img src={Error} alt="errorImg" />
+                                        errors.password.map((el, idx) => {
+                                            return ( < span key={idx+20}>
+                                                <img src={Error} alt="errorImg" key={idx+10} />
                                                 { el }
-                                            </>
+                                            </span>
                                             )
                                         })
                                     }
@@ -56,6 +61,7 @@ const LoginForm = (props) => {
                                name = "password" 
                                component = "input"
                                placeholder = "Enter your password"
+                               type = "password"
                                validate = {passwordValidate}
                            />
                        </div>
