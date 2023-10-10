@@ -26,7 +26,7 @@ const LoginForm = (props) => {
                }}
                onSubmit={props.LonInThC}
            >
-               { ({errors, touched}) => (
+               { ({errors, touched, status}) => (
                    <Form>
                        <h1>LOGIN</h1>
                        <div className={errors.email && touched.email ? s.emailError : null}>
@@ -78,6 +78,7 @@ const LoginForm = (props) => {
                        </div>
                        <div>
                         {props.errors}
+                        {status} 
                        </div>
                    </Form>
                )

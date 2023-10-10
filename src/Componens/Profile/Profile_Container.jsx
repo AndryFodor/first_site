@@ -13,7 +13,7 @@ export function withRouter(Children){
     
      const match  = {params: useParams()};
     //  У випадку, коли в адресному рядочку нема id користувача, чий профіль ми відкриваємо, ця функція не передасть ніяке число в match.params.userId. В такому випадку, оскільки я не знаю іншого виходу, встановлю це число вручну
-     if(!match.params.userId) match.params.userId = 29979;
+     if(!match.params.userId) match.params.userId = props.id;
      return <Children {...props}  match = {match}/>
  }
 }
@@ -34,7 +34,11 @@ class CProfileContainer extends React.Component {
 
 
 
-const mapStateToProps = state => ({profile: state.profilePage.profile, status: state.profilePage.status});
+const mapStateToProps = state => ({
+  profile: state.profilePage.profile, 
+  status: state.profilePage.status,
+  id: state.auth.id
+});
 
 // тут compose реалізовує таку вкладеність: connect(mapStateToProps, {profilePageLoadingThunkCreator})(withAuthRedirect(withRouter(CProfileContainer))). Звичайно, мможна було залишити такий рядочок. Але за допомогою функції compose ми можемо з легкістю прочитати і зрозуміти цю вкладеність
 export default compose(

@@ -2,13 +2,11 @@ import { API } from "../API/api";
 
 const AUTH_USER = 'AUTH_USER',
     LOG_OUT = 'LOG_OUT',
-    LOG_IN = 'LOG_IN',
-    IS_ERROR = 'IS_ERROR';
+    LOG_IN = 'LOG_IN'
 
 const auth_user = (id, email, login) => ({ type: AUTH_USER, authData: { id, email, login } }),
     log_out = () => ({ type: LOG_OUT }),
-    log_in = () => ({type: LOG_IN}),
-    is_errror = err => ({type: IS_ERROR, err});
+    log_in = () => ({type: LOG_IN})
 
 export const AuthorizationThunkCreator = () => {
     return dispatch => {
@@ -36,7 +34,7 @@ export const AuthorizationThunkCreator = () => {
         }
     }
     ,
-    LonInThC = (values) => {
+    LonInThC = (values, {setStatus}) => {
         return dispatch => {
             values = {
                 ...values,
@@ -50,7 +48,8 @@ export const AuthorizationThunkCreator = () => {
                         dispatch(AuthorizationThunkCreator());
                     } else {
                         console.log('error: ', res);
-                        dispatch(is_errror(res.data.messages));
+                        // У функцію, яка передається в onSubmit, також в параметрах приходить так звана функція setStatus, яка передає в параметр status своєї форми повідомлення. Це повідомлення передається таким чином, як зроблено нижче. Також важливо повернути значення, адже просто так воно не повернеться
+                        return setStatus(res.data.messages);
                     }
                 })
         }
@@ -60,8 +59,7 @@ const initialState = {
     id: null,
     email: null,
     login: null,
-    isAuth: false,
-    errors: ''
+    isAuth: false
 },
 
     authorizationReducer = (state = initialState, action) => {
@@ -83,13 +81,7 @@ const initialState = {
                 }
             case LOG_IN:
                 return {
-                    ...state,
-                    errors: ''
-                }
-            case IS_ERROR:
-                return {
-                    ...state,
-                    errors: action.err
+                    ...state
                 }
 
             default:
