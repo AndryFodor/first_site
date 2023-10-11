@@ -10,7 +10,7 @@ const auth_user = (id, email, login) => ({ type: AUTH_USER, authData: { id, emai
 
 export const AuthorizationThunkCreator = () => {
     return dispatch => {
-        API.authMe()
+        return API.authMe()
             .then(res => {
                 let { login, id, email } = res.data;
                 if (res.resultCode === 0) {

@@ -3,11 +3,6 @@ import { FollowingThunkCreator, backBottonClicked, getUsersThunkCreator, nextBut
 import React from 'react';
 import Users from "./Users";
 import Preloader from "../../common/preloader/preloader";
-import withAuthRedirect from "../../HOC/withAuthRedirect";
-
-
-
-
 
 
 
@@ -143,4 +138,4 @@ const mapStateToProps = state => {
 
 
 // Реалізувавши HOC withAuthRedirect ми з легкістю можемо додати перевірку на те, чи аутентифікований користувач, і коректно обробити цю відповідну ситуацію. Для цього досить обернути ту функцію або компонент, який експортуємо, в наш HOC і все
- export default withAuthRedirect(UsersContainer);
+ export default UsersContainer;

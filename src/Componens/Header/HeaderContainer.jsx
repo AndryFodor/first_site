@@ -5,9 +5,7 @@ import { AuthorizationThunkCreator, LogOutThC } from "../../redux/authorizationR
 
 // властивість об'єкта в гетзапиті withCredentials означає, що з цим запитом на сервер треба відправляти файли cookie
 class CHeaderContainer extends React.Component  {
-    componentDidMount(){
-        this.props.AuthorizationThunkCreator();
-    }
+    
     render(){
         return <Header { ...this.props} />
     }
