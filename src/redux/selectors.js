@@ -1,0 +1,9 @@
+export const selectUsers = state => state.usersPage.users;
+export const selectAllUsersCount = state => state.usersPage.allUsersCount;
+export const selectUsersPerPage = state => state.usersPage.usersCountForPage;
+export const selectPage = state => state.usersPage.selectedPage;
+export const selectNextBotton = state => state.usersPage.nextButon;
+export const selectBackBotton = state => state.usersPage.backBottom;
+export const selectPortionOfPages = state => state.usersPage.portionOfPages;
+export const selectIsFetching = state => state.usersPage.isFetching;
+export const selectFollowingIsFetching = state => state.usersPage.followingInProgress;

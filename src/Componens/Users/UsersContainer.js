@@ -3,6 +3,7 @@ import { FollowingThunkCreator, backBottonClicked, getUsersThunkCreator, nextBut
 import React from 'react';
 import Users from "./Users";
 import Preloader from "../../common/preloader/preloader";
+import { selectAllUsersCount, selectBackBotton, selectFollowingIsFetching, selectIsFetching, selectNextBotton, selectPage, selectPortionOfPages, selectUsers, selectUsersPerPage } from "../../redux/selectors";
 
 
 
@@ -102,15 +103,15 @@ class UsersAPIContainer extends React.Component {
 // Виходить, що зверху ми створюємо класову компоненту, а потім тут же функцією connect зв'язуємо її із store, створюючи контейнерну компоненту для класової
 const mapStateToProps = state => {
     return {
-        data: state.usersPage.users,
-        allUsersCount: state.usersPage.allUsersCount,
-        usersCountForPage: state.usersPage.usersCountForPage,
-        selectedPage: state.usersPage.selectedPage,
-        nextButon: state.usersPage.nextButon,
-        backBottom: state.usersPage.backBottom,
-        ArraycountOfUserPages: state.usersPage.portionOfPages,
-        isFetchingData: state.usersPage.isFetching,
-        followingIsFetching: state.usersPage.followingInProgress
+        data: selectUsers(state),
+        allUsersCount: selectAllUsersCount(state),
+        usersCountForPage: selectUsersPerPage(state),
+        selectedPage: selectPage(state),
+        nextButon: selectNextBotton(state),
+        backBottom: selectBackBotton(state),
+        ArraycountOfUserPages: selectPortionOfPages(state),
+        isFetchingData: selectIsFetching(state),
+        followingIsFetching: selectFollowingIsFetching(state)
     }
 },
 // В ідеалі можна не створювати функцію mapDispatchToProps, а передати замість неї такий об'єкт з ActionCreators. В такому випадку бібліотека react-redux сама створить на їх основі необхідні функції всередині себе
