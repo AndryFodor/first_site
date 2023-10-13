@@ -78,7 +78,8 @@ const initialState = {
     arrOfPages: [],
     portionOfPages: [],
     isFetching: false,
-    followingInProgress: []
+    followingInProgress: [],
+    fake: 1
 },
 usersReducer = (state = initialState, action) => {
 
@@ -197,6 +198,12 @@ usersReducer = (state = initialState, action) => {
                 [...state.followingInProgress, action.userId] :
                 state.followingInProgress.filter(id => id !== action.userId)
             }
+            }
+        case "FAKE":
+            
+            return{
+                ...state,
+                fake: state.fake+1
             }
 
         default:

@@ -40,11 +40,16 @@ class CProfileContainer extends React.Component {
 
 
 
-const mapStateToProps = state => ({
-  profile: state.profilePage.profile, 
-  status: state.profilePage.status,
-  id: state.auth.id
-});
+
+const mapStateToProps = state => {
+  // Це зроблено для того, щоб показати, що навіть якщо в userReducer змінився стейт, то все рівно функція mapStateToProps спрацювала тут, і в інших місцях. Тобто, ця функція працює завжди при зміні стейта. А стейт це поле одного об'єкта store, тому його не варто розділяти, від спільний для всього додатку (щоб це побачити, треба розкоментувати setInterval в index.js)
+  console.log("Profile mapStateToProps")
+  return {
+    profile: state.profilePage.profile, 
+    status: state.profilePage.status,
+    id: state.auth.id
+  }
+};
 
 // тут compose реалізовує таку вкладеність: connect(mapStateToProps, {profilePageLoadingThunkCreator})(withAuthRedirect(withRouter(CProfileContainer))). Звичайно, мможна було залишити такий рядочок. Але за допомогою функції compose ми можемо з легкістю прочитати і зрозуміти цю вкладеність
 export default compose(

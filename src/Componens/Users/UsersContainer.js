@@ -3,7 +3,7 @@ import { FollowingThunkCreator, backBottonClicked, getUsersThunkCreator, nextBut
 import React from 'react';
 import Users from "./Users";
 import Preloader from "../../common/preloader/preloader";
-import { selectAllUsersCount, selectBackBotton, selectFollowingIsFetching, selectIsFetching, selectNextBotton, selectPage, selectPortionOfPages, selectUsers, selectUsersPerPage } from "../../redux/selectors";
+import { getUsers, selectAllUsersCount, selectBackBotton, selectFollowingIsFetching, selectIsFetching, selectNextBotton, selectPage, selectPortionOfPages, selectUsersPerPage } from "../../redux/selectors";
 
 
 
@@ -13,7 +13,7 @@ import { selectAllUsersCount, selectBackBotton, selectFollowingIsFetching, selec
 class UsersAPIContainer extends React.Component {
     // У випадку, коли ми не хочемо створювати якихось новиї полів, ми можемо не викликати явно конструктор і делегувати створення полів функцією super. Воно виконується по замовчюванню
     // props будуть приходити так само з контейнерної компоненти, як приходили і в функціональну
-    constructor(props){
+    constructor(props) {
         super(props);
 
         // Оскільки екземпляр (об'єкт) класу створюється один раз при переході на відповідну сторінку, а потім реакт лише звертається до його методу рендер з новими пропсами, то звернення до сервера за даними можна (але так не роблять) поки що виконати тут. Таким чином при створенні екземпляра класу спочатку виконається ініціалізація масиву користувачів, а потім відбудеться відмальовка
@@ -22,7 +22,7 @@ class UsersAPIContainer extends React.Component {
         alert('instance of UserdC created');
     }
 
-    componentDidMount(){
+    componentDidMount() {
         alert("Component has mounted");
         this.props.getUsersThunkCreator(this.props.usersCountForPage, 1, true);
         // За допомогою thunk функцій код нижче можна замінити одним таким рядочком. Ця бібліотека допомагає реалізувати запити на сервер за рахунок створення проміжної ланки в FLUX-круговороті, яка називається middleWare. Таким чином метод dispatch подивиться, що в нього прийшло. Якщо це якийсь об'єкт, то продовжить свою роботу в звичайному режимі. Якщо ж це деяка функція, то він передасть її в цю бібліотеку thunk, яка є middleWare, і там ця функція буде коректно виконана в плані асинхронного коду. Паралельно ця функція викликатиме dispatch, передаючи туди вже actionCreators з необхідними параметрами. Тобто складну операцію thunk розбивають на маленькі dispatch і все коректно виконують. Якщо функції thunk потрібні якісь параметри (а вона приймає виключно тільки dispatch), то тут на допомогу приходить замикання. Ми створюємо функцію (ThunkCreator), яка приймає всі необхідні параметри і все, що робить - це повертає саме функцію thunk. Але завдяки створеному замиканню сама функція thunk, не приймаючи параметрів, має доступ до необхідних їй параметрів.
@@ -41,7 +41,7 @@ class UsersAPIContainer extends React.Component {
     //     alert('Componen has updated')
     // }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.setPageNumber(1);
         this.props.unmountClearing();
         alert('component will be unmounted')
@@ -49,7 +49,7 @@ class UsersAPIContainer extends React.Component {
 
     getPageN = n => {
         this.props.setPageNumber(n);
-                
+
         this.props.getUsersThunkCreator(this.props.usersCountForPage, n, false);
         // В цьому випадку ми можемо використати ту саму функцію, вказавши їй третім параметром, що це не ініціалізація, а вже робота користувача зі сторінкою
         // this.props.setPreloader(true);
@@ -61,7 +61,7 @@ class UsersAPIContainer extends React.Component {
     }
 
     renderNextBotton = nextBotton => {
-        if(nextBotton) {
+        if (nextBotton) {
             return (
                 <button onClick={this.props.nextButonClicked} >NEXT</button>
             )
@@ -69,7 +69,7 @@ class UsersAPIContainer extends React.Component {
     };
 
     renderBackBotton = backBotton => {
-        if(backBotton) {
+        if (backBotton) {
             return (
                 <button onClick={this.props.backBottonClicked} >BACK</button>
             )
@@ -79,22 +79,24 @@ class UsersAPIContainer extends React.Component {
     // При створенні класової компоненти обов'язково повинен бути визначений метож render, який повертає JSX, адже це є суттю компоненти
     // Метод render буде відмальовувати чисту функціональну презентаційну компоненту, в яку буде передавати через пропси тільки необхідні дані (не правильно буде передати всі пропси, адже таким чином утворюється зайвий потік даних, що може завантажити виконання програми. Тобто, краще не робити props = this.props (а правильніше - ...this.props), а передати тільки необхідні дані).
     render() {
+        // цей вивід повідомлення буде повідомляти про те, що відбулося перемалювання сторінки, що досить таки заттратна операція. Ререндер відбувається в тому випадку, коли змінився стейт. Але важливо усвідомити, як працює функція mapStateToProps. Вона не просто прокидує дані із сейта в цільову компоненту, вона також перевіряє, чи відповідні дані зміниоися. Якщо передається id, то функція звіряє його з попереднім значенням, і в залежності від того, чи нове воно, чи таке саме, передає новий стейт або не передає нічого відповідно. Всі функції mapStateToProps, що містяться в проекті, спрацьовують при зміні стейта. Але не кожна стимулює ререндер сторінки. Стимулює цей процес лише та, яка помітила, що прийшли нові дані. Ми вирішили в проекті використати селектори. Але важливо розуміти, що селектори можуть містити логіку як просто отримуння зі стейта даних, так і логіку якихось складних обчислень або операції, які в будь-якому випадку повертатимуть нове значення (наприклад масив з тими самими значеннями, але новий, скопійований, з іншою ссилкою в пам'яті). І в такому випадку постійно будуть виконуватися зайві складні обчислення, що навантажуватимуть процесор та ререндерінг відповідно. Щоб уникнути такої ситуації слід застосувати готове рішення - бібліотеку Reselect (щоб це побачити, треба розкоментувати setInterval в index.js)
+        console.log('Users page has rerendered');
         return <>
             {
-                this.props.isFetchingData? <Preloader /> : null
+                this.props.isFetchingData ? <Preloader /> : null
             }
-            <Users data = {this.props.data}
-                renderBackBotton = {this.renderBackBotton}
-                backBottom = {this.props.backBottom}
-                ArraycountOfUserPages = {this.props.ArraycountOfUserPages}
-                getPageN = {this.getPageN}
-                selectedPage = {this.props.selectedPage}
-                renderNextBotton = {this.renderNextBotton}
-                nextButon = {this.props.nextButon}
-                followingIsFetching = {this.props.followingIsFetching}
-                FollowingThunkCreator = {this.props.FollowingThunkCreator}
-            />    
-        </>    
+            <Users data={this.props.data}
+                renderBackBotton={this.renderBackBotton}
+                backBottom={this.props.backBottom}
+                ArraycountOfUserPages={this.props.ArraycountOfUserPages}
+                getPageN={this.getPageN}
+                selectedPage={this.props.selectedPage}
+                renderNextBotton={this.renderNextBotton}
+                nextButon={this.props.nextButon}
+                followingIsFetching={this.props.followingIsFetching}
+                FollowingThunkCreator={this.props.FollowingThunkCreator}
+            />
+        </>
     }
 }
 
@@ -102,8 +104,9 @@ class UsersAPIContainer extends React.Component {
 
 // Виходить, що зверху ми створюємо класову компоненту, а потім тут же функцією connect зв'язуємо її із store, створюючи контейнерну компоненту для класової
 const mapStateToProps = state => {
+    console.log('MapStateToProps in UsersContainer')
     return {
-        data: selectUsers(state),
+        data: getUsers(state),
         allUsersCount: selectAllUsersCount(state),
         usersCountForPage: selectUsersPerPage(state),
         selectedPage: selectPage(state),
@@ -114,29 +117,31 @@ const mapStateToProps = state => {
         followingIsFetching: selectFollowingIsFetching(state)
     }
 },
-// В ідеалі можна не створювати функцію mapDispatchToProps, а передати замість неї такий об'єкт з ActionCreators. В такому випадку бібліотека react-redux сама створить на їх основі необхідні функції всередині себе
-// mapDispatchToProps = dispatch => {
-//     return{
-//         follow: followAC,
-//         unfollow: unfollowAC,
-//         setUsers: setUsersAC,
-//         setPageNumber: setPageNumberAC,
-//         setUsersCount: setAllUsersCountAC,
-//         setCountOfUP: setUsersPagesAC,
-//         nextButonClicked: nextBottonClickedAC,
-//         backBottonClicked: backBottonClickedAC,
-//         unmountClearing: clearNextBackCounterAC,
-//         setPreloader: setPreloaderAC
-//     }
-// },
-// Наступний синтаксис можна замінити за таким принципом (let prop1 = 'fldak lakd ', ... , obj = {prop1, ...}). Тобто, при такому значенні поле знайде одноіменну змінну і вставить її як значення цього поля. Таким чином треба просто змінити імена ActionCreator на відповідні іменам полів
-// Таким чином код вигладає набагато компактнішим і четабельнішим
- UsersContainer = connect(mapStateToProps, { setPageNumber,
-    nextButonClicked, backBottonClicked, unmountClearing, 
-    getUsersThunkCreator, FollowingThunkCreator })
-    (UsersAPIContainer);
+    // В ідеалі можна не створювати функцію mapDispatchToProps, а передати замість неї такий об'єкт з ActionCreators. В такому випадку бібліотека react-redux сама створить на їх основі необхідні функції всередині себе
+    // mapDispatchToProps = dispatch => {
+    //     return{
+    //         follow: followAC,
+    //         unfollow: unfollowAC,
+    //         setUsers: setUsersAC,
+    //         setPageNumber: setPageNumberAC,
+    //         setUsersCount: setAllUsersCountAC,
+    //         setCountOfUP: setUsersPagesAC,
+    //         nextButonClicked: nextBottonClickedAC,
+    //         backBottonClicked: backBottonClickedAC,
+    //         unmountClearing: clearNextBackCounterAC,
+    //         setPreloader: setPreloaderAC
+    //     }
+    // },
+    // Наступний синтаксис можна замінити за таким принципом (let prop1 = 'fldak lakd ', ... , obj = {prop1, ...}). Тобто, при такому значенні поле знайде одноіменну змінну і вставить її як значення цього поля. Таким чином треба просто змінити імена ActionCreator на відповідні іменам полів
+    // Таким чином код вигладає набагато компактнішим і четабельнішим
+    UsersContainer = connect(mapStateToProps, {
+        setPageNumber,
+        nextButonClicked, backBottonClicked, unmountClearing,
+        getUsersThunkCreator, FollowingThunkCreator
+    })
+        (UsersAPIContainer);
 //  Для функції connect не важливо, чи функціональну компоненту їй передано, чи класову. Всередині вона створена так, що може бути контейнерною для обох, може прокидувати пропси (state i dispatch) в будь-який тип компонент
 
 
 // Реалізувавши HOC withAuthRedirect ми з легкістю можемо додати перевірку на те, чи аутентифікований користувач, і коректно обробити цю відповідну ситуацію. Для цього досить обернути ту функцію або компонент, який експортуємо, в наш HOC і все
- export default UsersContainer;
+export default UsersContainer;
