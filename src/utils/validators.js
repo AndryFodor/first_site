@@ -1,7 +1,7 @@
 
 export const passwordValidate = password => {
     let errors = [], i = 0;
-    if(password.length < 5){
+    if(password.length < 2){
         errors[i] = "Password must have more then 5 characters";
         i++;
     } 

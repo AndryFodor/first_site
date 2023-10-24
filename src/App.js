@@ -7,7 +7,6 @@ import DialogsConteiner from './Componens/Dialogs/DialogsConteiner';
 import FriendsConteiner from './Componens/Friends/FriendsConteiner';
 import NewsContainer from './Componens/News/NewsConteiner';
 import NavbarContainer from './Componens/Navbar/NavbarContainer';
-import UsersContainer from './Componens/Users/UsersContainer';
 import ProfileContainer from './Componens/Profile/Profile_Container';
 import { HeaderContainer } from './Componens/Header/HeaderContainer';
 import { LoginContainer } from './Componens/LoginForm/LoginContainer';
@@ -15,6 +14,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { initializationThC } from './redux/appReducer';
 import Preloader from './common/preloader/preloader';
+import UsersContainer from './Componens/Users/HUserCont';
 
 
 // Таким чином, коли тег App обернути в тег <StoreContext.Provider><StoreContext.Provider/> (компонента App створила свій контекст, в якому міститься змінна store), всі нащадки можуть використовувати цей контекст і напряму брати з нього store

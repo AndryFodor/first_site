@@ -2,7 +2,7 @@ import Preloader from '../../../common/preloader/preloader';
 import s from './ProfileInfo.module.css'
 import Like from '../../../assets/images/Like_icon.svg.png'
 import Dislike from '../../../assets/images/Dislike.png'
-import ProfileStstus from './ProfileStstus';
+import ProfileStstusWIthHooks from './ProfileStstusWithHooks';
 
 
 const ProfileInfo = props =>{
@@ -17,7 +17,7 @@ const ProfileInfo = props =>{
                 <div>
                     <p>{props.profile.fullName}</p>
                     <img src={props.profile.photos.large} alt={`User${props.profile.userId}`} className={s.profilePhoto}/>
-                    <ProfileStstus status = {props.status} updateStatus = {props.updateStatus}/>
+                    <ProfileStstusWIthHooks status = {props.status} updateStatus = {props.updateStatus}/>
                     {/*props.profile.aboutMe*/}
                     <span>Looking for a job?</span> <img src={props.profile.lookingForAJob?Like:Dislike} alt="lJ" className={s.jobPhoto} />
                     <p>{props.profile.lookingForAJobDescription}</p>
