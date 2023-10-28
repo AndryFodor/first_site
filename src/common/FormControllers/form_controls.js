@@ -2,7 +2,7 @@ import style from './form_controllers.module.css'
 
 export const Textarea = ({field, form, ...props}) => {
     // debugger
-    console.log("field = ", field, "form = ", form)
+    // console.log("field = ", field, "form = ", form)
     return (
         <div className={form.errors.body? style.hasError : style.withoutError}  >
             <textarea {...props} {...field} />

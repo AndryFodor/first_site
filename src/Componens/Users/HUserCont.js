@@ -62,7 +62,7 @@ const HUsersContainer = props =>{
 
 
 const mapStateToProps = state => {
-    console.log('MapStateToProps in UsersContainer')
+    // console.log('MapStateToProps in UsersContainer')
     return {
         data: getUsers(state),
         allUsersCount: selectAllUsersCount(state),

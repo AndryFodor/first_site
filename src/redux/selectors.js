@@ -9,7 +9,7 @@ export const selectIsFetching = state => state.usersPage.isFetching;
 export const getUsers = createSelector( selectUsers, selectIsFetching, (users, isFetching) => {
     // some difficult and long calculating ... .. . .. ... .. .. .
     let weUseValuesOfWhichWeAreDepended = isFetching;
-    console.log(`Reselector has worked. It depended of two selections: isFetchin that is equel ${weUseValuesOfWhichWeAreDepended} and of array of users, which you can see`);
+    // console.log(`Reselector has worked. It depended of two selections: isFetchin that is equel ${weUseValuesOfWhichWeAreDepended} and of array of users, which you can see`);
     return users.filter(value => true);
 } )
 
