@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Music from './Componens/Music/Music';
@@ -21,41 +21,40 @@ import UsersContainer from './Componens/Users/HUserCont';
 // №2 Тепер тег App обернений тегом Provider з бібліотеки react-redux. Але суть та сама
 
 // У шлляху profile/:userId? userId - це параметр, який приходить в адресовому рядочку. Реакт його може зчитати за допомогою гуків і в об'єкті match в об'єкт params буде передана відповідна властивість з її значенням. ? означає, що цей параметр не є обов'язковим, я якщо його не буде, то роут повинен відобразити просто профіль
-class App extends React.Component {
-  componentDidMount() {
-    this.props.initializationThC();
-  }
+// властивість initialized поверне true в тому випадку, коли всі налаштування (спочатку всього на всього авторизація користувача) будуть виконані. Це досягнуто завдяки промісам. Всі налаштування - це запити на сервер за даними про користувача. Треба дочекатися, коли всі вони виконаються, і тільки після цього можна завантажувати відповідну сторінку з даними. Таким чином користувач відразу буде бачити свій стан на цьому сайті.  А поки вся ініціалізація виконується, користувач буде бачити preloader
 
-  render() {
-    // debugger
-    // властивість initialized поверне true в тому випадку, коли всі налаштування (спочатку всього на всього авторизація користувача) будуть виконані. Це досягнуто завдяки промісам. Всі налаштування - це запити на сервер за даними про користувача. Треба дочекатися, коли всі вони виконаються, і тільки після цього можна завантажувати відповідну сторінку з даними. Таким чином користувач відразу буде бачити свій стан на цьому сайті.  А поки вся ініціалізація виконується, користувач буде бачити preloader
-    if(!this.props.initialized) return <Preloader />
+function App({initializationThC, initialized}) {
+  useEffect(() => {
+    initializationThC();
+  }, []);
 
-    return (
-      <div className="app-wrapper">
-        <HeaderContainer />
-        <NavbarContainer />
-        <div className='app-wrapper-content'>
-          <Routes>
-            <Route path='/dialogs/*' element={<DialogsConteiner />} />
-            <Route path='/profile/:userId?' element={<ProfileContainer />} />
-            <Route path='/news' element={<NewsContainer />} />
-            <Route path='/music' element={<Music />} />
-            <Route path='/settings' element={<Settings setting1='FIRST setting' />} />
-            <Route path='/friends/*' element={<FriendsConteiner />} />
-            <Route path='/users' element={<UsersContainer />} />
-            <Route path='/login' element={<LoginContainer />} />
-          </Routes>
-        </div>
+  if (!initialized) return <Preloader />
+  return (
+    <div className="app-wrapper">
+      <HeaderContainer />
+      <NavbarContainer />
+      <div className='app-wrapper-content'>
+        <Routes>
+          <Route path='/dialogs/*' element={<DialogsConteiner />} />
+          <Route path='/profile/:userId?' element={<ProfileContainer />} />
+          <Route path='/news' element={<NewsContainer />} />
+          <Route path='/music' element={<Music />} />
+          <Route path='/settings' element={<Settings setting1='FIRST setting' />} />
+          <Route path='/friends/*' element={<FriendsConteiner />} />
+          <Route path='/users' element={<UsersContainer />} />
+          <Route path='/login' element={<LoginContainer />} />
+        </Routes>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+
 
 const mapStateToProps = state => ({
   initialized: state.appSettings.initialized
 })
 
 export default compose(
-  connect(mapStateToProps, {initializationThC})
+  connect(mapStateToProps, { initializationThC })
 )(App);

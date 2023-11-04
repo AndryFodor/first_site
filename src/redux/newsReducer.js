@@ -1,5 +1,5 @@
-const ADD_MY_NEWS = 'ADD_NEWS',
-  CHANGED_NEWS = 'CHANGED_NEWS';
+const ADD_MY_NEWS = 'socialNetwork/news/ADD_NEWS',
+  CHANGED_NEWS = 'socialNetwork/news/CHANGED_NEWS';
 
 export const CHANGED_NEWS_Creator = text => ({type: CHANGED_NEWS, changes: text}),
 ADD_MY_NEWS_Creator = () => ({type: ADD_MY_NEWS});

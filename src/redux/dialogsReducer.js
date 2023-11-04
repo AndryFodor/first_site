@@ -1,4 +1,4 @@
-const   ADD_MESSAGE = 'ADD-MESSAGE';
+const   ADD_MESSAGE = 'socialNetwork/dialogsPage/ADD-MESSAGE';
 
 export const ADD_MESSAGE_ActionCreator = newMessage => ({type: ADD_MESSAGE, newMessage});
 
